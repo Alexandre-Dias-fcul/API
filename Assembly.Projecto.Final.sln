@@ -3,9 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{4CD7538F-7F62-40A5-BAC5-581DAC7D2DFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{DAC9CD76-75EF-49DF-9A63-13E27BB35A05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{C965F52E-D1F3-408A-AD21-9204AD54C1A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{DA654EB3-3EE1-43DE-B8DF-80CE7428AF65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Projecto.Final.Domain", "Assembly.Projecto.Final.Domain\Assembly.Projecto.Final.Domain.csproj", "{A5A76BAC-6E7B-4172-8853-DE713C0B2745}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5A76BAC-6E7B-4172-8853-DE713C0B2745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5A76BAC-6E7B-4172-8853-DE713C0B2745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5A76BAC-6E7B-4172-8853-DE713C0B2745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5A76BAC-6E7B-4172-8853-DE713C0B2745}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5A76BAC-6E7B-4172-8853-DE713C0B2745} = {DAC9CD76-75EF-49DF-9A63-13E27BB35A05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D6A3ACC-D469-4D70-9387-BE3AC6D25EB5}
