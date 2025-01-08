@@ -12,5 +12,6 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string MiddleNames { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string Gender { get; set; }
     }
 }
