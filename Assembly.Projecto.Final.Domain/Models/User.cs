@@ -22,29 +22,29 @@ namespace Assembly.Projecto.Final.Domain.Models
         { 
         }
 
-        private static Person Create(Name name, DateTime dateOfBirth, string gender,
+        public static User Create(Name name, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
-            var person = new User(name, dateOfBirth, gender, photoFileName, isActive);
+            var user = new User(name, dateOfBirth, gender, photoFileName, isActive);
 
-            return person;
+            return user;
         }
 
-        private static Person Create(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        public static User Create(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
-            var person = new User(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
+            var user = new User(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
 
-            return person;
+            return user;
         }
 
-        private void Update(Name name, DateTime dateOfBirth, string gender,
+        public void Update(Name name, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
             base.Update(name,dateOfBirth,gender,photoFileName,isActive);            
         }
 
-        private void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);

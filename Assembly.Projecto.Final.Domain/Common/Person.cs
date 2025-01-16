@@ -32,14 +32,12 @@ namespace Assembly.Projecto.Final.Domain.Common
             Gender = gender;
             PhotoFileName = photoFileName;
             IsActive = isActive;
-            Created= DateTime.Now;
         }
 
         protected Person(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender, 
             string photoFileName, bool isActive):this(Name.Create(firstName,middleNames,lastName), dateOfBirth,gender,
                 photoFileName,isActive)
         {
-            Created = DateTime.Now;
         }
 
         public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) 
