@@ -17,6 +17,7 @@ namespace Assembly.Projecto.Final.Domain.Common
        
         protected Person() 
         {
+            Id = 0;
             Name = Name.Create(string.Empty,string.Empty,string.Empty);
             DateOfBirth = DateTime.MinValue;
             Gender = string.Empty;
@@ -25,21 +26,30 @@ namespace Assembly.Projecto.Final.Domain.Common
             Created = DateTime.Now;
         }
 
-        protected Person(Name name,DateTime dateOfBirth,string gender,string photoFileName,bool isActive) :this()
+        protected Person(Name name,DateTime dateOfBirth,string gender,string photoFileName,bool isActive):this()
         { 
             Name = name;
             DateOfBirth = dateOfBirth;
             Gender = gender;
             PhotoFileName = photoFileName;
             IsActive = isActive;
-            Created= DateTime.Now;
+        }
+
+        protected Person(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):this() 
+        { 
+            Id = id;
         }
 
         protected Person(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender, 
             string photoFileName, bool isActive):this(Name.Create(firstName,middleNames,lastName), dateOfBirth,gender,
                 photoFileName,isActive)
         {
-            Created = DateTime.Now;
+        }
+        protected Person(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+           string photoFileName, bool isActive) : this(firstName, middleNames, lastName, dateOfBirth, gender,
+               photoFileName, isActive)
+        {
+            Id = id;
         }
 
         public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) 
