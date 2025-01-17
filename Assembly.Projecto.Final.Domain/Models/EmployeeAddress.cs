@@ -31,6 +31,12 @@ namespace Assembly.Projecto.Final.Domain.Models
             PostalCode = postalCode;
         }
 
+        private EmployeeAddress(int id,string street, string city, string country, string postalCode) : 
+            this(street,city,country,postalCode)
+        {
+            Id = id;
+        }
+
         public static EmployeeAddress Create(string street, string city, string country, string postalCode) 
         {
             var employeeAddress = new EmployeeAddress(street,city,country,postalCode);
@@ -38,6 +44,12 @@ namespace Assembly.Projecto.Final.Domain.Models
             return employeeAddress;
         }
 
+        public static EmployeeAddress Create(int id,string street, string city, string country, string postalCode)
+        {
+            var employeeAddress = new EmployeeAddress(id,street, city, country, postalCode);
+
+            return employeeAddress;
+        }
         public void Update(string street, string city, string country, string postalCode) 
         {
             Street = street;

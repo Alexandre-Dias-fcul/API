@@ -25,12 +25,24 @@ namespace Assembly.Projecto.Final.Domain.Models
             Value = value;
         }
 
+        private UserContact(int id,string contactType, string value) : this(contactType,value)
+        {
+            Id = Id;
+        }
         public static UserContact Create(string contactType, string value)
         { 
             var userContact = new UserContact(contactType,value);
 
             return userContact;
         }
+
+        public static UserContact Create(int id,string contactType, string value)
+        {
+            var userContact = new UserContact(id,contactType, value);
+
+            return userContact;
+        }
+
 
         public void Update(string contactType, string value)
         { 

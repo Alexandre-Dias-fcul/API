@@ -31,9 +31,21 @@ namespace Assembly.Projecto.Final.Domain.Models
             PostalCode = postalCode;
         }
 
+        private UserAddress(int id,string street, string city, string country, string postalCode) : 
+            this(street,city,country,postalCode)
+        {
+            Id = id;
+        }
         public static UserAddress Create(string street, string city, string country, string postalCode) 
         {
             var userAddress = new UserAddress(street,city,country,postalCode);
+
+            return userAddress;
+        }
+
+        public static UserAddress Create(int id,string street, string city, string country, string postalCode)
+        {
+            var userAddress = new UserAddress(id,street, city, country, postalCode);
 
             return userAddress;
         }

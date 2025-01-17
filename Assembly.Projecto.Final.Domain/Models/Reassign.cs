@@ -31,9 +31,20 @@ namespace Assembly.Projecto.Final.Domain.Models
             ReassignmentDate = reassigmentDate;
         }
 
-        public static Reassign Create(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate) 
+        private Reassign(int id,int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate) : this()
+        {
+            Id = id;
+        }
+
+        public static Reassign Create(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate)
+        {
+            var reassign = new Reassign(olderEmplyeeId, newEmployeeId, reassignBy, reassigmentDate);
+
+            return reassign;
+        }
+        public static Reassign Create(int id,int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate) 
         { 
-            var reassign = new Reassign(olderEmplyeeId,newEmployeeId,reassignBy,reassigmentDate);
+            var reassign = new Reassign(id,olderEmplyeeId,newEmployeeId,reassignBy,reassigmentDate);
 
             return reassign;
         }

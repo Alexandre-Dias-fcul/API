@@ -41,10 +41,24 @@ namespace Assembly.Projecto.Final.Domain.Models
             BookedBy = bookedBy;
         }
 
+        private Appointment(int id,string type, string description, DateTime dateStart, DateTime dateEnd, TimeOnly hourStart,
+           TimeOnly hourEnd, int bookedBy) : this(type,description,dateStart,dateEnd,hourStart,hourEnd,bookedBy)
+        {
+            Id = Id;
+        }
+
         public static Appointment Create(string type, string description, DateTime dateStart, DateTime dateEnd, TimeOnly hourStart,
             TimeOnly hourEnd, int bookedBy) 
         {
             var appointment = new Appointment(type,description,dateStart,dateEnd,hourStart,hourEnd,bookedBy);
+
+            return appointment;
+        }
+
+        public static Appointment Create(int id,string type, string description, DateTime dateStart, DateTime dateEnd, 
+            TimeOnly hourStart,TimeOnly hourEnd, int bookedBy)
+        {
+            var appointment = new Appointment(id,type, description, dateStart, dateEnd, hourStart, hourEnd, bookedBy);
 
             return appointment;
         }

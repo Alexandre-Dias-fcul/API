@@ -25,12 +25,25 @@ namespace Assembly.Projecto.Final.Domain.Models
             Email = email;
         }
 
+        private UserAccount(int id,string password, string email) : this(password,email)
+        {
+            Id = id;
+        }
+
         public static UserAccount Create(string password,string email) 
         {
             var userAccount = new UserAccount(password,email);
 
             return userAccount;
         }
+
+        public static UserAccount Create(int id,string password, string email)
+        {
+            var userAccount = new UserAccount(id,password, email);
+
+            return userAccount;
+        }
+
 
         public void Update(string password,string email) 
         {

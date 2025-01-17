@@ -24,7 +24,12 @@ namespace Assembly.Projecto.Final.Domain.Models
         {
             ContactType = contactType;
             Value = value;
-        } 
+        }
+
+        private EmployeeContact(int id,string contactType, string value) : this(contactType,value)
+        {
+          Id= id;
+        }
 
         public static EmployeeContact Create(string contactType, string value) 
         {
@@ -33,6 +38,12 @@ namespace Assembly.Projecto.Final.Domain.Models
             return employeeContact;
         }
 
+        public static EmployeeContact Create(int id,string contactType, string value)
+        {
+            var employeeContact = new EmployeeContact(id,contactType, value);
+
+            return employeeContact;
+        }
         public void Update(string contactType, string value) 
         {
             ContactType = contactType;

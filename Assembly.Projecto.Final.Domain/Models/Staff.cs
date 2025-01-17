@@ -21,11 +21,24 @@ namespace Assembly.Projecto.Final.Domain.Models
         { 
         }
 
+        private Staff(int id,Name name, DateTime dateOfBirth, string gender,
+            string photoFileName, bool isActive, string role, DateTime hiredDate, DateTime dateOfTermination) :
+            base(id, name, dateOfBirth, gender, photoFileName, isActive, role, hiredDate, dateOfTermination)
+        {
+        }
+
         private Staff(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive, string role,DateTime hiredDate, DateTime dateOfTermination) : 
             base(firstName,middleNames,lastName, dateOfBirth, gender, photoFileName, isActive, role, hiredDate, dateOfTermination)
         {
             
+        }
+
+        private Staff(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+            string photoFileName, bool isActive, string role, DateTime hiredDate, DateTime dateOfTermination) :
+            base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, role, hiredDate, dateOfTermination)
+        {
+
         }
 
         public static Staff Create(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
@@ -36,10 +49,27 @@ namespace Assembly.Projecto.Final.Domain.Models
             return staff;
         }
 
+        public static Staff Create(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
+            string role, DateTime hiredDate, DateTime dateOfTermination)
+        {
+            var staff = new Staff(id,name, dateOfBirth, gender, photoFileName, isActive, role, hiredDate, dateOfTermination);
+
+            return staff;
+        }
+
         public static Staff Create(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive, string role, DateTime hiredDate, DateTime dateOfTermination)
         {
             var staff = new Staff(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, role, hiredDate,
+                dateOfTermination);
+
+            return staff;
+        }
+
+        public static Staff Create(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+           string photoFileName, bool isActive, string role, DateTime hiredDate, DateTime dateOfTermination)
+        {
+            var staff = new Staff(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, role, hiredDate,
                 dateOfTermination);
 
             return staff;

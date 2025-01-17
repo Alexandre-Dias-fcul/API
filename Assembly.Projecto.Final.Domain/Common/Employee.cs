@@ -29,9 +29,25 @@ namespace Assembly.Projecto.Final.Domain.Common
             DateOfTermination = dateOfTermination;
         }
 
+        protected Employee(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive, string role,
+           DateTime hiredDate, DateTime dateOfTermination) : base(id, name, dateOfBirth, gender, photoFileName, isActive)
+        {
+            Role = role;
+            HiredDate = hiredDate;
+            DateOfTermination = dateOfTermination;
+        }
         protected Employee(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender, 
             string photoFileName, bool isActive, string role,DateTime hiredDate, DateTime dateOfTermination) : 
             base(firstName,middleNames,lastName, dateOfBirth, gender, photoFileName, isActive)
+        {
+            Role = role;
+            HiredDate = hiredDate;
+            DateOfTermination = dateOfTermination;
+        }
+
+        protected Employee(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+           string photoFileName, bool isActive, string role, DateTime hiredDate, DateTime dateOfTermination) :
+           base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
             Role = role;
             HiredDate = hiredDate;

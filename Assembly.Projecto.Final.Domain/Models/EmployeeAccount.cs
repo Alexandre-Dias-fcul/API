@@ -25,9 +25,21 @@ namespace Assembly.Projecto.Final.Domain.Models
             Password = password;
         }
 
+        private EmployeeAccount(int id,string password, string email) : this(password, email)
+        {
+            Id = id;
+        }
+
         public static EmployeeAccount Create(string password, string email) 
         { 
             var employeeAccount = new EmployeeAccount(password,email);
+
+            return employeeAccount;
+        }
+
+        public static EmployeeAccount Create(int id,string password, string email)
+        {
+            var employeeAccount = new EmployeeAccount(id,password, email);
 
             return employeeAccount;
         }
