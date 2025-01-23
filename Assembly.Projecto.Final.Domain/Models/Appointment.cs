@@ -16,6 +16,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public TimeOnly HourStart { get; private set; }
         public TimeOnly HourEnd { get; private set; }
         public int BookedBy { get; private set; }
+        public Employee Employee { get; set; }
 
         public Appointment()
         {

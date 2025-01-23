@@ -7,6 +7,11 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class User: Person
     {
+        public List<Contact> Contacts { get; set; }
+        public List<Address> Addresses { get; set; }
+        public Account Account { get; set; }
+        public List<Favorite> Favorites { get; set; }
+        public List<FeedBack> FeedBacks { get; set; }
         private User() :base()
         {
        

@@ -94,7 +94,7 @@ namespace Assembly.Projecto.Final.Domain.Models
               DateTime hiredDate, DateTime dateOfTermination,RoleType role,int supervisiorId)
         {
             base.Update(name, dateOfBirth, gender, photoFileName, isActive,hiredDate, dateOfTermination);
-            Role = role
+            Role = role;
             SupervisorId = supervisiorId;
         }
 

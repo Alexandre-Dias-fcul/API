@@ -12,6 +12,8 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public ContactType ContactType { get; private set; }
         public string Value { get; private set; }
+        public User User { get; set; }
+        public Employee Employee { get; set; }
 
         private Contact()
         {

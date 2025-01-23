@@ -14,11 +14,11 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 
         TEntity GetById(TId id);
 
-        TEntity Add(TEntity obj);
+        TEntity Add(TEntity entity);
 
-        TEntity Update(TEntity obj);
+        TEntity Update(TEntity entity);
 
-        TEntity Delete(TEntity obj);
+        TEntity Delete(TEntity entity);
 
         TEntity Delete(TId id);
     }
