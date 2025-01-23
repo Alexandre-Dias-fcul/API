@@ -21,6 +21,10 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string Description { get; private set; }
         public string MainImageFileName { get; private set; }
         public string OtherImagesFileNames { get; private set; }
+        public List<Favorite> Favorites { get; set; }
+        public List<FeedBack> FeedBacks { get; set; }
+        public Employee Employee { get; set; }
+        public List<Reassign> Reassigns { get; set; }
 
         private Listing()
         {

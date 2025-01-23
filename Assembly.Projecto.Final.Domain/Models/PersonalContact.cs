@@ -13,6 +13,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string Email { get; private set; }
         public string PhoneNumber { get; private set; }
         public string Address { get; private set; }
+        public Employee Employee { get; set; }
 
         private PersonalContact()
         {

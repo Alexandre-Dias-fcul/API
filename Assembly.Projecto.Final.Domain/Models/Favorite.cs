@@ -9,6 +9,8 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class Favorite : AuditableEntity<int>
     {
+        public User User { get; set; }
+        public Listing Listing { get; set; }
         private Favorite()
         {
 

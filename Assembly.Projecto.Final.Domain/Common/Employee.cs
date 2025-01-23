@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Interfaces;
+using Assembly.Projecto.Final.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,13 @@ namespace Assembly.Projecto.Final.Domain.Common
     {
         public DateTime HiredDate { get; private set; }
         public DateTime DateOfTermination {  get; private set; }
-
+        public List<Contact> Contacts { get; set; }
+        public List<Address> Addresses { get; set; }
+        public Account Account { get; set; }
+        public List<PersonalContact> PersonalContacts { get; set; }
+        public List<Appointment> Appointments { get; set; }
+        public List<Listing> Listings { get; set; }
+        
         protected Employee():base() 
         { 
             HiredDate = DateTime.MinValue;

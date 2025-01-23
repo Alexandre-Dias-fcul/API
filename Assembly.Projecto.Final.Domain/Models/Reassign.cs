@@ -13,6 +13,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public int NewEmployeeId { get; private set; }
         public int ReassignBy { get; private set; }
         public DateTime ReassignmentDate { get; private set; }
+        public Listing Listing { get;  set; }
 
         private Reassign() 
         {

@@ -11,7 +11,8 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public string Password { get; private set; }
         public string Email { get; private set; }
-
+        public User User { get; set; }
+        public Employee Employee { get; set; }
         private Account()
         {
             Password = string.Empty;
