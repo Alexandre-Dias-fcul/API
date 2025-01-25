@@ -1,5 +1,7 @@
 ﻿using Assembly.Projecto.Final.Data.EntityFramework.Repositories;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Interfaces;
+using Assembly.Projecto.Final.Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework
     {
         public static IServiceCollection AddDataEntityFrameworkServices(this IServiceCollection services)
         {
+            services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
