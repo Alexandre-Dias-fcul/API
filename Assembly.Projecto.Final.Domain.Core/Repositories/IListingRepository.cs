@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
-    public interface IListingRepositorycs:IRepository<Listing,int>
+    public interface IListingRepository:IRepository<Listing,int>
     {
     }
 }

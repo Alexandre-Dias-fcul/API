@@ -14,20 +14,20 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
     public class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : IEntity<TId>
     {
 
-        private readonly List<TEntity> _db;
+        private readonly List<TEntity> _dbSet;
 
         private int _currentIntId = 1;
 
-        public Repository(List <TEntity> db)
+        public Repository(List <TEntity> dbSet)
         {
-            _db = db;
+            _dbSet = dbSet;
         }
 
         public TEntity Add(TEntity obj)
         {
             obj.Id = GenerateId();
 
-            _db.Add(obj);
+            _dbSet.Add(obj);
 
             return obj;
         }
@@ -45,7 +45,7 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
 
             if (entity != null)
             {
-                _db.Remove(entity);
+                _dbSet.Remove(entity);
             }
 
             return entity;
@@ -53,12 +53,12 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
 
         public List<TEntity> GetAll()
         {
-            return _db;
+            return _dbSet;
         }
 
         public TEntity GetById(TId id)
         {
-            return _db.Find(item => item.Id.Equals(id));
+            return _dbSet.Find(item => item.Id.Equals(id));
         }
 
         public TEntity Update(TEntity obj)
@@ -67,9 +67,9 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
 
             if (exists != null)
             {
-                var index = _db.IndexOf(exists);
+                var index = _dbSet.IndexOf(exists);
 
-                _db[index] = obj;
+                _dbSet[index] = obj;
             }
 
             return obj;
@@ -86,7 +86,7 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
                 return (TId)(object) Guid.NewGuid();
             }
 
-            throw new NotSupportedException("O tipo de ID não é suportado para geração automática.");
+            throw new NotSupportedException("O tipo de Id não é suportado.");
         }
     }
 }

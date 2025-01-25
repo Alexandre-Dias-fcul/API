@@ -11,6 +11,7 @@ namespace Assembly.Projecto.Final.Data.InMemory
      public class Database
     {
         
+        public List<Address> Addresses {  get; set; }
         public List<Account> Accounts { get; set; }
         public List<Agent> Agents { get; set; }
         public List<Appointment> Appointments { get; set; }
