@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
-    public interface IReassign:IRepository<Reassign,int>
+    public interface IPersonalContactRepository: IRepository<PersonalContact, int>
     {
     }
 }

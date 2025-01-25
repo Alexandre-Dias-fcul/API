@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Data.InMemory.Repositories
 {
-    public class UserRepository : Repository<User,int>,IUserRepository
+    public class PersonalContactRepository:Repository<PersonalContact,int>,IPersonalContactRepository
     {
         private readonly Database _db;
-       
-        UserRepository(Database db):base(db.Users)
+        public PersonalContactRepository(Database db):base(db.PersonalContacts)
         {
             _db = db;
         }
