@@ -12,7 +12,7 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
     {
         private readonly Database _db;
        
-        UserRepository(Database db):base(db.Users)
+        public UserRepository(Database db):base(db.Users)
         {
             _db = db;
         }

@@ -9,11 +9,11 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class FeedBack:AuditableEntity<int>
     {
-        public int Rate {  get; private set; }
+        public int? Rate {  get; private set; }
 
         public string Comment { get; private set; }
 
-        public DateTime CommentDate { get; private set; }
+        public DateTime? CommentDate { get; private set; }
 
         public User User { get; set; }
         public Listing Listing { get; set; }

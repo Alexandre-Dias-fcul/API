@@ -12,34 +12,45 @@ namespace Assembly.Projecto.Final.Domain.Models
         public Account Account { get; set; }
         public List<Favorite> Favorites { get; set; }
         public List<FeedBack> FeedBacks { get; set; }
-        private User() :base()
-        {
        
-        }
-       private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) :
-            base(name,dateOfBirth,gender,photoFileName,isActive)
-       { 
-        
+        private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):
+           base(name,dateOfBirth,gender,photoFileName,isActive)
+       {
 
-       }
+            Contacts = new List<Contact>();
+            Addresses = new List<Address>();
+            Favorites = new List<Favorite>();
+            FeedBacks = new List<FeedBack>();
+        }
 
         private User(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) :
             base(id,name, dateOfBirth, gender, photoFileName, isActive)
         {
+            Contacts = new List<Contact>();
+            Addresses = new List<Address>();
+            Favorites = new List<Favorite>();
+            FeedBacks = new List<FeedBack>();
 
-          
         }
 
         private User(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive):base(firstName,middleNames,lastName,dateOfBirth,gender,photoFileName,isActive)
-        { 
+        {
+            Contacts = new List<Contact>();
+            Addresses = new List<Address>();
+            Favorites = new List<Favorite>();
+            FeedBacks = new List<FeedBack>();
         }
 
         private User(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
            string photoFileName, bool isActive) : base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,
                isActive)
         {
-           
+
+            Contacts = new List<Contact>();
+            Addresses = new List<Address>();
+            Favorites = new List<Favorite>();
+            FeedBacks = new List<FeedBack>();
         }
 
         public static User Create(Name name, DateTime dateOfBirth, string gender,

@@ -12,101 +12,90 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class Agent : Employee
     {
-        public RoleType Role { get; private set; }
-        public int SupervisorId { get; private set; }
+        public int? SupervisorId { get; private set; }
 
-        private Agent() : base()
+        private Agent(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisorId) :
+            base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination, role)
         {
-            Role = 0;
-            SupervisorId = 0;
-        }
-
-        private Agent(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender, string photoFileName, 
-            bool isActive,DateTime hiredDate, DateTime dateOfTermination,RoleType role,int supervisorId) :
-            base(firstName,middleNames,lastName,dateOfBirth,gender,photoFileName,isActive,hiredDate,dateOfTermination)
-        {
-            Role = role;
             SupervisorId = supervisorId;
         }
 
-        private Agent(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender, 
-            string photoFileName, bool isActive,DateTime hiredDate, DateTime dateOfTermination, RoleType role,int supervisorId) : 
-            base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, 
-                dateOfTermination)
+        private Agent(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role,
+            int supervisorId) : base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,
+                isActive, hiredDate, dateOfTermination, role)
         {
-            Role = role;
             SupervisorId = supervisorId;
         }
 
         private Agent(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            DateTime hiredDate, DateTime dateOfTermination,RoleType role, int supervisorId) : base(name, dateOfBirth, gender, photoFileName, 
-                isActive, hiredDate, dateOfTermination)
+            DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisorId) :
+            base(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination, role)
         {
-            Role = role;
             SupervisorId = supervisorId;
         }
 
-        private Agent(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-           DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisorId) : base(id,name, dateOfBirth, gender, 
-               photoFileName, isActive, hiredDate, dateOfTermination)
+        private Agent(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
+           DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisorId) :
+            base(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination, role)
         {
-            Role = role;
             SupervisorId = supervisorId;
         }
 
-        public static Agent Create(Name name, DateTime dateOfBirth, string gender,string photoFileName, bool isActive,
-              DateTime hiredDate, DateTime dateOfTermination, RoleType role,int supervisiorId)
+        public static Agent Create(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
+              DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisiorId)
         {
-            var agent = new Agent(name, dateOfBirth, gender, photoFileName, isActive,hiredDate,dateOfTermination,role,supervisiorId);
-
-            return agent;
-        }
-
-        public static Agent Create(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-             DateTime hiredDate, DateTime dateOfTermination, RoleType role,int supervisiorId)
-        {
-            var agent = new Agent(id,name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination,
+            var agent = new Agent(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination,
                 role, supervisiorId);
 
             return agent;
         }
 
-        public static Agent Create(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender, 
-            string photoFileName, bool isActive,DateTime hiredDate, DateTime dateOfTermination,RoleType role, int supervisiorId)
+        public static Agent Create(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName,
+            bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisiorId)
         {
-            var agent = new Agent(firstName, middleNames,lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, 
-                dateOfTermination,role,supervisiorId);
+            var agent = new Agent(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination,
+                role, supervisiorId);
 
             return agent;
         }
 
-        public static Agent Create(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role,
-            int supervisiorId)
+        public static Agent Create(string firstName, string middleNames, string lastName, DateTime dateOfBirth,
+            string gender, string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,
+            RoleType role, int supervisiorId)
         {
-            var agent = new Agent(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate,
-                dateOfTermination, role,supervisiorId);
+            var agent = new Agent(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,
+                hiredDate, dateOfTermination, role, supervisiorId);
+
+            return agent;
+        }
+
+        public static Agent Create(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth,
+            string gender, string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,
+            RoleType role, int supervisiorId)
+        {
+            var agent = new Agent(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,
+                hiredDate, dateOfTermination, role, supervisiorId);
 
             return agent;
         }
 
         public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-              DateTime hiredDate, DateTime dateOfTermination,RoleType role,int supervisiorId)
+              DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisiorId)
         {
-            base.Update(name, dateOfBirth, gender, photoFileName, isActive,hiredDate, dateOfTermination);
-            Role = role;
+            base.Update(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination, role);
             SupervisorId = supervisiorId;
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role, 
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role,
             int supervisiorId)
         {
-            base.Update(firstName,middleNames,lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, 
-                dateOfTermination);
-            Role = role;
+            base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate,
+                dateOfTermination, role);
+
             SupervisorId = supervisiorId;
         }
-
     }
 }

@@ -11,13 +11,13 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public string Type { get; private set; }
         public string Status { get; private set; }
-        public int NumberOfRooms { get; private set; }
-        public int NumberOfBathrooms { get; private set; }
-        public int NumberOfKitchens { get; private set; }
+        public int? NumberOfRooms { get; private set; }
+        public int? NumberOfBathrooms { get; private set; }
+        public int? NumberOfKitchens { get; private set; }
         public decimal Price { get; private set; }
         public string Location { get; private set; }
         public double Area { get; private set; }
-        public int Parking { get; private set; }
+        public int? Parking { get; private set; }
         public string Description { get; private set; }
         public string MainImageFileName { get; private set; }
         public string OtherImagesFileNames { get; private set; }
@@ -41,6 +41,9 @@ namespace Assembly.Projecto.Final.Domain.Models
             MainImageFileName = string.Empty;
             OtherImagesFileNames = string.Empty;
             Created = DateTime.Now;
+            Favorites = new List<Favorite>();
+            FeedBacks = new List<FeedBack>();
+            Reassigns = new List<Reassign>();
         }
 
 

@@ -8,42 +8,41 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Models
 {
-    public class Contact: AuditableEntity<int>
+    public class PersonalContactDetail:AuditableEntity<int>
     {
         public ContactType ContactType { get; private set; }
         public string Value { get; private set; }
-        public User? User { get; set; }
-        public Employee? Employee { get; set; }
+        public PersonalContact PersonalContact { get; set; }
 
-        private Contact()
+        private PersonalContactDetail()
         {
             ContactType = 0;
             Value = string.Empty;
             Created = DateTime.Now;
         }
 
-        private Contact(ContactType contactType, string value) : this()
+        private PersonalContactDetail(ContactType contactType, string value) : this()
         {
             ContactType = contactType;
             Value = value;
         }
 
-        private Contact(int id, ContactType contactType, string value) : this(contactType, value)
+        private PersonalContactDetail(int id, ContactType contactType, string value) : this(contactType, value)
         {
             Id = Id;
         }
-        public static Contact Create(ContactType contactType, string value)
+        public static PersonalContactDetail Create(ContactType contactType, string value)
         {
-            var contact = new Contact(contactType, value);
+            var personalContactDetail = new PersonalContactDetail(contactType, value);
 
-            return contact;
+            return personalContactDetail;
         }
 
-        public static Contact Create(int id, ContactType contactType, string value)
+        public static PersonalContactDetail Create(int id, ContactType contactType, string value)
         {
-            var contact = new Contact(id, contactType, value);
+            var personalContactDetail = new PersonalContactDetail(id, contactType, value);
 
-            return contact;
+            return personalContactDetail;
         }
 
         public void Update(ContactType contactType, string value)

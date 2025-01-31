@@ -9,55 +9,52 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class PersonalContact:AuditableEntity<int>
     {
-        public string ContactName { get; private set; }
-        public string Email { get; private set; }
-        public string PhoneNumber { get; private set; }
-        public string Address { get; private set; }
+        public string Name { get; private set; }
+        public bool IsPrimary {  get; private set; }
+        public string Notes { get; private set; }
+        public List<PersonalContactDetail> PersonalContactDetails { get; }
         public Employee Employee { get; set; }
 
         private PersonalContact()
         {
-            ContactName = string.Empty;
-            Email = string.Empty;
-            PhoneNumber = string.Empty;
-            Address = string.Empty;
+            Name = string.Empty;
+            IsPrimary = false;
+            Notes = string.Empty;
             Created = DateTime.Now;
         }
 
-        private PersonalContact(string contactName, string email, string phoneNumber, string address) : this()
+        private PersonalContact(string name,bool isPrimary, string notes) : this()
         {
-            ContactName = contactName;
-            Email = email;
-            PhoneNumber = phoneNumber;
-            Address = address;
+            Name = name;
+            IsPrimary = isPrimary;
+            Notes = notes;
         }
 
-        private PersonalContact(int id,string contactName, string email, string phoneNumber, string address) : 
-            this(contactName,email,phoneNumber,address)
+        private PersonalContact(int id, string name, bool isPrimary, string notes) : 
+            this(name,isPrimary,notes)
         {
            Id = id;
         }
 
-        public static PersonalContact Create(string contactName, string email, string phoneNumber, string address)
+        public static PersonalContact Create(string name, bool isPrimary, string notes)
         {
-            var personalContact = new PersonalContact(contactName,email,phoneNumber,address);
+            var personalContact = new PersonalContact(name, isPrimary, notes);
 
             return personalContact;
         }
 
-        public static PersonalContact Create(int id,string contactName, string email, string phoneNumber, string address)
+        public static PersonalContact Create(int id, string name, bool isPrimary, string notes)
         {
-            var personalContact = new PersonalContact(id,contactName, email, phoneNumber, address);
+            var personalContact = new PersonalContact(id, name, isPrimary, notes);
 
             return personalContact;
         }
 
-        public void Update(string contactName, string email, string phoneNumber, string address)
+        public void Update(string name, bool isPrimary, string notes)
         {
-            ContactName = contactName;
-            Email = email;
-            PhoneNumber = phoneNumber;
-            Address = address;
+            Name = name;
+            IsPrimary = isPrimary;
+            Notes = notes;
             Updated = DateTime.Now;
         }
     }
