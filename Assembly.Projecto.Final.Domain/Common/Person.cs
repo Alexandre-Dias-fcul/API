@@ -10,7 +10,7 @@ namespace Assembly.Projecto.Final.Domain.Common
     public abstract class Person:AuditableEntity<int>
     {
         public Name Name { get; private set; }
-        public DateTime DateOfBirth { get; private set; }
+        public DateTime? DateOfBirth { get; private set; }
         public string Gender { get; private set; }
         public string PhotoFileName { get; private set; }
         public bool IsActive { get; private set; }
