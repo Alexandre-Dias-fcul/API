@@ -14,6 +14,11 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public int? SupervisorId { get; private set; }
 
+        private Agent() : base()
+        {
+            SupervisorId = 0;
+        }
+
         private Agent(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role, int supervisorId) :
             base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination, role)

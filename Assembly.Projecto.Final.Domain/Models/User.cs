@@ -12,7 +12,11 @@ namespace Assembly.Projecto.Final.Domain.Models
         public Account Account { get; set; }
         public List<Favorite> Favorites { get; set; }
         public List<FeedBack> FeedBacks { get; set; }
-       
+
+        private User() : base()
+        {
+        }
+
         private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):
            base(name,dateOfBirth,gender,photoFileName,isActive)
        {

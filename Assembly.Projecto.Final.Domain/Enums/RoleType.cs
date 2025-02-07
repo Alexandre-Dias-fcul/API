@@ -8,6 +8,8 @@ namespace Assembly.Projecto.Final.Domain.Enums
 {
     public enum RoleType
     {
+        Employee,
+        Staff,
         Agent,
         Manager,
         Broker

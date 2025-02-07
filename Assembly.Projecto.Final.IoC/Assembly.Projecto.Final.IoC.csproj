@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Assembly.Projecto.Final.Data.EntityFramework\Assembly.Projecto.Final.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\Assembly.Projecto.Final.Data.InMemory\Assembly.Projecto.Final.Data.InMemory.csproj" />
+    <ProjectReference Include="..\Assembly.Projecto.Final.Services\Assembly.Projecto.Final.Services.csproj" />
   </ItemGroup>
 
 </Project>

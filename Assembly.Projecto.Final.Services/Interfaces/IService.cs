@@ -1,4 +1,5 @@
-﻿using Assembly.Projecto.Final.Domain.Interfaces;
+﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assembly.Projecto.Final.Domain.Core.Repositories
+namespace Assembly.Projecto.Final.Services.Interfaces
 {
-    public interface IRepository<TEntity, TId> where TEntity : IEntity<TId>
+    public interface IService<TEntity, TId> where TEntity : IEntity<TId>
     {
         List<TEntity> GetAll();
 

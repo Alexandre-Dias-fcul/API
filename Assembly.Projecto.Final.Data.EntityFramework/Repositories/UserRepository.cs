@@ -1,4 +1,5 @@
-﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
+﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
+using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
 {
     public class UserRepository :Repository<User,int>, IUserRepository
     {
-       
+        public UserRepository(ApplicationDbContext context) : base(context)
+        {
+        }
     }
 }

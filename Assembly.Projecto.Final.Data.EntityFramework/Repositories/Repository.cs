@@ -1,6 +1,8 @@
-﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
+﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
+using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Interfaces;
 using Assembly.Projecto.Final.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,36 +11,60 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
 {
-    public class Repository<TEntity,TId>: IRepository<TEntity,TId> where TEntity : IEntity<TId>
+    public class Repository<TEntity,TId>: IRepository<TEntity,TId> where TEntity : class ,IEntity<TId>
     {
-        public TEntity Add(TEntity obj)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly ApplicationDbContext _dbContext;
 
-        public TEntity Delete(TEntity obj)
-        {
-            throw new NotImplementedException();
-        }
+        protected readonly DbSet<TEntity> DbSet;
 
-        public TEntity Delete(TId id)
+        public Repository(ApplicationDbContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
+            DbSet = _dbContext.Set<TEntity>();
         }
-
         public List<TEntity> GetAll()
         {
-            throw new NotImplementedException();
+            return DbSet.ToList();
         }
 
-        public TEntity GetById(TId id)
+        public TEntity? GetById(TId id)
         {
-            throw new NotImplementedException();
+            return DbSet.Find(id);
+        }
+
+        public TEntity Add(TEntity obj)
+        {
+            var entity = DbSet.Add(obj).Entity;
+            _dbContext.SaveChanges();
+            return entity;
         }
 
         public TEntity Update(TEntity obj)
         {
-            throw new NotImplementedException();
+            DbSet.Update(obj);
+            _dbContext.SaveChanges();
+            return obj;
+        }
+
+        public TEntity Delete(TEntity obj)
+        {
+            DbSet.Remove(obj);
+            _dbContext.SaveChanges();
+            return obj;
+        }
+
+        public TEntity? Delete(TId id)
+        {
+            var obj = GetById(id);
+
+            if (obj != null)
+            {
+                Delete(obj);
+
+                return obj;
+            }
+
+            return null;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.ConsoleApp.UserInterface.BackOffice;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,14 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface
 {
     public class Start
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public Start(IUserRepository userRepository) 
+        public Start(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
-        public void Run() 
+        public void Run()
         {
             Console.WriteLine("1.Admin panel");
 
@@ -26,7 +27,7 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface
             switch (choice)
             {
                 case "1":
-                    new Admin(_userRepository).Run();
+                    new Admin(_userService).Run();
                     break;
                 case "2":
                     break;
