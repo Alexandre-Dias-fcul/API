@@ -13,5 +13,9 @@ namespace Assembly.Projecto.Final.Domain.Models
         public ParticipantType Role { get; private set; }
         public Appointment Appointment { get; set; } 
         public Employee Employee { get; set; }
+
+        private Participant() 
+        { 
+        }
     }
 }

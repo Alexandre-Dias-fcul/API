@@ -1,4 +1,7 @@
-﻿using Assembly.Projecto.Final.Data.InMemory;
+﻿using Assembly.Projecto.Final.Data.EntityFramework;
+using Assembly.Projecto.Final.Data.InMemory;
+using Assembly.Projecto.Final.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,10 +13,10 @@ namespace Assembly.Projecto.Final.IoC
 {
     public static class DependencyInjection
     {
-        public static void AddServices(this IServiceCollection services)
+        public static void AddServices(this IServiceCollection services, IConfiguration config)
         {
-          
-            services.AddDataInMemoryServices();
+            services.AddApplicationServices();
+            services.AddDataEntityFrameworkServices(config);
         }
     }
 }

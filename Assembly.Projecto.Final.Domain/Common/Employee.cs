@@ -20,7 +20,11 @@ namespace Assembly.Projecto.Final.Domain.Common
         public Account Account { get; set; }
         public List<PersonalContact> PersonalContacts { get; set; } 
         public List<Listing> Listings { get; set; } 
-        public List<Participant> Participants { get; set; } 
+        public List<Participant> Participants { get; set; }
+
+        protected Employee():base()
+        {
+        }
 
         protected Employee(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
             DateTime hiredDate, DateTime dateOfTermination, RoleType role) : base(name, dateOfBirth, gender, photoFileName,

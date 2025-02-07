@@ -12,6 +12,9 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class Staff:Employee
     {
+        private Staff() : base()
+        {
+        }
         private Staff(Name name, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role) :
             base(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination, role)
