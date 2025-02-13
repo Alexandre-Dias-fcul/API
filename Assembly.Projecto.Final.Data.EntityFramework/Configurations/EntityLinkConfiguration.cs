@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 {
-    internal class ContactConfiguration : IEntityTypeConfiguration<Contact>
+    internal class EntityLinkConfiguration : IEntityTypeConfiguration<EntityLink>
     {
-        public void Configure(EntityTypeBuilder<Contact> builder)
+        public void Configure(EntityTypeBuilder<EntityLink> builder)
         {
-            builder.Property(e => e.ContactType).HasMaxLength(50).IsRequired();
-            builder.Property(e => e.Value).HasMaxLength(300).IsRequired();
+           
         }
     }
 }

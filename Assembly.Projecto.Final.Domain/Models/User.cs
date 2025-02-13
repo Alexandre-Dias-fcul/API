@@ -7,9 +7,8 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class User: Person
     {
-        public List<Contact> Contacts { get; set; }
-        public List<Address> Addresses { get; set; }
-        public Account Account { get; set; }
+        public int? EntityLinkId { get; set; }
+        public EntityLink? EntityLink { get; set; }
         public List<Favorite> Favorites { get; set; }
         public List<FeedBack> FeedBacks { get; set; }
 
@@ -20,9 +19,6 @@ namespace Assembly.Projecto.Final.Domain.Models
         private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):
            base(name,dateOfBirth,gender,photoFileName,isActive)
        {
-
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             Favorites = new List<Favorite>();
             FeedBacks = new List<FeedBack>();
         }
@@ -30,8 +26,6 @@ namespace Assembly.Projecto.Final.Domain.Models
         private User(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) :
             base(id,name, dateOfBirth, gender, photoFileName, isActive)
         {
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             Favorites = new List<Favorite>();
             FeedBacks = new List<FeedBack>();
 
@@ -40,8 +34,6 @@ namespace Assembly.Projecto.Final.Domain.Models
         private User(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive):base(firstName,middleNames,lastName,dateOfBirth,gender,photoFileName,isActive)
         {
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             Favorites = new List<Favorite>();
             FeedBacks = new List<FeedBack>();
         }
@@ -50,9 +42,6 @@ namespace Assembly.Projecto.Final.Domain.Models
            string photoFileName, bool isActive) : base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,
                isActive)
         {
-
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             Favorites = new List<Favorite>();
             FeedBacks = new List<FeedBack>();
         }

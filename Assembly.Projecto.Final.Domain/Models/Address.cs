@@ -13,8 +13,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string City { get; private set; }
         public string Country { get; private set; }
         public string PostalCode { get; private set; }
-        public User? User { get; set; }
-        public Employee? Employee { get; set; }
+        public List<EntityLink> EntityLinks { get; set; }
 
         private Address()
         {

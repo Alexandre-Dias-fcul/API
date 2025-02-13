@@ -15,12 +15,13 @@ namespace Assembly.Projecto.Final.Domain.Common
         public DateTime? HiredDate { get; private set; }
         public DateTime? DateOfTermination { get; private set; }
         public RoleType Role { get; private set; }
-        public List<Contact> Contacts { get; set; } 
-        public List<Address> Addresses { get; set; } 
-        public Account Account { get; set; }
+        public int EntityLinkId { get; set; }
+        public EntityLink EntityLink { get; set; }
         public List<PersonalContact> PersonalContacts { get; set; } 
-        public List<Listing> Listings { get; set; } 
         public List<Participant> Participants { get; set; }
+        public int? SupervisorId { get; set; }
+        public Employee Supervisor { get; set; }
+        public List<Employee> Agents { get; set; }
 
         protected Employee():base()
         {
@@ -33,10 +34,8 @@ namespace Assembly.Projecto.Final.Domain.Common
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             Role = role;
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             PersonalContacts = new List<PersonalContact>();
-            Listings = new List<Listing>();
+            Agents = new();
             Participants = new List<Participant>();
         }
 
@@ -47,10 +46,8 @@ namespace Assembly.Projecto.Final.Domain.Common
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             Role = role;
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             PersonalContacts = new List<PersonalContact>();
-            Listings = new List<Listing>();
+            Agents = new();
             Participants = new List<Participant>();
         }
         protected Employee(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
@@ -60,10 +57,8 @@ namespace Assembly.Projecto.Final.Domain.Common
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             Role = role;
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             PersonalContacts = new List<PersonalContact>();
-            Listings = new List<Listing>();
+            Agents = new();
             Participants = new List<Participant>();
         }
 
@@ -74,10 +69,8 @@ namespace Assembly.Projecto.Final.Domain.Common
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             Role = role;
-            Contacts = new List<Contact>();
-            Addresses = new List<Address>();
             PersonalContacts = new List<PersonalContact>();
-            Listings = new List<Listing>();
+            Agents = new();
             Participants = new List<Participant>();
         }
 

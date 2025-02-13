@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Models
 {
-    public class PersonalContactDetail:AuditableEntity<int>
+    public class PersonalContactDetail : AuditableEntity<int>
     {
         public ContactType ContactType { get; private set; }
         public string Value { get; private set; }
+        public int PersonalContactId { get; set; }
         public PersonalContact PersonalContact { get; set; }
 
         private PersonalContactDetail()

@@ -16,6 +16,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Context
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<EntityLink> EntityLinks { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<FeedBack> FeedBacks { get; set; }
         public DbSet<Listing> Listings { get; set; }
