@@ -17,9 +17,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.Property(e => e.City).HasMaxLength(200).IsRequired();
             builder.Property(e => e.Country).HasMaxLength(200).IsRequired();
             builder.Property(e => e.PostalCode).HasMaxLength(10).IsRequired();
-            builder.HasOne(a => a.User)
-                      .WithMany(u => u.Addresses)
-                      .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -70,7 +70,7 @@ namespace Assembly.Projecto.Final.Domain.Models
            string otherImagesFileNames) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
            price,location,area,parking,description,mainImageFileName, otherImagesFileNames)
         {
-            id = id;
+            Id = id;
         }
 
         public static Listing Create(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,

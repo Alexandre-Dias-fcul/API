@@ -13,6 +13,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasOne(u => u.EntityLink)
+                   .WithOne()
+                   .HasForeignKey<User>(u => u.EntityLinkId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
             builder.OwnsOne(e => e.Name, name =>
             {
                 name.Property(n => n.FirstName)

@@ -15,9 +15,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
         {
             builder.Property(e => e.Password).HasMaxLength(500).IsRequired();
             builder.Property(e => e.Email).HasMaxLength(300).IsRequired();
-            builder.HasOne(ac => ac.User)
-                     .WithOne(u => u.Account)
-                     .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

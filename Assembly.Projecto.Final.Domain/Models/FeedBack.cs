@@ -14,8 +14,9 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string Comment { get; private set; }
 
         public DateTime? CommentDate { get; private set; }
-
+        public int UserId { get; set; }
         public User User { get; set; }
+        public int ListingId { get; set; }
         public Listing Listing { get; set; }
 
         private FeedBack() 
