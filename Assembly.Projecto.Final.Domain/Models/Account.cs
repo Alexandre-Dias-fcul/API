@@ -11,8 +11,8 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public string Password { get; private set; }
         public string Email { get; private set; }
-        public int EntityLinkId { get; set; }
-        public EntityLink EntityLink { get; set; }
+        public int EntityLinkId { get; private set; }
+        public EntityLink EntityLink { get; private set; }
         private Account()
         {
             Password = string.Empty;
@@ -20,36 +20,41 @@ namespace Assembly.Projecto.Final.Domain.Models
             Created = DateTime.Now;
         }
 
-        private Account(string password, string email) : this()
+        private Account(string password, string email,EntityLink entityLink,int entityLinkId) : this()
         {
             Password = password;
             Email = email;
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
 
-        private Account(int id, string password, string email) : this(password, email)
+        private Account(int id, string password, string email, EntityLink entityLink, int entityLinkId) : 
+            this(password, email,entityLink,entityLinkId)
         {
             Id = id;
         }
 
-        public static Account Create(string password, string email)
+        public static Account Create(string password, string email, EntityLink entityLink, int entityLinkId)
         {
-            var account = new Account(password, email);
+            var account = new Account(password, email, entityLink, entityLinkId);
 
             return account;
         }
 
-        public static Account Create(int id, string password, string email)
+        public static Account Create(int id, string password, string email, EntityLink entityLink, int entityLinkId)
         {
-            var account = new Account(id, password, email);
+            var account = new Account(id, password, email, entityLink, entityLinkId);
 
             return account;
         }
 
 
-        public void Update(string password, string email)
+        public void Update(string password, string email, EntityLink entityLink, int entityLinkId)
         {
             Password = password;
             Email = email;
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
             Updated = DateTime.Now;
         }
     }

@@ -12,8 +12,8 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string Name { get; private set; }
         public bool IsPrimary {  get; private set; }
         public string Notes { get; private set; }
-        public List<PersonalContactDetail> PersonalContactDetails { get; }
-        public Employee Employee { get; set; }
+        public List<PersonalContactDetail> PersonalContactDetails { get; private set; }
+        public Employee Employee { get; private set; }
 
         private PersonalContact()
         {
@@ -21,41 +21,44 @@ namespace Assembly.Projecto.Final.Domain.Models
             IsPrimary = false;
             Notes = string.Empty;
             Created = DateTime.Now;
+            PersonalContactDetails = new();
         }
 
-        private PersonalContact(string name,bool isPrimary, string notes) : this()
+        private PersonalContact(string name,bool isPrimary, string notes, Employee employee) : this()
         {
             Name = name;
             IsPrimary = isPrimary;
             Notes = notes;
+            Employee = employee;
         }
 
-        private PersonalContact(int id, string name, bool isPrimary, string notes) : 
-            this(name,isPrimary,notes)
+        private PersonalContact(int id, string name, bool isPrimary, string notes, Employee employee) : 
+            this(name,isPrimary,notes,employee)
         {
            Id = id;
         }
 
-        public static PersonalContact Create(string name, bool isPrimary, string notes)
+        public static PersonalContact Create(string name, bool isPrimary, string notes, Employee employee)
         {
-            var personalContact = new PersonalContact(name, isPrimary, notes);
+            var personalContact = new PersonalContact(name, isPrimary, notes,employee);
 
             return personalContact;
         }
 
-        public static PersonalContact Create(int id, string name, bool isPrimary, string notes)
+        public static PersonalContact Create(int id, string name, bool isPrimary, string notes, Employee employee)
         {
-            var personalContact = new PersonalContact(id, name, isPrimary, notes);
+            var personalContact = new PersonalContact(id, name, isPrimary, notes,employee);
 
             return personalContact;
         }
 
-        public void Update(string name, bool isPrimary, string notes)
+        public void Update(string name, bool isPrimary, string notes, Employee employee)
         {
             Name = name;
             IsPrimary = isPrimary;
             Notes = notes;
             Updated = DateTime.Now;
+            Employee = Employee;
         }
     }
 }

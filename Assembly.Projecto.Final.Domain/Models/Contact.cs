@@ -12,44 +12,51 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public ContactType ContactType { get; private set; }
         public string Value { get; private set; }
-        public int EntityLinkId { get; set; }
-        public EntityLink EntityLink { get; set; }
+        public int EntityLinkId { get; private set; }
+        public EntityLink EntityLink { get; private set; }
 
         private Contact()
         {
             ContactType = 0;
             Value = string.Empty;
+            EntityLinkId = 0;
             Created = DateTime.Now;
         }
 
-        private Contact(ContactType contactType, string value) : this()
+        private Contact(ContactType contactType, string value, EntityLink entityLink, int entityLinkId) : this()
         {
             ContactType = contactType;
             Value = value;
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
 
-        private Contact(int id, ContactType contactType, string value) : this(contactType, value)
+        private Contact(int id, ContactType contactType, string value, EntityLink entityLink, int entityLinkId) : 
+            this(contactType, value,entityLink,entityLinkId)
         {
             Id = Id;
         }
-        public static Contact Create(ContactType contactType, string value)
+        public static Contact Create(ContactType contactType, string value, EntityLink entityLink, int entityLinkId)
         {
-            var contact = new Contact(contactType, value);
+            var contact = new Contact(contactType, value, entityLink, entityLinkId);
 
             return contact;
         }
 
-        public static Contact Create(int id, ContactType contactType, string value)
+        public static Contact Create(int id, ContactType contactType, string value, EntityLink entityLink, 
+            int entityLinkId)
         {
-            var contact = new Contact(id, contactType, value);
+            var contact = new Contact(id, contactType, value,entityLink, entityLinkId);
 
             return contact;
         }
 
-        public void Update(ContactType contactType, string value)
+        public void Update(ContactType contactType, string value, EntityLink entityLink, int entityLinkId)
         {
             ContactType = contactType;
             Value = value;
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
             Updated = DateTime.Now;
         }
     }

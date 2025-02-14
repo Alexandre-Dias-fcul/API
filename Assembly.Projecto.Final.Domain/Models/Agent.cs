@@ -12,7 +12,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class Agent : Employee
     {
-        public List<Listing> Listings { get; set; }
+        public List<Listing> Listings { get; private set; }
 
         private Agent() : base()
         {
@@ -21,14 +21,16 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private Agent(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role) :
-            base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination, role)
+            base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, 
+                dateOfTermination, role)
         {
             Listings = new();
         }
 
         private Agent(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role) : base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,
-                isActive, hiredDate, dateOfTermination, role)
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role) : 
+            base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,isActive, hiredDate,
+                dateOfTermination, role)
         {
             Listings = new();
         }

@@ -12,45 +12,55 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public ContactType ContactType { get; private set; }
         public string Value { get; private set; }
-        public int PersonalContactId { get; set; }
-        public PersonalContact PersonalContact { get; set; }
+        public int PersonalContactId { get; private set; }
+        public PersonalContact PersonalContact { get; private set; }
 
         private PersonalContactDetail()
         {
             ContactType = 0;
             Value = string.Empty;
             Created = DateTime.Now;
+            PersonalContactId = 0;
         }
 
-        private PersonalContactDetail(ContactType contactType, string value) : this()
+        private PersonalContactDetail(ContactType contactType, string value, PersonalContact personalContact,
+            int personalContactId) : this()
         {
             ContactType = contactType;
             Value = value;
+            PersonalContact = personalContact;
+            PersonalContactId = personalContactId;
         }
 
-        private PersonalContactDetail(int id, ContactType contactType, string value) : this(contactType, value)
+        private PersonalContactDetail(int id, ContactType contactType, string value, PersonalContact personalContact,
+            int personalContactId) : this(contactType, value, personalContact,personalContactId)
         {
             Id = Id;
         }
-        public static PersonalContactDetail Create(ContactType contactType, string value)
+        public static PersonalContactDetail Create(ContactType contactType, string value, PersonalContact personalContact,
+            int personalContactId)
         {
-            var personalContactDetail = new PersonalContactDetail(contactType, value);
+            var personalContactDetail = new PersonalContactDetail(contactType, value, personalContact, personalContactId);
 
             return personalContactDetail;
         }
 
-        public static PersonalContactDetail Create(int id, ContactType contactType, string value)
+        public static PersonalContactDetail Create(int id, ContactType contactType, string value, 
+            PersonalContact personalContact,int personalContactId)
         {
-            var personalContactDetail = new PersonalContactDetail(id, contactType, value);
+            var personalContactDetail = new PersonalContactDetail(id, contactType, value, personalContact, 
+                personalContactId);
 
             return personalContactDetail;
         }
 
-        public void Update(ContactType contactType, string value)
+        public void Update(ContactType contactType, string value, PersonalContact personalContact, int personalContactId)
         {
             ContactType = contactType;
             Value = value;
             Updated = DateTime.Now;
+            PersonalContact = personalContact;
+            PersonalContactId = personalContactId;
         }
     }
 }
