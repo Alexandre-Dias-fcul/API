@@ -18,11 +18,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.HasKey(f => f.Id);
 
             builder.HasOne(u => u.User)
-                   .WithMany()
+                   .WithMany(f =>f.Favorites)
                    .HasForeignKey(f => f.UserId);
 
             builder.HasOne(l => l.Listing)
-                   .WithMany()
+                   .WithMany(f => f.Favorites)
                    .HasForeignKey(f => f.ListingId);
         }
     }

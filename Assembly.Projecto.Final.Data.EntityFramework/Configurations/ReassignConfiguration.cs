@@ -18,7 +18,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.HasKey(r => r.Id);
 
             builder.HasOne(l => l.Listing)
-                   .WithMany()
+                   .WithMany(e => e.Reassigns)
                    .HasForeignKey(r => r.ListingId);
 
             builder.Property(e => e.OlderEmployeeId).IsRequired();

@@ -17,25 +17,25 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasKey(e => e.Id);
 
-            builder.HasMany(e => e.Contacts)
-                   .WithOne()
+            builder.HasMany(c => c.Contacts)
+                   .WithOne(e => e.EntityLink)
                    .HasForeignKey(c => c.EntityLinkId);
 
             builder.HasMany(e => e.Addresses)
-                   .WithMany()
-                   .UsingEntity<Dictionary<string, object>>(
-                    "EntityLinkAddresses",
-                    j => j.HasOne<Address>()
-                          .WithMany()
-                          .HasForeignKey("AddressId"),
-                    j => j.HasOne<EntityLink>()
-                          .WithMany()
-                          .HasForeignKey("EntityLinkId")
-                   );
+                   .WithMany(e => e.EntityLinks)
+                   .UsingEntity(j => j.ToTable("EntityLinkAddresses"));
 
-            builder.HasOne(e => e.Account)
-                   .WithOne()
+            builder.HasOne(a => a.Account)
+                   .WithOne(e => e.EntityLink)
                    .HasForeignKey<Account>(a => a.EntityLinkId);
+
+            builder.HasOne(e => e.Employee)
+                   .WithOne(e => e.EntityLink)
+                   .HasForeignKey<EntityLink>(e => e.EntityId);
+
+            builder.HasOne(u => u.User)
+                   .WithOne(e => e.EntityLink)
+                   .HasForeignKey<EntityLink>(e => e.EntityId); 
         }
     }
 }

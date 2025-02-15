@@ -18,12 +18,12 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.HasKey(p => p.Id);
 
             builder.HasOne(p => p.Appointment)
-                   .WithMany()
-                   .HasForeignKey(a => a.AppointmentId);
+                   .WithMany(pr => pr.Participants)
+                   .HasForeignKey(pr => pr.AppointmentId);
 
             builder.HasOne(p => p.Employee)
-                   .WithMany()
-                   .HasForeignKey(e => e.EmployeeId);
+                   .WithMany(pr => pr.Participants)
+                   .HasForeignKey(pr => pr.EmployeeId);
 
             builder.Property(e => e.Role).IsRequired();
         }

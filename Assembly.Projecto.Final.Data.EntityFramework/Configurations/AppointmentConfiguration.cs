@@ -17,6 +17,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasKey(a => a.Id);
 
+            builder.HasMany(p => p.Participants)
+                   .WithOne(a => a.Appointment)
+                   .HasForeignKey(a => a.AppointmentId);
+
             builder.Property(e => e.Type).HasMaxLength(200).IsRequired();
             builder.Property(e => e.Description).HasMaxLength(2000).IsRequired();
             builder.Property(e => e.Date).IsRequired();

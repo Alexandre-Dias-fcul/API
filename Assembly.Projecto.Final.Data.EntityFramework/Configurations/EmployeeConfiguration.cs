@@ -32,12 +32,17 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                  .HasValue<Agent>(RoleType.Agent);
 
             builder.HasOne(e => e.EntityLink)
-                   .WithOne()
+                   .WithOne( em => em.Employee)
                    .HasForeignKey<Employee>(em=> em.EntityLinkId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(e => e.PersonalContacts)
                    .WithOne()
+                   .HasForeignKey(p => p.EmployeeId)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(p => p.Participants)
+                   .WithOne(e => e.Employee)
                    .HasForeignKey(p => p.EmployeeId);
 
             builder.OwnsOne(e => e.Name, name =>
