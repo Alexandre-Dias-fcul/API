@@ -18,6 +18,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasKey(p => p.Id);
 
+            builder.HasOne(p => p.PersonalContact)
+                   .WithMany(pc => pc.PersonalContactDetails)
+                   .HasForeignKey(pc => pc.PersonalContactId);
+
             builder.Property(e => e.ContactType).HasMaxLength(50).IsRequired();
             builder.Property(e => e.Value).HasMaxLength(300).IsRequired();
         }

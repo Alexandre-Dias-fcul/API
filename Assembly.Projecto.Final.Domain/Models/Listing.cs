@@ -24,7 +24,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public List<Favorite> Favorites { get; private set; }
         public List<FeedBack> FeedBacks { get; private set; }
         public int AgentId { get; private set; }
-        public Employee Agent { get; private set; }
+        public Agent Agent { get; private set; }
         public List<Reassign> Reassigns { get; private set; }
 
         private Listing()
@@ -51,7 +51,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private Listing(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens, 
             decimal price, string location, double area, int parking, string description, string mainImageFileName, 
-            string otherImagesFileNames,Employee agent,int agentId):this()
+            string otherImagesFileNames,Agent agent,int agentId):this()
         {
             Type = type;
             Status = status;
@@ -71,7 +71,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private Listing(int id,string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
            decimal price, string location, double area, int parking, string description, string mainImageFileName,
-           string otherImagesFileNames, Employee agent, int agentId) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
+           string otherImagesFileNames, Agent agent, int agentId) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
            price,location,area,parking,description,mainImageFileName, otherImagesFileNames,agent,agentId)
         {
             Id = id;
@@ -79,7 +79,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public static Listing Create(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Employee agent, int agentId) 
+            string otherImagesFileNames, Agent agent, int agentId) 
         {
             var listing = new Listing(type,status,numberOfRooms,numberOfBathrooms, numberOfKitchens,
              price, location, area, parking,description,mainImageFileName,otherImagesFileNames,agent,agentId);
@@ -89,7 +89,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public static Listing Create(int id,string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Employee agent, int agentId) 
+            string otherImagesFileNames, Agent agent, int agentId) 
         {
             var listing = new Listing(id,type, status, numberOfRooms, numberOfBathrooms, numberOfKitchens,
              price, location, area, parking, description, mainImageFileName, otherImagesFileNames, agent, agentId);
@@ -99,7 +99,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void Update(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Employee agent, int agentId)
+            string otherImagesFileNames, Agent agent, int agentId)
         {
             Type = type;
             Status = status;

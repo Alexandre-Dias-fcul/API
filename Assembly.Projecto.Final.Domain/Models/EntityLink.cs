@@ -15,6 +15,8 @@ namespace Assembly.Projecto.Final.Domain.Models
         public Account Account { get; private set; }
         public EntityType EntityType { get; private set; }
         public int? EntityId { get; private set; }
+        public Employee Employee { get; private set; }
+        public User User { get; private set; }
 
         private EntityLink()
         {

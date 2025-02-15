@@ -9,6 +9,6 @@ namespace Assembly.Projecto.Final.Domain.Common
 {
     public class Entity<TId> : IEntity<TId>
     {
-        public TId Id {  get; set; }
+        public TId Id {  get; protected set; }
     }
 }

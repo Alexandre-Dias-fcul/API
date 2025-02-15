@@ -17,6 +17,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasKey(a => a.Id);
 
+            builder.HasMany(e => e.EntityLinks)
+                   .WithMany(e => e.Addresses)
+                   .UsingEntity(j => j.ToTable("EntityLinkAddresses"));
+
             builder.Property(e => e.Street).HasMaxLength(200).IsRequired();
             builder.Property(e => e.City).HasMaxLength(200).IsRequired();
             builder.Property(e => e.Country).HasMaxLength(200).IsRequired();

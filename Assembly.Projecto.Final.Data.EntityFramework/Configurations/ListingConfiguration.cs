@@ -18,15 +18,23 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.HasKey(l => l.Id);
 
             builder.HasOne(e=> e.Agent)
-                   .WithMany()
+                   .WithMany(l => l.Listings)
                    .HasForeignKey(l => l.AgentId);
+
+            builder.HasMany(f => f.Favorites)
+                   .WithOne(l => l.Listing)
+                   .HasForeignKey(l => l.ListingId);
+
+            builder.HasMany(f => f.FeedBacks)
+                    .WithOne(l => l.Listing)
+                    .HasForeignKey(l => l.ListingId);
 
             builder.Property(e => e.Type).HasMaxLength(250).IsRequired();
             builder.Property(e => e.Status).HasMaxLength(50).IsRequired();
             builder.Property(e => e.NumberOfRooms).IsRequired(false);
             builder.Property(e => e.NumberOfBathrooms).IsRequired(false);
             builder.Property(e => e.NumberOfKitchens).IsRequired(false);
-            builder.Property(e => e.Price).IsRequired();
+            builder.Property(e => e.Price).HasPrecision(18, 4).IsRequired();
             builder.Property(e => e.Location).HasMaxLength(250).IsRequired();
             builder.Property(e => e.Area).IsRequired();
             builder.Property(e => e.Parking).IsRequired(false);

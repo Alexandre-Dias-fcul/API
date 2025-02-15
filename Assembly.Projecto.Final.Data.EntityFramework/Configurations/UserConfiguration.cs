@@ -17,8 +17,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasKey(u => u.Id);
 
-            builder.HasOne(u => u.EntityLink)
-                   .WithOne()
+            builder.HasOne(e => e.EntityLink)
+                   .WithOne(u => u.User)
                    .HasForeignKey<User>(u => u.EntityLinkId)
                    .OnDelete(DeleteBehavior.Restrict);
 

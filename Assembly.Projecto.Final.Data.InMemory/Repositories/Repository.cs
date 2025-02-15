@@ -25,7 +25,7 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
 
         public TEntity Add(TEntity obj)
         {
-            obj.Id = GenerateId();
+            /*obj.Id = GenerateId();*/
 
             _dbSet.Add(obj);
 
