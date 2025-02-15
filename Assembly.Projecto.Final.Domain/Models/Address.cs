@@ -13,7 +13,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string City { get; private set; }
         public string Country { get; private set; }
         public string PostalCode { get; private set; }
-        public List<EntityLink> EntityLinks { get; set; }
+        public List<EntityLink> EntityLinks { get; private set; }
 
         private Address()
         {
@@ -22,6 +22,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             Country = string.Empty;
             PostalCode = string.Empty;
             Created = DateTime.Now;
+            EntityLinks = new ();
         }
 
         private Address(string street, string city, string country, string postalCode) : this()

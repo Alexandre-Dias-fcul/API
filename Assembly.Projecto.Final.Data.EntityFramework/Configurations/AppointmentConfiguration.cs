@@ -13,6 +13,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Appointment> builder)
         {
+            builder.ToTable("Appointments");
+
+            builder.HasKey(a => a.Id);
+
             builder.Property(e => e.Type).HasMaxLength(200).IsRequired();
             builder.Property(e => e.Description).HasMaxLength(2000).IsRequired();
             builder.Property(e => e.Date).IsRequired();

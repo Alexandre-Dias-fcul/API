@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 {
-    internal class FeedBackConfiguration : IEntityTypeConfiguration<FeedBack>
+    internal class FavoriteConfiguration : IEntityTypeConfiguration<Favorite>
     {
-        public void Configure(EntityTypeBuilder<FeedBack> builder)
+        public void Configure(EntityTypeBuilder<Favorite> builder)
         {
-            builder.ToTable("FeedBacks");
+            builder.ToTable("Favorites");
 
             builder.HasKey(f => f.Id);
 
@@ -24,10 +24,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.HasOne(l => l.Listing)
                    .WithMany()
                    .HasForeignKey(f => f.ListingId);
-
-            builder.Property(e => e.Rate).IsRequired(false);
-            builder.Property(e => e.Comment).HasMaxLength(2000).IsRequired(false);
-            builder.Property(e => e.CommentDate).IsRequired(false);
         }
     }
 }

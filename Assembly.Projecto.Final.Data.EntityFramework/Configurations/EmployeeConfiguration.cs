@@ -16,6 +16,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
+
+            builder.ToTable("Employees");
+
+            builder.HasKey(e => e.Id);
             
             builder.HasMany(e => e.Agents) 
                    .WithOne(e => e.Supervisor) 
@@ -28,9 +32,13 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                  .HasValue<Agent>(RoleType.Agent);
 
             builder.HasOne(e => e.EntityLink)
-               .WithOne()
-               .HasForeignKey<Employee>(e => e.EntityLinkId)
-               .OnDelete(DeleteBehavior.Restrict);
+                   .WithOne()
+                   .HasForeignKey<Employee>(em=> em.EntityLinkId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(e => e.PersonalContacts)
+                   .WithOne()
+                   .HasForeignKey(p => p.EmployeeId);
 
             builder.OwnsOne(e => e.Name, name =>
             {

@@ -16,9 +16,9 @@ namespace Assembly.Projecto.Final.Domain.Models
         public TimeOnly HourEnd { get; private set; }
         public string Status { get; private set; }
         public int BookedBy { get; private set; }
-        public List<Participant> Participants { get; set; }
+        public List<Participant> Participants { get; private set; }
 
-        public Appointment()
+        private Appointment()
         {
             Type = string.Empty;
             Description = string.Empty;
@@ -27,7 +27,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             HourEnd = new TimeOnly();
             Status = string.Empty;
             BookedBy = 0;
-            Participants = new List<Participant>(); 
+            Participants = new (); 
             Created= DateTime.Now;
         }
 
@@ -75,7 +75,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             HourEnd = hourEnd;
             BookedBy = bookedBy;
             Status = status;
-            Updated = DateTime.UtcNow;
+            Updated = DateTime.Now;
         }
     }
 }

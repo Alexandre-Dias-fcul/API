@@ -13,6 +13,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("Users");
+
+            builder.HasKey(u => u.Id);
+
             builder.HasOne(u => u.EntityLink)
                    .WithOne()
                    .HasForeignKey<User>(u => u.EntityLinkId)

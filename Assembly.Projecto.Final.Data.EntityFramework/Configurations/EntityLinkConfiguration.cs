@@ -13,7 +13,29 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<EntityLink> builder)
         {
-           
+            builder.ToTable("EntityLinks");
+
+            builder.HasKey(e => e.Id);
+
+            builder.HasMany(e => e.Contacts)
+                   .WithOne()
+                   .HasForeignKey(c => c.EntityLinkId);
+
+            builder.HasMany(e => e.Addresses)
+                   .WithMany()
+                   .UsingEntity<Dictionary<string, object>>(
+                    "EntityLinkAddresses",
+                    j => j.HasOne<Address>()
+                          .WithMany()
+                          .HasForeignKey("AddressId"),
+                    j => j.HasOne<EntityLink>()
+                          .WithMany()
+                          .HasForeignKey("EntityLinkId")
+                   );
+
+            builder.HasOne(e => e.Account)
+                   .WithOne()
+                   .HasForeignKey<Account>(a => a.EntityLinkId);
         }
     }
 }
