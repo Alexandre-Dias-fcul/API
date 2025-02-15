@@ -16,7 +16,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public EntityType EntityType { get; private set; }
         public int? EntityId { get; private set; }
 
-        public EntityLink()
+        private EntityLink()
         {
             EntityType = 0;
             Contacts = new ();

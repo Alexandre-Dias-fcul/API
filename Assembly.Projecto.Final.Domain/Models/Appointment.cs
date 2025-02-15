@@ -18,7 +18,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public int BookedBy { get; private set; }
         public List<Participant> Participants { get; private set; }
 
-        public Appointment()
+        private Appointment()
         {
             Type = string.Empty;
             Description = string.Empty;

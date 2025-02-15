@@ -13,6 +13,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Account> builder)
         {
+            builder.ToTable("Accounts");
+
+            builder.HasKey(a => a.Id);
+
             builder.Property(e => e.Password).HasMaxLength(500).IsRequired();
             builder.Property(e => e.Email).HasMaxLength(300).IsRequired();
         }

@@ -23,8 +23,8 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string OtherImagesFileNames { get; private set; }
         public List<Favorite> Favorites { get; private set; }
         public List<FeedBack> FeedBacks { get; private set; }
-        public int EmployeeId { get; private set; }
-        public Employee Employee { get; private set; }
+        public int AgentId { get; private set; }
+        public Employee Agent { get; private set; }
         public List<Reassign> Reassigns { get; private set; }
 
         private Listing()
@@ -45,13 +45,13 @@ namespace Assembly.Projecto.Final.Domain.Models
             Favorites = new ();
             FeedBacks = new ();
             Reassigns = new ();
-            EmployeeId = 0;
+            AgentId = 0;
         }
 
 
         private Listing(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens, 
             decimal price, string location, double area, int parking, string description, string mainImageFileName, 
-            string otherImagesFileNames,Employee employee,int employeeId):this()
+            string otherImagesFileNames,Employee agent,int agentId):this()
         {
             Type = type;
             Status = status;
@@ -65,41 +65,41 @@ namespace Assembly.Projecto.Final.Domain.Models
             Description = description;
             MainImageFileName = mainImageFileName;
             OtherImagesFileNames = otherImagesFileNames;
-            Employee = employee;
-            EmployeeId = employeeId;
+            Agent = agent;
+            AgentId = agentId;
         }
 
         private Listing(int id,string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
            decimal price, string location, double area, int parking, string description, string mainImageFileName,
-           string otherImagesFileNames, Employee employee, int employeeId) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
-           price,location,area,parking,description,mainImageFileName, otherImagesFileNames,employee,employeeId)
+           string otherImagesFileNames, Employee agent, int agentId) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
+           price,location,area,parking,description,mainImageFileName, otherImagesFileNames,agent,agentId)
         {
             Id = id;
         }
 
         public static Listing Create(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Employee employee, int employeeId) 
+            string otherImagesFileNames, Employee agent, int agentId) 
         {
             var listing = new Listing(type,status,numberOfRooms,numberOfBathrooms, numberOfKitchens,
-             price, location, area, parking,description,mainImageFileName,otherImagesFileNames,employee,employeeId);
+             price, location, area, parking,description,mainImageFileName,otherImagesFileNames,agent,agentId);
 
             return listing;
         }
 
         public static Listing Create(int id,string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Employee employee, int employeeId) 
+            string otherImagesFileNames, Employee agent, int agentId) 
         {
             var listing = new Listing(id,type, status, numberOfRooms, numberOfBathrooms, numberOfKitchens,
-             price, location, area, parking, description, mainImageFileName, otherImagesFileNames, employee, employeeId);
+             price, location, area, parking, description, mainImageFileName, otherImagesFileNames, agent, agentId);
 
             return listing;
         }
 
         public void Update(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Employee employee, int employeeId)
+            string otherImagesFileNames, Employee agent, int agentId)
         {
             Type = type;
             Status = status;
@@ -113,8 +113,8 @@ namespace Assembly.Projecto.Final.Domain.Models
             Description = description;
             MainImageFileName = mainImageFileName;
             OtherImagesFileNames = otherImagesFileNames;
-            Employee = employee;
-            EmployeeId = employeeId;
+            Agent= agent;
+            AgentId = agentId;
             Updated = DateTime.Now;
         }
     }

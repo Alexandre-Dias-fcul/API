@@ -13,6 +13,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
+            builder.ToTable("Contacts");
+
+            builder.HasKey(c => c.Id);
+
             builder.Property(e => e.ContactType).HasMaxLength(50).IsRequired();
             builder.Property(e => e.Value).HasMaxLength(300).IsRequired();
         }

@@ -13,6 +13,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
+            builder.ToTable("Addresses");
+
+            builder.HasKey(a => a.Id);
+
             builder.Property(e => e.Street).HasMaxLength(200).IsRequired();
             builder.Property(e => e.City).HasMaxLength(200).IsRequired();
             builder.Property(e => e.Country).HasMaxLength(200).IsRequired();

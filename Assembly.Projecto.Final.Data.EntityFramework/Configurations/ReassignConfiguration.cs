@@ -13,6 +13,14 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<Reassign> builder)
         {
+            builder.ToTable("Reassigns");
+
+            builder.HasKey(r => r.Id);
+
+            builder.HasOne(l => l.Listing)
+                   .WithMany()
+                   .HasForeignKey(r => r.ListingId);
+
             builder.Property(e => e.OlderEmployeeId).IsRequired();
             builder.Property(e => e.NewEmployeeId).IsRequired();
             builder.Property(e => e.ReassignBy).IsRequired();

@@ -13,6 +13,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public bool IsPrimary {  get; private set; }
         public string Notes { get; private set; }
         public List<PersonalContactDetail> PersonalContactDetails { get; private set; }
+        public int EmployeeId { get; private set; }
         public Employee Employee { get; private set; }
 
         private PersonalContact()

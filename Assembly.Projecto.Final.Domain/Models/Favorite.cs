@@ -15,7 +15,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         public int ListingId { get; private set; }
         public Listing Listing { get; private set; }
 
-        public Favorite() 
+        private Favorite() 
         {
             UserId = 0;
             ListingId = 0;

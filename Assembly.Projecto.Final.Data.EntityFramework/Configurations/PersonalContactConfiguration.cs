@@ -13,6 +13,14 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<PersonalContact> builder)
         {
+            builder.ToTable("PersonalContactDetails");
+
+            builder.HasKey(p => p.Id);
+
+            builder.HasMany(p => p.PersonalContactDetails)
+                   .WithOne()
+                   .HasForeignKey(pc => pc.PersonalContactId);
+
             builder.Property(e => e.Name).HasMaxLength(500).IsRequired();
             builder.Property(e => e.IsPrimary).IsRequired();
             builder.Property(e => e.Notes).IsRequired(false);
