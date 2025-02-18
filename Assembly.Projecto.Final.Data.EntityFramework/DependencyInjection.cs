@@ -25,8 +25,23 @@ namespace Assembly.Projecto.Final.Data.EntityFramework
                 options.UseSqlServer(cs);
             });
 
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAgentRepository, AgentRepository>();
+            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IEntityLinkRepository, EntityLinkRepository>();  
+            services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+            services.AddScoped<IFeedBackRepository,FeedBackRepository>();
+            services.AddScoped<IListingRepository, ListingRepository>();
+            services.AddScoped<IParticipantRepository, ParticipantRepository>();
+            services.AddScoped<IPersonalContactDetailRepository, PersonalContactDetailRepository>();
+            services.AddScoped<IPersonalContactRepository, PersonalContactRepository>();
+            services.AddScoped<IReassignRepository, ReassignRepository>();
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
             return services;
         }
     }
