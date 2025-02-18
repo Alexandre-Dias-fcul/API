@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly.Projecto.Final.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly.Projecto.Final.WebAPI", "Assembly.Projecto.Final.WebAPI\Assembly.Projecto.Final.WebAPI.csproj", "{22DB5E5B-388C-4417-B1CE-A854721AC26C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly.Projecto.Final.Services", "Assembly.Projecto.Final.Services\Assembly.Projecto.Final.Services.csproj", "{F99B1E95-B996-49E4-9ACE-CA545DD2EB2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assembly.Projecto.Final.Services", "Assembly.Projecto.Final.Services\Assembly.Projecto.Final.Services.csproj", "{F99B1E95-B996-49E4-9ACE-CA545DD2EB2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
