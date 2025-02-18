@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250215172730_migracaoInicial")]
-    partial class migracaoInicial
+    [Migration("20250218150135_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.Property<DateTime?>("DateOfTermination")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Discriminator")
+                        .HasColumnType("int");
+
                     b.Property<int?>("EntityLinkId")
                         .HasColumnType("int");
 
@@ -77,12 +80,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SupervisorId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
 
@@ -91,11 +88,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SupervisorId");
-
                     b.ToTable("Employees", (string)null);
 
-                    b.HasDiscriminator<int>("Role").HasValue(0);
+                    b.HasDiscriminator().HasValue(0);
 
                     b.UseTphMappingStrategy();
                 });
@@ -679,6 +674,14 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                 {
                     b.HasBaseType("Assembly.Projecto.Final.Domain.Common.Employee");
 
+                    b.Property<int?>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SupervisorId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("SupervisorId");
+
                     b.HasDiscriminator().HasValue(2);
                 });
 
@@ -706,11 +709,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Common.Employee", b =>
                 {
-                    b.HasOne("Assembly.Projecto.Final.Domain.Common.Employee", "Supervisor")
-                        .WithMany("Agents")
-                        .HasForeignKey("SupervisorId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.OwnsOne("Assembly.Projecto.Final.Domain.Common.Name", "Name", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
@@ -743,8 +741,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.Navigation("Name")
                         .IsRequired();
-
-                    b.Navigation("Supervisor");
                 });
 
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Models.Account", b =>
@@ -923,10 +919,18 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Assembly.Projecto.Final.Domain.Models.Agent", b =>
+                {
+                    b.HasOne("Assembly.Projecto.Final.Domain.Models.Agent", "Supervisor")
+                        .WithMany("Agents")
+                        .HasForeignKey("SupervisorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Supervisor");
+                });
+
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Common.Employee", b =>
                 {
-                    b.Navigation("Agents");
-
                     b.Navigation("EntityLink");
 
                     b.Navigation("Participants");
@@ -973,6 +977,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Models.Agent", b =>
                 {
+                    b.Navigation("Agents");
+
                     b.Navigation("Listings");
                 });
 #pragma warning restore 612, 618

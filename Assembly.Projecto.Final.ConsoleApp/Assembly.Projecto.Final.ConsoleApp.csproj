@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UserInterface\FrontOffice\" />
+    <Compile Remove="UserInterface\FrontOffice\**" />
+    <EmbeddedResource Remove="UserInterface\FrontOffice\**" />
+    <None Remove="UserInterface\FrontOffice\**" />
   </ItemGroup>
 
   <ItemGroup>
