@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Enums
 {
-    public enum RoleType
+    public enum Discriminator
     {
-        Agent,
-        Manager,
-        Broker
+        Employee,
+        Staff,
+        Agent
     }
 }

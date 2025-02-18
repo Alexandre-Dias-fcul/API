@@ -14,83 +14,85 @@ namespace Assembly.Projecto.Final.Domain.Common
     {
         public DateTime? HiredDate { get; private set; }
         public DateTime? DateOfTermination { get; private set; }
-        public RoleType Role { get; private set; }
         public int? EntityLinkId { get; private set; }
         public EntityLink? EntityLink { get; private set; }
         public List<PersonalContact> PersonalContacts { get; private set; } 
         public List<Participant> Participants { get; private set; }
-        public int? SupervisorId { get; private set; }
-        public Employee? Supervisor { get; private set; }
-        public List<Employee> Agents { get; private set; }
 
         protected Employee():base()
         {
+            HiredDate = DateTime.MinValue;
+            DateOfTermination = DateTime.MinValue;
+            EntityLinkId = 0;
         }
 
         protected Employee(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            DateTime hiredDate, DateTime dateOfTermination, RoleType role) : base(name, dateOfBirth, gender, 
-                photoFileName,isActive)
+            DateTime hiredDate, DateTime dateOfTermination, EntityLink? entityLink,int? entityLinkId) : 
+            base(name, dateOfBirth, gender, photoFileName,isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            Role = role;
             PersonalContacts = new();
-            Agents = new();
             Participants = new ();
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
 
         protected Employee(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-           DateTime hiredDate, DateTime dateOfTermination, RoleType role) : base(id, name, dateOfBirth, gender,
-               photoFileName, isActive)
+           DateTime hiredDate, DateTime dateOfTermination, EntityLink? entityLink,int? entityLinkId) : 
+            base(id, name, dateOfBirth, gender,photoFileName, isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            Role = role;
             PersonalContacts = new ();
-            Agents = new();
             Participants = new ();
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
         protected Employee(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role) :
-            base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,EntityLink? entityLink,
+            int? entityLinkId) :base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            Role = role;
             PersonalContacts = new ();
-            Agents = new();
             Participants = new ();
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
 
         protected Employee(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth,
            string gender, string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,
-           RoleType role) : base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
+            EntityLink? entityLink, int? entityLinkId) :base(id, firstName, middleNames, lastName, dateOfBirth, 
+                gender, photoFileName, isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            Role = role;
             PersonalContacts = new ();
-            Agents = new();
             Participants = new ();
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
 
         public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            DateTime hiredDate, DateTime dateOfTermination, RoleType role)
+            DateTime hiredDate, DateTime dateOfTermination, EntityLink? entityLink, int? entityLinkId)
         {
             base.Update(name, dateOfBirth, gender, photoFileName, isActive);
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            Role = role;
-
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination, RoleType role)
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,
+            EntityLink? entityLink, int? entityLinkId)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            Role = role;
+            EntityLink = entityLink;
+            EntityLinkId = entityLinkId;
         }
     }
 }

@@ -20,16 +20,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.ToTable("Employees");
 
             builder.HasKey(e => e.Id);
-            
-            builder.HasMany(e => e.Agents) 
-                   .WithOne(e => e.Supervisor) 
-                   .HasForeignKey(e => e.SupervisorId) 
-                   .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasDiscriminator<RoleType>("Role")
-                 .HasValue<Employee>(RoleType.Employee)
-                 .HasValue<Staff>(RoleType.Staff)
-                 .HasValue<Agent>(RoleType.Agent);
+            builder.HasDiscriminator<Discriminator>("Discriminator") // Define a coluna discriminadora
+                    .HasValue<Employee>(Discriminator.Employee)
+                    .HasValue<Agent>(Discriminator.Agent)
+                    .HasValue<Staff>(Discriminator.Staff);
 
             builder.HasOne(e => e.EntityLink)
                    .WithOne( em => em.Employee)
@@ -69,7 +64,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.Property(e => e.PhotoFileName).HasMaxLength(300).IsRequired(false);
             builder.Property(e => e.HiredDate).IsRequired(false);
             builder.Property(e => e.DateOfTermination).IsRequired(false);
-            builder.Property(e => e.Role).IsRequired();
         }
     }
 }
