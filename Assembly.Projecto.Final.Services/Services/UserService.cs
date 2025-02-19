@@ -17,14 +17,14 @@ namespace Assembly.Projecto.Final.Services.Services
         {
             _userRepository = userRepository;
         }
-        public User Add(User obj)
+        public User Add(User user)
         {
-            return _userRepository.Add(obj);
+            return _userRepository.Add(user);
         }
 
-        public User Delete(User obj)
+        public User Delete(User user)
         {
-            return _userRepository.Delete(obj);
+            return _userRepository.Delete(user);
         }
 
         public User? Delete(int id)
@@ -42,9 +42,9 @@ namespace Assembly.Projecto.Final.Services.Services
             return _userRepository.GetById(id);
         }
 
-        public User Update(User obj)
+        public User Update(User user)
         {
-            return _userRepository.Update(obj);
+            return _userRepository.Update(user);
         }
     }
 }
