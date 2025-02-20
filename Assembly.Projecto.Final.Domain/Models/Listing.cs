@@ -51,7 +51,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private Listing(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens, 
             decimal price, string location, double area, int parking, string description, string mainImageFileName, 
-            string otherImagesFileNames,Agent agent,int agentId):this()
+            string otherImagesFileNames):this()
         {
             Type = type;
             Status = status;
@@ -65,41 +65,39 @@ namespace Assembly.Projecto.Final.Domain.Models
             Description = description;
             MainImageFileName = mainImageFileName;
             OtherImagesFileNames = otherImagesFileNames;
-            Agent = agent;
-            AgentId = agentId;
         }
 
         private Listing(int id,string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
            decimal price, string location, double area, int parking, string description, string mainImageFileName,
-           string otherImagesFileNames, Agent agent, int agentId) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
-           price,location,area,parking,description,mainImageFileName, otherImagesFileNames,agent,agentId)
+           string otherImagesFileNames) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
+           price,location,area,parking,description,mainImageFileName, otherImagesFileNames)
         {
             Id = id;
         }
 
         public static Listing Create(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Agent agent, int agentId) 
+            string otherImagesFileNames) 
         {
             var listing = new Listing(type,status,numberOfRooms,numberOfBathrooms, numberOfKitchens,
-             price, location, area, parking,description,mainImageFileName,otherImagesFileNames,agent,agentId);
+             price, location, area, parking,description,mainImageFileName,otherImagesFileNames);
 
             return listing;
         }
 
         public static Listing Create(int id,string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Agent agent, int agentId) 
+            string otherImagesFileNames) 
         {
             var listing = new Listing(id,type, status, numberOfRooms, numberOfBathrooms, numberOfKitchens,
-             price, location, area, parking, description, mainImageFileName, otherImagesFileNames, agent, agentId);
+             price, location, area, parking, description, mainImageFileName, otherImagesFileNames);
 
             return listing;
         }
 
         public void Update(string type, string status, int numberOfRooms, int numberOfBathrooms, int numberOfKitchens,
             decimal price, string location, double area, int parking, string description, string mainImageFileName,
-            string otherImagesFileNames, Agent agent, int agentId)
+            string otherImagesFileNames)
         {
             Type = type;
             Status = status;
@@ -113,9 +111,18 @@ namespace Assembly.Projecto.Final.Domain.Models
             Description = description;
             MainImageFileName = mainImageFileName;
             OtherImagesFileNames = otherImagesFileNames;
-            Agent= agent;
-            AgentId = agentId;
             Updated = DateTime.Now;
+        }
+
+        public void SetAgent(Agent agent) 
+        {
+            if(agent == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            Agent = agent;
+            AgentId = Agent.Id;
         }
     }
 }

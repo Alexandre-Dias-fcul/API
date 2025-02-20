@@ -21,47 +21,56 @@ namespace Assembly.Projecto.Final.Domain.Models
             Role = 0;
         }
 
-        private Participant(ParticipantType role, Appointment appointment, int appointmentId, Employee employee, 
-            int employeeId) :this()
+        private Participant(ParticipantType role, Appointment appointment, Employee employee) :this()
         {
             Role = role;
+
+            if(appointment == null || employee == null) 
+            {
+                throw new ArgumentNullException();    
+            }
+
             Appointment = appointment;
-            AppointmentId = appointmentId;
+            AppointmentId = appointment.Id;
             Employee = employee;
-            EmployeeId = employeeId;
+            EmployeeId = employee.Id;
         }
 
-        private Participant(int id,ParticipantType role, Appointment appointment, int appointmentId, Employee employee,
-            int employeeId) :this(role,appointment, appointmentId, employee, employeeId) 
+        private Participant(int id,ParticipantType role, Appointment appointment, Employee employee) 
+            :this(role,appointment, employee) 
         {
             Id = id;
         }
 
-        private static Participant Created(ParticipantType role, Appointment appointment, int appointmentId, 
-            Employee employee,int employeeId) 
+        private static Participant Created(ParticipantType role, Appointment appointment, 
+            Employee employee) 
         {
-            var participant = new Participant(role, appointment, appointmentId, employee, employeeId);
+            var participant = new Participant(role, appointment, employee);
 
             return participant;
         }
 
-        private static Participant Created(int id,ParticipantType role, Appointment appointment, int appointmentId,
-            Employee employee, int employeeId)
+        private static Participant Created(int id,ParticipantType role, Appointment appointment,Employee employee)
         {
-            var participant = new Participant(id,role, appointment, appointmentId, employee, employeeId);
+            var participant = new Participant(id,role, appointment, employee);
 
             return participant;
         }
 
-        private void Update(ParticipantType role, Appointment appointment, int appointmentId,
-            Employee employee, int employeeId) 
+        private void Update(ParticipantType role, Appointment appointment,Employee employee) 
         {
             Role = role;
             Updated = DateTime.Now;
+
+            if (appointment ==null || employee == null) 
+            { 
+                throw new ArgumentNullException();
+            }
+
             Appointment = appointment;
-            AppointmentId = appointmentId;
+            AppointmentId = appointment.Id;
             Employee = employee;
-            EmployeeId = employeeId;
+            EmployeeId = employee.Id;
         }
     }
 }

@@ -27,72 +27,69 @@ namespace Assembly.Projecto.Final.Domain.Common
         }
 
         protected Employee(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            DateTime hiredDate, DateTime dateOfTermination, EntityLink? entityLink,int? entityLinkId) : 
+            DateTime hiredDate, DateTime dateOfTermination) : 
             base(name, dateOfBirth, gender, photoFileName,isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             PersonalContacts = new();
             Participants = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
         protected Employee(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-           DateTime hiredDate, DateTime dateOfTermination, EntityLink? entityLink,int? entityLinkId) : 
+           DateTime hiredDate, DateTime dateOfTermination) : 
             base(id, name, dateOfBirth, gender,photoFileName, isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             PersonalContacts = new ();
             Participants = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
         protected Employee(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,EntityLink? entityLink,
-            int? entityLinkId) :base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
+            base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             PersonalContacts = new ();
             Participants = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
         protected Employee(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth,
-           string gender, string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,
-            EntityLink? entityLink, int? entityLinkId) :base(id, firstName, middleNames, lastName, dateOfBirth, 
-                gender, photoFileName, isActive)
+           string gender, string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
+            base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
             PersonalContacts = new ();
             Participants = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
         public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            DateTime hiredDate, DateTime dateOfTermination, EntityLink? entityLink, int? entityLinkId)
+            DateTime hiredDate, DateTime dateOfTermination)
         {
             base.Update(name, dateOfBirth, gender, photoFileName, isActive);
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination,
-            EntityLink? entityLink, int? entityLinkId)
+            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
+        }
+
+        public void SetEntityLink(EntityLink entityLink) 
+        {
+            if(entityLink == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
             EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
+            EntityLinkId = entityLink.Id;
         }
     }
 }

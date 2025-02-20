@@ -20,36 +20,41 @@ namespace Assembly.Projecto.Final.Domain.Models
             UserId = 0;
             ListingId = 0;
         }   
-        private Favorite(User user, int userId, Listing listing, int listingId):this()
-        {
-            UserId = userId;
+        private Favorite(User user, Listing listing):this()
+        { 
+            if(user == null || listing == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
             User = user;
+            UserId = user.Id;
             Listing = listing;
-            ListingId = listingId;
+            ListingId = listing.Id;
         }
 
-        private Favorite(int id,User user,int userId,Listing listing,int listingId) :
-            this(user,userId,listing,listingId)
+        private Favorite(int id,User user,Listing listing) :
+            this(user,listing)
         { 
             Id = id;   
         }
 
-        public static Favorite Create(User user, int userId, Listing listing, int listingId) 
+        public static Favorite Create(User user, Listing listing) 
         { 
-            return new Favorite(user, userId, listing, listingId);
+            return new Favorite(user, listing);
         }
 
-        public static Favorite Create(int id, User user, int userId, Listing listing, int listingId)
+        public static Favorite Create(int id, User user, Listing listing)
         {
-            return new Favorite(id, user, userId, listing, listingId);
+            return new Favorite(id, user, listing);
         }
 
-        public void Update(User user, int userId, Listing listing, int listingId) 
+        public void Update(User user, Listing listing) 
         {
-            UserId = userId;
             User = user;
+            UserId = user.Id;
             Listing = listing;
-            ListingId = listingId;
+            ListingId = listing.Id;
         }
     }
 }

@@ -17,95 +17,88 @@ namespace Assembly.Projecto.Final.Domain.Models
             EntityLinkId = 0;
         }
 
-        private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            EntityLink? entityLink,int? entityLinkId):
+        private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):
            base(name,dateOfBirth,gender,photoFileName,isActive)
        {
             Favorites = new ();
             FeedBacks = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
-        private User(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-             EntityLink? entityLink, int? entityLinkId) :
-            base(id,name, dateOfBirth, gender, photoFileName, isActive)
+        private User(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) 
+            :base(id,name, dateOfBirth, gender, photoFileName, isActive)
         {
             Favorites = new ();
             FeedBacks = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
         private User(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId) :
+            string photoFileName, bool isActive) :
             base(firstName,middleNames,lastName,dateOfBirth,gender,photoFileName,isActive)
         {
             Favorites = new ();
-            FeedBacks = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
+            FeedBacks = new (); 
         }
 
         private User(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-           string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId) : 
-            base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,
-               isActive)
+           string photoFileName, bool isActive) : 
+            base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,isActive)
         {
             Favorites = new ();
             FeedBacks = new ();
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
         public static User Create(Name name, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId)
+            string photoFileName, bool isActive)
         {
-            var user = new User(name, dateOfBirth, gender, photoFileName, isActive,entityLink,entityLinkId);
+            var user = new User(name, dateOfBirth, gender, photoFileName, isActive);
 
             return user;
         }
 
         public static User Create(int id,Name name, DateTime dateOfBirth, string gender,
-           string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId)
+           string photoFileName, bool isActive)
         {
-            var user = new User(id,name, dateOfBirth, gender, photoFileName, isActive, entityLink, entityLinkId);
+            var user = new User(id,name, dateOfBirth, gender, photoFileName, isActive);
 
             return user;
         }
 
         public static User Create(string firstName, string middleNames, string lastName, DateTime dateOfBirth, 
-            string gender,string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId)
+            string gender,string photoFileName, bool isActive)
         {
-            var user = new User(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,
-                entityLink,entityLinkId);
+            var user = new User(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
 
             return user;
         }
 
         public static User Create(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId)
+            string photoFileName, bool isActive)
         {
-            var user = new User(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,
-                 entityLink, entityLinkId);
+            var user = new User(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
 
             return user;
         }
 
-        public void Update(Name name, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId)
+        public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive)
         {
-            base.Update(name,dateOfBirth,gender,photoFileName,isActive);  
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
+            base.Update(name,dateOfBirth,gender,photoFileName,isActive);
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, EntityLink? entityLink, int? entityLinkId)
+            string photoFileName, bool isActive)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
+        }
+
+        public void SetEntityLink(EntityLink entityLink)
+        {
+            if (entityLink == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
+            EntityLinkId = entityLink.Id;
         }
     }
 }

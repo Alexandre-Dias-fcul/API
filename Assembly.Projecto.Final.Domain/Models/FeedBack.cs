@@ -25,55 +25,63 @@ namespace Assembly.Projecto.Final.Domain.Models
             Rate = 0;
             Comment = string.Empty;
             CommentDate = DateTime.MinValue;
-            ListingId = 0;
-            UserId = 0;
             Created = DateTime.Now;
         }
 
-        private FeedBack(int rate,string comment,DateTime commentDate,User user,int userId,Listing listing,int listingId)
+        private FeedBack(int rate,string comment,DateTime commentDate)
             :this()
         {
             Rate = rate;
             Comment = comment;
             CommentDate = commentDate;
-            User = user;
-            UserId=userId;
-            Listing = listing;
-            ListingId = listingId;
         }
 
-        private FeedBack(int id, int rate, string comment, DateTime commentDate, User user, int userId, Listing listing,
-            int listingId):this(rate, comment,commentDate,user,userId,listing,listingId)
+        private FeedBack(int id, int rate, string comment, DateTime commentDate):this(rate, comment,commentDate)
         { 
             Id = id;    
         }
 
-        public static FeedBack Create(int rate, string comment, DateTime commentDate,User user, int userId, 
-            Listing listing, int listingId)
+        public static FeedBack Create(int rate, string comment, DateTime commentDate)
         {
-            var feedback = new FeedBack(rate, comment, commentDate,user, userId, listing, listingId);
+            var feedback = new FeedBack(rate, comment, commentDate);
 
             return feedback;
         }
-        public static FeedBack Create(int id,int rate, string comment, DateTime commentDate, User user, int userId,
-            Listing listing, int listingId) 
+        public static FeedBack Create(int id,int rate, string comment, DateTime commentDate) 
         {
-            var feedback = new FeedBack(id,rate,comment,commentDate, user, userId, listing, listingId);
+            var feedback = new FeedBack(id,rate,comment,commentDate);
 
             return feedback;
         }
 
-        public void Update(int rate, string comment, DateTime commentDate, User user, int userId, Listing listing, 
-            int listingId) 
+        public void Update(int rate, string comment, DateTime commentDate) 
         {
             Rate = rate;
             Comment = comment;
             CommentDate = commentDate;
-            User = user;
-            UserId = userId;
-            Listing = listing;
-            ListingId = listingId;
             Updated = DateTime.Now;
+        }
+
+        public void SetUser(User user) 
+        {
+            if(user == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            User = user;
+            UserId = User.Id;
+        }
+
+        public void SetListing(Listing listing)
+        {
+            if( listing == null) 
+            {
+                throw new ArgumentNullException();  
+            }
+
+            Listing = listing;
+            ListingId = listing.Id;
         }
     }
 }
