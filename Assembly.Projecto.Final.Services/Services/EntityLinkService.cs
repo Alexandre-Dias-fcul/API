@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Services
 {
-    public class EntityLinkService : IEntityLinkRepository
+    public class EntityLinkService : IEntityLinkService
     {
         private readonly IEntityLinkRepository _entityLinkRepository;
         public EntityLinkService(IEntityLinkRepository entityLinkRepository) 
