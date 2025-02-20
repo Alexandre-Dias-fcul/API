@@ -20,42 +20,48 @@ namespace Assembly.Projecto.Final.Domain.Models
             Created = DateTime.Now;
         }
 
-        private Account(string password, string email,EntityLink entityLink,int entityLinkId) : this()
+        private Account(string password, string email) : this()
         {
             Password = password;
             Email = email;
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
-        private Account(int id, string password, string email, EntityLink entityLink, int entityLinkId) : 
-            this(password, email,entityLink,entityLinkId)
+        private Account(int id, string password, string email) : 
+            this(password, email)
         {
             Id = id;
         }
 
-        public static Account Create(string password, string email, EntityLink entityLink, int entityLinkId)
+        public static Account Create(string password, string email)
         {
-            var account = new Account(password, email, entityLink, entityLinkId);
+            var account = new Account(password, email);
 
             return account;
         }
 
-        public static Account Create(int id, string password, string email, EntityLink entityLink, int entityLinkId)
+        public static Account Create(int id, string password, string email)
         {
-            var account = new Account(id, password, email, entityLink, entityLinkId);
+            var account = new Account(id, password, email);
 
             return account;
         }
 
-
-        public void Update(string password, string email, EntityLink entityLink, int entityLinkId)
+        public void Update(string password, string email)
         {
             Password = password;
             Email = email;
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
             Updated = DateTime.Now;
+        }
+
+        public void SetEntityLink(EntityLink entityLink)
+        {
+            if (entityLink == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            EntityLink = entityLink;
+            EntityLinkId = entityLink.Id;
         }
     }
 }

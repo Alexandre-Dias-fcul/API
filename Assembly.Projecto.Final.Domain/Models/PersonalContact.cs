@@ -25,41 +25,49 @@ namespace Assembly.Projecto.Final.Domain.Models
             PersonalContactDetails = new();
         }
 
-        private PersonalContact(string name,bool isPrimary, string notes, Employee employee) : this()
+        private PersonalContact(string name,bool isPrimary, string notes) : this()
         {
             Name = name;
             IsPrimary = isPrimary;
             Notes = notes;
-            Employee = employee;
         }
 
-        private PersonalContact(int id, string name, bool isPrimary, string notes, Employee employee) : 
-            this(name,isPrimary,notes,employee)
+        private PersonalContact(int id, string name, bool isPrimary, string notes) 
+            : this(name,isPrimary,notes)
         {
            Id = id;
         }
 
-        public static PersonalContact Create(string name, bool isPrimary, string notes, Employee employee)
+        public static PersonalContact Create(string name, bool isPrimary, string notes)
         {
-            var personalContact = new PersonalContact(name, isPrimary, notes,employee);
+            var personalContact = new PersonalContact(name, isPrimary, notes);
 
             return personalContact;
         }
 
-        public static PersonalContact Create(int id, string name, bool isPrimary, string notes, Employee employee)
+        public static PersonalContact Create(int id, string name, bool isPrimary, string notes)
         {
-            var personalContact = new PersonalContact(id, name, isPrimary, notes,employee);
+            var personalContact = new PersonalContact(id, name, isPrimary, notes);
 
             return personalContact;
         }
 
-        public void Update(string name, bool isPrimary, string notes, Employee employee)
+        public void Update(string name, bool isPrimary, string notes)
         {
             Name = name;
             IsPrimary = isPrimary;
             Notes = notes;
             Updated = DateTime.Now;
-            Employee = Employee;
+        }
+
+        public void SetEmployee(Employee employee) 
+        {
+            if (employee == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            Employee = employee;
         }
     }
 }

@@ -23,11 +23,11 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface.BackOffice
         {
             Console.WriteLine("Welcome Admin");
 
-            Console.WriteLine("1 - Adicionar User.");
+            Console.WriteLine("1 - Adicionar Agent.");
 
-            Console.WriteLine("2 - Get User By Id.");
+            Console.WriteLine("2 - Get Agent By Id.");
 
-            Console.WriteLine("3 - Delete User by Id.");
+            Console.WriteLine("3 - Delete Agent by Id.");
 
             Console.Write(">");
 
@@ -35,8 +35,16 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface.BackOffice
 
             switch (opcao)
             {
-                case "1":
-                   
+                case "1": var agent = Agent.Create("Ana","Maria","Costa",DateTime.Now,"Feminino","",true,DateTime.Now,
+                                                    DateTime.Now,RoleType.Agent,null,null,null,null);
+
+
+                          var entityLink = EntityLink.Create(EntityType.Employee,agent.Id);
+
+                          var account = Account.Create("123", "ana@gmail.com", entityLink,entityLink.Id);
+
+                          
+
                     break;
 
                 case "2":

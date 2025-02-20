@@ -3,6 +3,7 @@ using Assembly.Projecto.Final.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,40 +27,67 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         }
 
-        private EntityLink(EntityType entityType, int? entityId, Account account) : this()
+        private EntityLink(EntityType entityType, int? entityId) : this()
         {
             EntityType = entityType;
             EntityId = entityId;
-            Account = account;
         }
 
-        private EntityLink(int id, EntityType entityType, int entityId, Account account) : 
-            this(entityType, entityId,account)
+        private EntityLink(int id, EntityType entityType, int entityId) : 
+            this(entityType, entityId)
         {
             Id = id;
             EntityId = entityId;
-            Account = account;
         }
 
-        public static EntityLink Create(EntityType entityType, int entityId, Account account)
+        public static EntityLink Create(EntityType entityType, int entityId)
         {
-            var entityLink = new EntityLink(entityType, entityId,account);
+            var entityLink = new EntityLink(entityType, entityId);
 
             return entityLink;
         }
 
         public static EntityLink Create(int id, EntityType entityType, int entityId, Account account)
         {
-            var entityLink = new EntityLink(id, entityType, entityId,account);
+            var entityLink = new EntityLink(id, entityType, entityId);
 
             return entityLink;
         }
 
-        public void Update(EntityType entityType, int entityId, Account account)
+        public void Update(EntityType entityType, int entityId)
         {
             EntityType = entityType;
             EntityId = entityId;
+        }
+
+        public void SetAccount(Account account) 
+        { 
+            if(account == null) 
+            {
+                throw new ArgumentNullException();
+            }
+                
             Account = account;
+        }
+
+        public void SetEmplyee(Employee employee) 
+        {
+            if(employee == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            Employee = employee;
+        }
+
+        public void SetUser(User user) 
+        {
+            if(user == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            User = user;
         }
     }
 }

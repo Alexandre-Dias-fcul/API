@@ -23,53 +23,54 @@ namespace Assembly.Projecto.Final.Domain.Models
             ReassignBy = 0;
             ReassignmentDate = DateTime.MinValue;
             Created = DateTime.MinValue;
-            ListingId = 0;
         }
 
-        private Reassign(int olderEmplyeeId,int newEmployeeId,int reassignBy,DateTime reassigmentDate,
-            Listing listing,int listingId):this() 
+        private Reassign(int olderEmplyeeId,int newEmployeeId,int reassignBy,DateTime reassigmentDate):this() 
         {
             OlderEmployeeId = olderEmplyeeId;
             NewEmployeeId = newEmployeeId;
             ReassignBy = reassignBy;
             ReassignmentDate = reassigmentDate;
-            Listing = listing;
-            ListingId = listingId;
         }
 
-        private Reassign(int id,int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate,
-            Listing listing, int listingId) : this()
+        private Reassign(int id,int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate) 
+            : this()
         {
             Id = id;
-            Listing = listing;
-            ListingId = listingId;
         }
 
-        public static Reassign Create(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate,
-             Listing listing, int listingId)
+        public static Reassign Create(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate)
         {
-            var reassign = new Reassign(olderEmplyeeId, newEmployeeId, reassignBy, reassigmentDate,listing,listingId);
+            var reassign = new Reassign(olderEmplyeeId, newEmployeeId, reassignBy, reassigmentDate);
 
             return reassign;
         }
         public static Reassign Create(int id,int olderEmplyeeId, int newEmployeeId, int reassignBy, 
-            DateTime reassigmentDate, Listing listing, int listingId) 
+            DateTime reassigmentDate) 
         { 
-            var reassign = new Reassign(id,olderEmplyeeId,newEmployeeId,reassignBy,reassigmentDate,listing, listingId);
+            var reassign = new Reassign(id,olderEmplyeeId,newEmployeeId,reassignBy,reassigmentDate);
 
             return reassign;
         }
 
-        public void Update(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate,
-            Listing listing, int listingId)
+        public void Update(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate)
         {
             OlderEmployeeId = olderEmplyeeId;
             NewEmployeeId = newEmployeeId;
             ReassignBy = reassignBy;
             ReassignmentDate = reassigmentDate;
             Updated = DateTime.Now;
+        }
+
+        public void SetListing(Listing listing) 
+        {
+            if(listing == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
             Listing = listing;
-            ListingId = listingId;
+            ListingId = listing.Id;
         }
     }
 }

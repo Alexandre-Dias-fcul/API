@@ -23,41 +23,47 @@ namespace Assembly.Projecto.Final.Domain.Models
             Created = DateTime.Now;
         }
 
-        private Contact(ContactType contactType, string value, EntityLink entityLink, int entityLinkId) : this()
+        private Contact(ContactType contactType, string value) : this()
         {
             ContactType = contactType;
             Value = value;
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
         }
 
-        private Contact(int id, ContactType contactType, string value, EntityLink entityLink, int entityLinkId) : 
-            this(contactType, value,entityLink,entityLinkId)
+        private Contact(int id, ContactType contactType, string value) : 
+            this(contactType, value)
         {
             Id = Id;
         }
-        public static Contact Create(ContactType contactType, string value, EntityLink entityLink, int entityLinkId)
+        public static Contact Create(ContactType contactType, string value)
         {
-            var contact = new Contact(contactType, value, entityLink, entityLinkId);
+            var contact = new Contact(contactType, value);
 
             return contact;
         }
 
-        public static Contact Create(int id, ContactType contactType, string value, EntityLink entityLink, 
-            int entityLinkId)
+        public static Contact Create(int id, ContactType contactType, string value)
         {
-            var contact = new Contact(id, contactType, value,entityLink, entityLinkId);
+            var contact = new Contact(id, contactType, value);
 
             return contact;
         }
 
-        public void Update(ContactType contactType, string value, EntityLink entityLink, int entityLinkId)
+        public void Update(ContactType contactType, string value)
         {
             ContactType = contactType;
             Value = value;
-            EntityLink = entityLink;
-            EntityLinkId = entityLinkId;
             Updated = DateTime.Now;
+        }
+
+        public void SetEntityLink(EntityLink entityLink) 
+        {  
+            if (entityLink == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            EntityLink = entityLink;
+            EntityLinkId = entityLink.Id;
         }
     }
 }
