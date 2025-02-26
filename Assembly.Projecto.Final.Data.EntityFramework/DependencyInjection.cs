@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
+using Assembly.Projecto.Final.Data.EntityFramework.Interceptors;
 using Assembly.Projecto.Final.Data.EntityFramework.Repositories;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Interfaces;
@@ -23,6 +24,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework
             {
                 var cs = config.GetConnectionString("ProjectoFinalCS");
                 options.UseSqlServer(cs);
+
+                options.AddInterceptors(new AuditInterceptor());
+                options.AddInterceptors(new SoftDeleteInterceptor());
             });
 
             services.AddScoped<IAccountRepository, AccountRepository>();

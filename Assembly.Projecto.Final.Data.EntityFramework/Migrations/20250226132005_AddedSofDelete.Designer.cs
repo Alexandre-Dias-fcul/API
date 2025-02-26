@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250218150135_initialMigration")]
-    partial class initialMigration
+    [Migration("20250226132005_AddedSofDelete")]
+    partial class AddedSofDelete
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PhotoFileName")
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
@@ -116,6 +119,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.Property<int>("EntityLinkId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -159,6 +165,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -212,6 +221,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.Property<TimeOnly>("HourStart")
                         .HasColumnType("time");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -253,6 +265,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.Property<int>("EntityLinkId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
 
@@ -291,6 +306,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.Property<int>("EntityType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime2");
 
@@ -319,6 +337,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
@@ -361,6 +382,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
@@ -410,6 +434,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .IsRequired()
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -483,6 +510,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -517,6 +547,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsPrimary")
                         .HasColumnType("bit");
@@ -560,6 +593,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PersonalContactId")
                         .HasColumnType("int");
 
@@ -594,6 +630,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
@@ -649,6 +688,9 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("PhotoFileName")
@@ -848,7 +890,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                     b.HasOne("Assembly.Projecto.Final.Domain.Common.Employee", "Employee")
                         .WithMany("PersonalContacts")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Employee");
@@ -880,8 +922,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                 {
                     b.HasOne("Assembly.Projecto.Final.Domain.Models.EntityLink", "EntityLink")
                         .WithOne("User")
-                        .HasForeignKey("Assembly.Projecto.Final.Domain.Models.User", "EntityLinkId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("Assembly.Projecto.Final.Domain.Models.User", "EntityLinkId");
 
                     b.OwnsOne("Assembly.Projecto.Final.Domain.Common.Name", "Name", b1 =>
                         {
@@ -923,8 +964,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                 {
                     b.HasOne("Assembly.Projecto.Final.Domain.Models.Agent", "Supervisor")
                         .WithMany("Agents")
-                        .HasForeignKey("SupervisorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("SupervisorId");
 
                     b.Navigation("Supervisor");
                 });
