@@ -33,8 +33,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasMany(e => e.PersonalContacts)
                    .WithOne()
-                   .HasForeignKey(p => p.EmployeeId)
-                   .OnDelete(DeleteBehavior.NoAction);
+                   .HasForeignKey(p => p.EmployeeId);
 
             builder.HasMany(p => p.Participants)
                    .WithOne(e => e.Employee)

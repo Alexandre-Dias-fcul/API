@@ -12,11 +12,13 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface.BackOffice
 {
     public class Admin
     {
-        private readonly IUserService _userService;
+        private readonly IAgentService _agentService;
+        private readonly IEntityLinkService _entityLinkService;
 
-        public Admin(IUserService userService)
+        public Admin(IAgentService agentService,IEntityLinkService entityLinkService)
         {
-            _userService = userService;
+            _agentService = agentService;
+            _entityLinkService = entityLinkService;
         }
 
         public async void Run()
@@ -25,30 +27,23 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface.BackOffice
 
             Console.WriteLine("1 - Adicionar Agent.");
 
-            Console.WriteLine("2 - Get Agent By Id.");
+            Console.WriteLine("2 - Adicionar Manager.");
 
-            Console.WriteLine("3 - Delete Agent by Id.");
+            Console.WriteLine("3 - Ver Managers.");
 
             Console.Write(">");
 
             string opcao = Console.ReadLine();
 
             switch (opcao)
-            {
-                case "1": var agent = Agent.Create("Ana","Maria","Costa",DateTime.Now,"Feminino","",true,DateTime.Now,
-                                                    DateTime.Now,RoleType.Agent,null,null,null,null);
-
-
-                          var entityLink = EntityLink.Create(EntityType.Employee,agent.Id);
-
-                          var account = Account.Create("123", "ana@gmail.com", entityLink,entityLink.Id);
-
-                          
+            {  
+                case "1":
+                   
 
                     break;
 
                 case "2":
-                    
+                   
                     break;
 
                 case "3":

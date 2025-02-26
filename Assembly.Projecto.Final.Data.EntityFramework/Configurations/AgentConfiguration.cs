@@ -15,9 +15,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<Agent> builder)
         {
             builder.HasOne(a => a.Supervisor)
-                   .WithMany( e => e.Agents)
-                   .HasForeignKey(a => a.SupervisorId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .WithMany(e => e.Agents)
+                   .HasForeignKey(a => a.SupervisorId);
 
             builder.HasMany(a => a.Listings)
                    .WithOne(e => e.Agent)

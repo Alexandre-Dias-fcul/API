@@ -11,11 +11,13 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface
 {
     public class Start
     {
-        private readonly IUserService _userService;
+        private readonly IAgentService _agentService;
+        private readonly IEntityLinkService _entityLinkService;
 
-        public Start(IUserService userService)
+        public Start(IAgentService agentService,IEntityLinkService entityLinkService)
         {
-            _userService = userService;
+            _agentService = agentService;
+            _entityLinkService = entityLinkService;
         }
 
         public void Run()
@@ -27,7 +29,7 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface
             switch (choice)
             {
                 case "1":
-                    new Admin(_userService).Run();
+                    new Admin(_agentService,_entityLinkService).Run();
                     break;
                 case "2":
                     break;
