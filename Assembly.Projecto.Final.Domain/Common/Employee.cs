@@ -16,8 +16,12 @@ namespace Assembly.Projecto.Final.Domain.Common
         public DateTime? DateOfTermination { get; private set; }
         public int? EntityLinkId { get; private set; }
         public EntityLink? EntityLink { get; private set; }
-        public List<PersonalContact> PersonalContacts { get; private set; } 
-        public List<Participant> Participants { get; private set; }
+
+        private List<PersonalContact> _personalContacts;
+        public IReadOnlyCollection<PersonalContact> PersonalContacts => _personalContacts.AsReadOnly();
+
+        private List<Participant> _participants;
+        public IReadOnlyCollection<Participant> Participants => _participants.AsReadOnly();
 
         protected Employee():base()
         {
@@ -32,8 +36,8 @@ namespace Assembly.Projecto.Final.Domain.Common
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            PersonalContacts = new();
-            Participants = new ();
+            _personalContacts = new();
+            _participants = new ();
         }
 
         protected Employee(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
@@ -42,8 +46,8 @@ namespace Assembly.Projecto.Final.Domain.Common
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            PersonalContacts = new ();
-            Participants = new ();
+            _personalContacts = new ();
+            _participants = new ();
         }
         protected Employee(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
@@ -51,8 +55,8 @@ namespace Assembly.Projecto.Final.Domain.Common
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            PersonalContacts = new ();
-            Participants = new ();
+            _personalContacts = new ();
+            _participants = new ();
         }
 
         protected Employee(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth,
@@ -61,8 +65,8 @@ namespace Assembly.Projecto.Final.Domain.Common
         {
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
-            PersonalContacts = new ();
-            Participants = new ();
+            _personalContacts = new ();
+            _participants = new ();
         }
 
         public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
@@ -90,6 +94,26 @@ namespace Assembly.Projecto.Final.Domain.Common
 
             EntityLink = entityLink;
             EntityLinkId = entityLink.Id;
+        }
+
+        public void AddParticipant(Participant participant)
+        {
+            if (participant == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            _participants.Add(participant);
+        }
+
+        public void AddPersonalContact(PersonalContact personalContact) 
+        {
+            if(personalContact == null) 
+            { 
+                throw new InvalidOperationException();
+            }
+
+            _personalContacts.Add(personalContact);
         }
     }
 }

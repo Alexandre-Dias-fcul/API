@@ -12,7 +12,10 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string Name { get; private set; }
         public bool IsPrimary {  get; private set; }
         public string Notes { get; private set; }
-        public List<PersonalContactDetail> PersonalContactDetails { get; private set; }
+
+        private List<PersonalContactDetail> _personalContactDetails;
+        public IReadOnlyCollection<PersonalContactDetail> PersonalContactDetails =>
+                                                                 _personalContactDetails.AsReadOnly();
         public int EmployeeId { get; private set; }
         public Employee Employee { get; private set; }
 
@@ -22,7 +25,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             IsPrimary = false;
             Notes = string.Empty;
             Created = DateTime.Now;
-            PersonalContactDetails = new();
+            _personalContactDetails = new();
         }
 
         private PersonalContact(string name,bool isPrimary, string notes) : this()
@@ -68,6 +71,16 @@ namespace Assembly.Projecto.Final.Domain.Models
             }
 
             Employee = employee;
+        }
+
+        public void AddPersonalContactDetail(PersonalContactDetail personalContactDetail)
+        {
+            if(personalContactDetail == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            _personalContactDetails.Add(personalContactDetail);
         }
     }
 }

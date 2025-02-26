@@ -21,11 +21,17 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string Description { get; private set; }
         public string MainImageFileName { get; private set; }
         public string OtherImagesFileNames { get; private set; }
-        public List<Favorite> Favorites { get; private set; }
-        public List<FeedBack> FeedBacks { get; private set; }
+
+        private List<Favorite> _favorites;
+        public IReadOnlyCollection<Favorite> Favorites => _favorites.AsReadOnly();
+
+        private List<FeedBack> _feedBacks;
+        public IReadOnlyCollection<FeedBack> FeedBacks => _feedBacks.AsReadOnly();
         public int AgentId { get; private set; }
         public Agent Agent { get; private set; }
-        public List<Reassign> Reassigns { get; private set; }
+
+        private List<Reassign> _reassigns;
+        public IReadOnlyCollection<Reassign> Reassigns => _reassigns.AsReadOnly();
 
         private Listing()
         {
@@ -42,9 +48,9 @@ namespace Assembly.Projecto.Final.Domain.Models
             MainImageFileName = string.Empty;
             OtherImagesFileNames = string.Empty;
             Created = DateTime.Now;
-            Favorites = new ();
-            FeedBacks = new ();
-            Reassigns = new ();
+            _favorites = new ();
+            _feedBacks = new ();
+            _reassigns = new ();
             AgentId = 0;
         }
 
@@ -123,6 +129,36 @@ namespace Assembly.Projecto.Final.Domain.Models
 
             Agent = agent;
             AgentId = Agent.Id;
+        }
+
+        public void AddFavorite(Favorite favorite)
+        {
+            if (favorite == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            _favorites.Add(favorite);
+        }
+
+        public void AddFeedBack(FeedBack feedBack)
+        {
+            if (feedBack == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            _feedBacks.Add(feedBack);
+        }
+
+        public void AddReassign(Reassign reassign) 
+        {
+            if(reassign == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            _reassigns.Add(reassign);
         }
     }
 }
