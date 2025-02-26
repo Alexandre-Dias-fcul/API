@@ -13,7 +13,9 @@ namespace Assembly.Projecto.Final.Domain.Models
         public string City { get; private set; }
         public string Country { get; private set; }
         public string PostalCode { get; private set; }
-        public List<EntityLink> EntityLinks { get; private set; }
+
+        private List<EntityLink> _entityLinks;
+        public IReadOnlyCollection<EntityLink> EntityLinks => _entityLinks.AsReadOnly();
 
         private Address()
         {
@@ -22,7 +24,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             Country = string.Empty;
             PostalCode = string.Empty;
             Created = DateTime.Now;
-            EntityLinks = new ();
+            _entityLinks = new ();
         }
 
         private Address(string street, string city, string country, string postalCode) : this()
@@ -59,6 +61,16 @@ namespace Assembly.Projecto.Final.Domain.Models
             Country = country;
             PostalCode = postalCode;
             Updated = DateTime.Now;
+        }
+
+        public void AddEntityLink(EntityLink entityLink) 
+        {
+            if (entityLink == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            _entityLinks.Add(entityLink);
         }
     }
 }

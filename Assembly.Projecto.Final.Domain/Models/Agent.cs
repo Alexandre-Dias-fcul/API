@@ -15,14 +15,18 @@ namespace Assembly.Projecto.Final.Domain.Models
         public RoleType? Role { get; private set; }
         public int? SupervisorId { get; private set; }
         public Agent Supervisor { get; private set; }
-        public List<Agent> Agents { get; private set; }
-        public List<Listing> Listings { get; private set; }
+
+        private List<Agent> _agents;
+        public IReadOnlyCollection<Agent> Agents => _agents.AsReadOnly();
+
+        public List<Listing> _listings;
+        public IReadOnlyCollection<Listing> Listings => _listings.AsReadOnly();
 
         private Agent() : base()
         {
             Role = 0;
-            Agents = new ();
-            Listings = new ();
+            _agents = new ();
+            _listings = new ();
         }
 
         private Agent(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
@@ -31,8 +35,8 @@ namespace Assembly.Projecto.Final.Domain.Models
                 dateOfTermination)
         {
             Role = role;
-            Agents = new();
-            Listings = new();
+            _agents = new();
+            _listings = new();
         }
 
         private Agent(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
@@ -41,8 +45,8 @@ namespace Assembly.Projecto.Final.Domain.Models
                 dateOfTermination)
         {
             Role = role;
-            Agents = new();
-            Listings = new();
+            _agents = new();
+            _listings = new();
         }
 
         private Agent(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
@@ -50,8 +54,8 @@ namespace Assembly.Projecto.Final.Domain.Models
             base(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination)
         {
             Role = role;
-            Agents = new();
-            Listings = new();
+            _agents = new();
+            _listings = new();
         }
 
         private Agent(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
@@ -59,8 +63,8 @@ namespace Assembly.Projecto.Final.Domain.Models
             base(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination)
         {
             Role = role;
-            Agents = new();
-            Listings = new();
+            _agents = new();
+            _listings = new();
         }
 
         public static Agent Create(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
@@ -125,6 +129,16 @@ namespace Assembly.Projecto.Final.Domain.Models
 
             Supervisor = supervisor;
             SupervisorId = Supervisor.Id;
+        }
+
+        public void AddListings(Listing listing) 
+        {
+            if (listing == null) 
+            {  
+                throw new ArgumentNullException(); 
+            }
+
+            _listings.Add(listing);
         }
     }
 }

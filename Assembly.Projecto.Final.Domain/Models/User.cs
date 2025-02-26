@@ -9,8 +9,12 @@ namespace Assembly.Projecto.Final.Domain.Models
     {
         public int? EntityLinkId { get; private set; }
         public EntityLink? EntityLink { get; private set; }
-        public List<Favorite> Favorites { get;private set; }
-        public List<FeedBack> FeedBacks { get; private set; }
+
+        private List<Favorite> _favorites;
+        public IReadOnlyCollection<Favorite> Favorites => _favorites.AsReadOnly();
+
+        private List<FeedBack> _feedBacks;
+        public IReadOnlyCollection<FeedBack> FeedBacks => _feedBacks.AsReadOnly();
 
         private User() : base()
         {
@@ -20,31 +24,31 @@ namespace Assembly.Projecto.Final.Domain.Models
         private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):
            base(name,dateOfBirth,gender,photoFileName,isActive)
        {
-            Favorites = new ();
-            FeedBacks = new ();
+            _favorites = new ();
+            _feedBacks = new ();
         }
 
         private User(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) 
             :base(id,name, dateOfBirth, gender, photoFileName, isActive)
         {
-            Favorites = new ();
-            FeedBacks = new ();
+            _favorites = new();
+            _feedBacks = new();
         }
 
         private User(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
             string photoFileName, bool isActive) :
             base(firstName,middleNames,lastName,dateOfBirth,gender,photoFileName,isActive)
         {
-            Favorites = new ();
-            FeedBacks = new (); 
+            _favorites = new();
+            _feedBacks = new();
         }
 
         private User(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
            string photoFileName, bool isActive) : 
             base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,isActive)
         {
-            Favorites = new ();
-            FeedBacks = new ();
+            _favorites = new();
+            _feedBacks = new();
         }
 
         public static User Create(Name name, DateTime dateOfBirth, string gender,
@@ -99,6 +103,26 @@ namespace Assembly.Projecto.Final.Domain.Models
 
             EntityLink = entityLink;
             EntityLinkId = entityLink.Id;
+        }
+
+        public void AddFavorite(Favorite favorite) 
+        {
+            if(favorite == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            _favorites.Add(favorite);
+        }
+
+        public void AddFeedBack(FeedBack feedBack) 
+        { 
+            if(feedBack == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            _feedBacks.Add(feedBack);
         }
     }
 }
