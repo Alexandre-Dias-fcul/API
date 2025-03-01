@@ -11,8 +11,11 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class EntityLink : AuditableEntity<int>
     {
-        public List<Contact> Contacts { get;private set; }
-        public List<Address> Addresses { get; private set; }
+        private List<Contact> _contacts;
+        public IReadOnlyCollection<Contact> Contacts => _contacts.AsReadOnly();
+
+        private List<Address> _addresses;
+        public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
         public Account Account { get; private set; }
         public EntityType EntityType { get; private set; }
         public int? EntityId { get; private set; }
@@ -22,8 +25,8 @@ namespace Assembly.Projecto.Final.Domain.Models
         private EntityLink()
         {
             EntityType = 0;
-            Contacts = new ();
-            Addresses = new ();
+            _contacts = new ();
+            _addresses = new ();
 
         }
 
@@ -88,6 +91,26 @@ namespace Assembly.Projecto.Final.Domain.Models
             }
 
             User = user;
+        }
+
+        public void AddAddress(Address address) 
+        {
+            if(address == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            _addresses.Add(address);
+        }
+
+        public void AddContact(Contact contact) 
+        {
+            if(contact == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            _contacts.Add(contact);
         }
     }
 }

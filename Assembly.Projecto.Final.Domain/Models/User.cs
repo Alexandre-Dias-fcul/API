@@ -21,21 +21,21 @@ namespace Assembly.Projecto.Final.Domain.Models
             EntityLinkId = 0;
         }
 
-        private User(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):
+        private User(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive):
            base(name,dateOfBirth,gender,photoFileName,isActive)
        {
             _favorites = new ();
             _feedBacks = new ();
         }
 
-        private User(int id,Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) 
+        private User(int id,Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive) 
             :base(id,name, dateOfBirth, gender, photoFileName, isActive)
         {
             _favorites = new();
             _feedBacks = new();
         }
 
-        private User(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        private User(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive) :
             base(firstName,middleNames,lastName,dateOfBirth,gender,photoFileName,isActive)
         {
@@ -43,7 +43,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             _feedBacks = new();
         }
 
-        private User(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        private User(int id,string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
            string photoFileName, bool isActive) : 
             base(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,isActive)
         {
@@ -51,7 +51,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             _feedBacks = new();
         }
 
-        public static User Create(Name name, DateTime dateOfBirth, string gender,
+        public static User Create(Name name, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
             var user = new User(name, dateOfBirth, gender, photoFileName, isActive);
@@ -59,7 +59,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             return user;
         }
 
-        public static User Create(int id,Name name, DateTime dateOfBirth, string gender,
+        public static User Create(int id,Name name, DateTime? dateOfBirth, string gender,
            string photoFileName, bool isActive)
         {
             var user = new User(id,name, dateOfBirth, gender, photoFileName, isActive);
@@ -67,7 +67,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             return user;
         }
 
-        public static User Create(string firstName, string middleNames, string lastName, DateTime dateOfBirth, 
+        public static User Create(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, 
             string gender,string photoFileName, bool isActive)
         {
             var user = new User(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
@@ -75,7 +75,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             return user;
         }
 
-        public static User Create(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        public static User Create(int id,string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
             var user = new User(id,firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
@@ -83,12 +83,12 @@ namespace Assembly.Projecto.Final.Domain.Models
             return user;
         }
 
-        public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive)
+        public void Update(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive)
         {
             base.Update(name,dateOfBirth,gender,photoFileName,isActive);
         }
 
-        public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        public void Update(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);

@@ -1,5 +1,6 @@
 using Assembly.Projecto.Final.IoC;
 using Assembly.Projecto.Final.WebAPI.Extensions;
+using Assembly.Projecto.Final.WebAPI.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddServices(config);
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 

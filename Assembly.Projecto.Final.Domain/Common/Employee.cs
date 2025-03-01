@@ -28,10 +28,12 @@ namespace Assembly.Projecto.Final.Domain.Common
             HiredDate = DateTime.MinValue;
             DateOfTermination = DateTime.MinValue;
             EntityLinkId = 0;
+            _personalContacts = new();
+            _participants = new();
         }
 
-        protected Employee(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            DateTime hiredDate, DateTime dateOfTermination) : 
+        protected Employee(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive,
+            DateTime? hiredDate, DateTime? dateOfTermination) : 
             base(name, dateOfBirth, gender, photoFileName,isActive)
         {
             HiredDate = hiredDate;
@@ -40,8 +42,8 @@ namespace Assembly.Projecto.Final.Domain.Common
             _participants = new ();
         }
 
-        protected Employee(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-           DateTime hiredDate, DateTime dateOfTermination) : 
+        protected Employee(int id, Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive,
+           DateTime? hiredDate, DateTime? dateOfTermination) : 
             base(id, name, dateOfBirth, gender,photoFileName, isActive)
         {
             HiredDate = hiredDate;
@@ -49,8 +51,8 @@ namespace Assembly.Projecto.Final.Domain.Common
             _personalContacts = new ();
             _participants = new ();
         }
-        protected Employee(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
+        protected Employee(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
+            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
             base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
             HiredDate = hiredDate;
@@ -59,8 +61,8 @@ namespace Assembly.Projecto.Final.Domain.Common
             _participants = new ();
         }
 
-        protected Employee(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth,
-           string gender, string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
+        protected Employee(int id, string firstName, string middleNames, string lastName, DateTime? dateOfBirth,
+           string gender, string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
             base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
             HiredDate = hiredDate;
@@ -69,16 +71,16 @@ namespace Assembly.Projecto.Final.Domain.Common
             _participants = new ();
         }
 
-        public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-            DateTime hiredDate, DateTime dateOfTermination)
+        public void Update(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive,
+            DateTime? hiredDate, DateTime? dateOfTermination)
         {
             base.Update(name, dateOfBirth, gender, photoFileName, isActive);
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
         }
 
-        public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination)
+        public void Update(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
+            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
             HiredDate = hiredDate;

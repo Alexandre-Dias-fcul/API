@@ -36,6 +36,11 @@ namespace Assembly.Projecto.Final.Services.Services
              return _agentRepository.GetAll();
         }
 
+        public List<Agent> GetAllInclude()
+        {
+            return _agentRepository.GetAllInclude();
+        }
+
         public Agent? GetById(int id)
         {
              return _agentRepository.GetById(id);

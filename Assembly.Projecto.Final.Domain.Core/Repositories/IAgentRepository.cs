@@ -1,4 +1,5 @@
-﻿using Assembly.Projecto.Final.Domain.Models;
+﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IAgentRepository:IRepository<Agent,int>
     {
+        List<Agent> GetAllInclude();
     }
 }

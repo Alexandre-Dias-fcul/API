@@ -22,7 +22,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                    .WithOne(e => e.Agent)
                    .HasForeignKey(e => e.AgentId);
 
-            builder.Property(a => a.Role).IsRequired(false);
+            builder.Property(a => a.Role).IsRequired();
         }
     }
 }

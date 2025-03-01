@@ -15,5 +15,10 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
         {
             _db = db;
         }
+
+        public List<Agent> GetAllInclude()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
