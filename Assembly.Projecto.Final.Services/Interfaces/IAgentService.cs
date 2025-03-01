@@ -9,5 +9,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
      public interface IAgentService:IService<Agent,int>
     {
+        List<Agent> GetAllInclude();
     }
 }

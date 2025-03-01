@@ -26,7 +26,7 @@ namespace Assembly.Projecto.Final.Domain.Common
             Created = DateTime.Now;
         }
 
-        protected Person(Name name,DateTime dateOfBirth,string gender,string photoFileName,bool isActive):this()
+        protected Person(Name name,DateTime? dateOfBirth,string gender,string photoFileName,bool isActive):this()
         { 
             Name = name;
             DateOfBirth = dateOfBirth;
@@ -35,24 +35,24 @@ namespace Assembly.Projecto.Final.Domain.Common
             IsActive = isActive;
         }
 
-        protected Person(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive):this() 
+        protected Person(int id, Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive):this() 
         { 
             Id = id;
         }
 
-        protected Person(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender, 
+        protected Person(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender, 
             string photoFileName, bool isActive):this(Name.Create(firstName,middleNames,lastName), dateOfBirth,gender,
                 photoFileName,isActive)
         {
         }
-        protected Person(int id,string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        protected Person(int id,string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
            string photoFileName, bool isActive) : this(firstName, middleNames, lastName, dateOfBirth, gender,
                photoFileName, isActive)
         {
             Id = id;
         }
 
-        public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive) 
+        public void Update(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive) 
         {
             Name = name;
             DateOfBirth = dateOfBirth;
@@ -62,7 +62,7 @@ namespace Assembly.Projecto.Final.Domain.Common
             Updated = DateTime.Now;
         }
 
-        public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
+        public void Update(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
             Name.Update(firstName,middleNames,lastName);

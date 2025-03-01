@@ -15,14 +15,14 @@ namespace Assembly.Projecto.Final.Domain.Models
         private Staff() : base()
         {
         }
-        private Staff(Name name, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
+        private Staff(Name name, DateTime? dateOfBirth, string gender,
+            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
             base(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination)
         {
         }
 
-        private Staff(int id, Name name, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
+        private Staff(int id, Name name, DateTime? dateOfBirth, string gender,
+            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
             base(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination)
         {
         }
