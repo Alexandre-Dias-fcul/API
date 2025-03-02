@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Services.Interfaces;
+using Assembly.Projecto.Final.Services.Mappings;
 using Assembly.Projecto.Final.Services.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -13,6 +14,8 @@ namespace Assembly.Projecto.Final.Services
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+
+            services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAgentService, AgentService>();

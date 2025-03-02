@@ -1,4 +1,4 @@
-﻿namespace Assembly.Projecto.Final.WebAPI.Dtos
+﻿namespace Assembly.Projecto.Final.Services.Dtos
 {
     public class NameDto
     {

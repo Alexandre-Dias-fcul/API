@@ -1,7 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Enums;
-using Assembly.Projecto.Final.Domain.Models;
 
-namespace Assembly.Projecto.Final.WebAPI.Dtos
+
+
+namespace Assembly.Projecto.Final.Services.Dtos
 {
     public class AgentDto:EmployeeDto
     {

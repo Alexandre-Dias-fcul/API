@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,12 @@ namespace Assembly.Projecto.Final.Services.Services
     public class AgentService : IAgentService
     {
         private readonly IAgentRepository _agentRepository;
-        public AgentService(IAgentRepository agentRepository) 
+
+        private readonly IMapper _mapper;
+        public AgentService(IAgentRepository agentRepository,IMapper mapper) 
         { 
             _agentRepository = agentRepository;
+            _mapper = mapper;
         }
         public Agent Add(Agent agent)
         {
@@ -36,9 +41,13 @@ namespace Assembly.Projecto.Final.Services.Services
              return _agentRepository.GetAll();
         }
 
-        public List<Agent> GetAllInclude()
+        public List<AgentDto> GetAllInclude()
         {
-            return _agentRepository.GetAllInclude();
+            var agents = _agentRepository.GetAllInclude();
+
+            var agentDtos = _mapper.Map<List<AgentDto>>(agents);
+
+            return agentDtos;
         }
 
         public Agent? GetById(int id)

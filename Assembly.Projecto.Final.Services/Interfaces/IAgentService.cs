@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
      public interface IAgentService:IService<Agent,int>
     {
-        List<Agent> GetAllInclude();
+        List<AgentDto> GetAllInclude();
     }
 }
