@@ -1,6 +1,6 @@
-﻿using Assembly.Projecto.Final.Domain.Common;
+﻿
 
-namespace Assembly.Projecto.Final.WebAPI.Dtos
+namespace Assembly.Projecto.Final.Services.Dtos
 {
     public class PersonDto
     {

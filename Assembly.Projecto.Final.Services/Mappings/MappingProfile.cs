@@ -1,10 +1,9 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
-using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
-using Assembly.Projecto.Final.WebAPI.Dtos;
+using Assembly.Projecto.Final.Services.Dtos;
 using AutoMapper;
 
-namespace Assembly.Projecto.Final.WebAPI.Mappings
+namespace Assembly.Projecto.Final.Services.Mappings
 {
     public class MappingProfile:Profile
     {
