@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-    public interface IService<TEntity, TId> where TEntity : IEntity<TId>
+    public interface IService<TEntity,TId> where TEntity: class 
     {
         List<TEntity> GetAll();
 
-        TEntity? GetById(TId id);
+        TEntity GetById(TId id);
 
         TEntity Add(TEntity obj);
 
@@ -21,6 +21,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 
         TEntity Delete(TEntity obj);
 
-        TEntity? Delete(TId id);
+        TEntity Delete(TId id);
     }
 }

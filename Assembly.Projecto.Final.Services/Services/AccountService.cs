@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace Assembly.Projecto.Final.Services.Services
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
+
         public AccountService(IAccountRepository accountRepository) 
         { 
             _accountRepository = accountRepository;
