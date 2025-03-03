@@ -20,5 +20,10 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Agent? GetByIdInclude(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

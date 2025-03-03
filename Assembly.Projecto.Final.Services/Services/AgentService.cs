@@ -1,4 +1,6 @@
-﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
+﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
 using Assembly.Projecto.Final.Services.Interfaces;
@@ -21,43 +23,156 @@ namespace Assembly.Projecto.Final.Services.Services
             _agentRepository = agentRepository;
             _mapper = mapper;
         }
-        public Agent Add(Agent agent)
+        public AgentDto Add(AgentDto agentDto)
         {
-            return _agentRepository.Add(agent);
+            var name = Name.Create(agentDto.Name.FirstName, string.Join(" ",agentDto.Name.MiddleNames), agentDto.Name.LastName);
+
+            var agent = Agent.Create(name, agentDto.DateOfBirth, agentDto.Gender, agentDto.PhotoFileName, agentDto.IsActive,
+                         agentDto.HiredDate, agentDto.DateOfTermination, agentDto.Role);
+
+            var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
+
+            var account = Account.Create(agentDto.EntityLink.Account.Password, agentDto.EntityLink.Account.Email);
+
+            entityLink.SetAccount(account);
+
+            foreach (var contact in agentDto.EntityLink.Contacts)
+            {
+                var novoContacto = Contact.Create(contact.ContactType, contact.Value);
+
+                entityLink.AddContact(novoContacto);
+
+            }
+
+            foreach (var address in agentDto.EntityLink.Addresses)
+            {
+                var novoAddress = Address.Create(address.Street, address.City, address.Country, address.PostalCode);
+
+                entityLink.AddAddress(novoAddress);
+            }
+
+            agent.SetEntityLink(entityLink);
+
+            _agentRepository.Add(agent);
+
+            return agentDto;
         }
 
-        public Agent Delete(Agent agent)
+        public AgentDtoId Delete(AgentDtoId agentDtoId)
         {
-            return _agentRepository.Delete(agent);
+            var agent = _mapper.Map<Agent>(agentDtoId);
+
+            var agentApagado = _agentRepository.Delete(agent);
+
+            var agentDtoIdApagado = _mapper.Map<AgentDtoId>(agentApagado);
+
+            return agentDtoIdApagado;
         }
 
-        public Agent? Delete(int id)
+        public AgentDtoId? Delete(int id)
         {
-            return _agentRepository.Delete(id);
+            var agent = _agentRepository.Delete(id);
+
+            var agentDtoId = _mapper.Map<AgentDtoId>(agent);
+
+            return agentDtoId;
         }
 
-        public List<Agent> GetAll()
+        public List<AgentDtoId> GetAll()
         {
-             return _agentRepository.GetAll();
+            var agents =_agentRepository.GetAll();
+
+            var agentDtosId = _mapper.Map<List<AgentDtoId>>(agents);
+
+            return agentDtosId;
         }
 
-        public List<AgentDto> GetAllInclude()
+        public List<AgentDtoId> GetAllInclude()
         {
             var agents = _agentRepository.GetAllInclude();
 
-            var agentDtos = _mapper.Map<List<AgentDto>>(agents);
+            var agentDtosId = _mapper.Map<List<AgentDtoId>>(agents);
 
-            return agentDtos;
+            return agentDtosId;
         }
 
-        public Agent? GetById(int id)
+        public AgentDtoId? GetById(int id)
         {
-             return _agentRepository.GetById(id);
+            var agent = _agentRepository.GetById(id);
+
+            var agentDtoId = _mapper.Map<AgentDtoId>(agent);
+
+            return agentDtoId;
         }
 
-        public Agent Update(Agent agent)
+        public AgentDtoId? GetByIdInclude(int id)
         {
-             return _agentRepository.Update(agent);
+            var agent = _agentRepository.GetById(id);
+
+            var agentDtoId = _mapper.Map<AgentDtoId>(agent);
+
+            return agentDtoId;
+        }
+
+        public AgentDtoId Update(AgentDtoId agentDtoId)
+        {
+            var agentAlterar = _agentRepository.GetByIdInclude(agentDtoId.Id);
+
+            if(agentAlterar == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            agentAlterar.Update(agentDtoId.Name.FirstName,string.Join(" ", agentDtoId.Name.MiddleNames),
+                agentDtoId.Name.LastName,agentDtoId.DateOfBirth,agentDtoId.Gender,agentDtoId.PhotoFileName,
+                agentDtoId.IsActive,agentDtoId.HiredDate,agentDtoId.DateOfTermination,agentDtoId.Role);
+
+            if(agentDtoId.EntityLink != null && agentAlterar.EntityLink != null) 
+            {
+                if (agentDtoId.EntityLink.Account != null && agentAlterar.EntityLink.Account != null) 
+                {
+                    agentAlterar.EntityLink.Account.Update(agentDtoId.EntityLink.Account.Password,
+                        agentDtoId.EntityLink.Account.Email);
+                }
+
+                if (agentDtoId.EntityLink.Addresses != null && agentAlterar.EntityLink.Addresses != null)
+                {
+                    foreach(var address in agentDtoId.EntityLink.Addresses) 
+                    {
+                        var addressAlterar = agentAlterar.EntityLink.Addresses.Where(e => e.Id == address.Id)
+                            .FirstOrDefault();
+
+                        if (addressAlterar == null) 
+                        {
+                            throw new ArgumentNullException();
+                        }
+
+                        addressAlterar.Update(address.Street,address.City,address.Country,address.PostalCode);
+                    }
+                }
+                
+                if(agentDtoId.EntityLink.Contacts != null && agentAlterar.EntityLink.Contacts != null) 
+                {
+                    foreach (var contact in agentDtoId.EntityLink.Contacts)
+                    {
+                        var contactAlterar = agentAlterar.EntityLink.Contacts.Where(c => c.Id == contact.Id)
+                            .FirstOrDefault();
+
+                        if(contactAlterar == null) 
+                        {
+                            throw new ArgumentNullException();
+                        }
+
+                        contactAlterar.Update(contact.ContactType,contact.Value);
+                    }
+                }
+            }
+
+            var agentAlterado = _agentRepository.Update(agentAlterar);
+
+            var agentDtoIdAlterado = _mapper.Map<AgentDtoId>(agentAlterado);
+
+            return agentDtoIdAlterado;
         }
     }
 }

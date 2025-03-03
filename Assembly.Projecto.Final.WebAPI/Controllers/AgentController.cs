@@ -27,41 +27,29 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(agents);
         }
 
+        [HttpGet("{id:int}")]
+        public ActionResult<AgentDto> GetById(int id) 
+        {
+            var agent = _agentService.GetByIdInclude(id);
+
+            return Ok(agent);
+        }
+
         [HttpPost]
 
         public ActionResult<AgentDto> Create([FromBody] AgentDto agentDto)  
         {
-            var name = Name.Create(agentDto.Name.FirstName, agentDto.Name.MiddleNames.ToString(), agentDto.Name.LastName);
+            var agentAdicionado = _agentService.Add(agentDto);
 
-            var agent = Agent.Create(name,agentDto.DateOfBirth,agentDto.Gender,agentDto.PhotoFileName,agentDto.IsActive,
-                         agentDto.HiredDate,agentDto.DateOfTermination,agentDto.Role);
+            return Ok(agentAdicionado);
+        }
 
-            var entityLink = EntityLink.Create(EntityType.Employee,agent.Id);
+        [HttpPut]
+        public ActionResult<AgentDtoId> Update([FromBody] AgentDtoId agentDtoId) 
+        {
+            var agentAlterado = _agentService.Update(agentDtoId);
 
-            var account = Account.Create(agentDto.EntityLink.Account.Password,agentDto.EntityLink.Account.Email);
-
-            entityLink.SetAccount(account);
-
-            foreach(var contact in agentDto.EntityLink.Contacts) 
-            {
-                var novoContacto = Contact.Create(contact.ContactType, contact.Value);
-
-                entityLink.AddContact(novoContacto);
-            
-            }
-
-            foreach (var address in agentDto.EntityLink.Addresses) 
-            {
-                var novoAddress = Address.Create(address.Street, address.City, address.Country, address.PostalCode);
-
-                entityLink.AddAddress(novoAddress);
-            }
-
-            agent.SetEntityLink(entityLink);
-
-            _agentService.Add(agent);
-
-            return Ok(agentDto);
+            return Ok(agentAlterado);
         }
     }
 }

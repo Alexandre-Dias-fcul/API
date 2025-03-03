@@ -24,5 +24,12 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
                 .Include(e => e.EntityLink).ThenInclude(a => a.Addresses).Include(e => e.EntityLink)
                 .ThenInclude(a => a.Account).ToList();
         }
+
+        public Agent? GetByIdInclude(int id) 
+        {
+            return _context.Employees.OfType<Agent>().Include(e => e.EntityLink).ThenInclude(c => c.Contacts)
+                .Include(e => e.EntityLink).ThenInclude(a => a.Addresses).Include(e => e.EntityLink)
+                .ThenInclude(a => a.Account).Where(a => a.Id == id).FirstOrDefault();
+        }
     }
 }

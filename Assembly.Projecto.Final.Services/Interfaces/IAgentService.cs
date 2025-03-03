@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-     public interface IAgentService:IService<Agent,int>
+     public interface IAgentService:IServiceProvisorio<AgentDto,AgentDtoId,int>
     {
-        List<AgentDto> GetAllInclude();
+        List<AgentDtoId> GetAllInclude();
+
+        AgentDtoId? GetByIdInclude(int id);
     }
 }
