@@ -20,7 +20,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<AgentDto>> GetAll() 
+        public ActionResult<List<AgentDto>> GetAllInclude() 
         {
             var agents = _agentService.GetAllInclude();
 
@@ -28,11 +28,19 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<AgentDto> GetById(int id) 
+        public ActionResult<AgentDto> GetByIdInclude(int id) 
         {
             var agent = _agentService.GetByIdInclude(id);
 
             return Ok(agent);
+        }
+
+        [HttpGet("AllManagerAgents{idManager:int}")]
+        public ActionResult<AgentDto> GetAllManagerAgents(int idManager) 
+        {
+            var agents = _agentService.GetAllManagerAgents(idManager);
+
+            return Ok(agents);
         }
 
         [HttpPost]

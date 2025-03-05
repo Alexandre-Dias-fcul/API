@@ -13,5 +13,7 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         List<AgentDtoId> GetAllInclude();
 
         AgentDtoId? GetByIdInclude(int id);
+
+        List<ManagerAgentDto> GetAllManagerAgents(int idManager);
     }
 }

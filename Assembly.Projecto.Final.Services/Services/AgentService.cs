@@ -53,6 +53,18 @@ namespace Assembly.Projecto.Final.Services.Services
 
             agent.SetEntityLink(entityLink);
 
+            if (agentDto.SupervisorId != null)
+            {
+                var supervisor = _agentRepository.GetById((int)agentDto.SupervisorId);
+
+                if(supervisor == null) 
+                {
+                    throw new ArgumentNullException();
+                }
+
+                agent.SetSupervisor(supervisor);
+            }
+
             _agentRepository.Add(agent);
 
             return agentDto;
@@ -94,6 +106,15 @@ namespace Assembly.Projecto.Final.Services.Services
             var agentDtosId = _mapper.Map<List<AgentDtoId>>(agents);
 
             return agentDtosId;
+        }
+
+        public List<ManagerAgentDto> GetAllManagerAgents(int idManager)
+        {
+            var agents = _agentRepository.GetAllManagerAgents(idManager);
+
+            var agentDtos = _mapper.Map<List<ManagerAgentDto>>(agents);
+
+            return agentDtos;
         }
 
         public AgentDtoId? GetById(int id)
