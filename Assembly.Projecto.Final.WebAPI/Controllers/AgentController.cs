@@ -46,14 +46,20 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpGet("GetAllListingsByEmployeeId{idEmployee:int}")]
         public ActionResult<AgentListingDto> GetAllListingsByEmployeeId(int idEmployee) 
         {
-            var agents = _agentService.GetAllListingByEmployeeId(idEmployee);
+            var agent = _agentService.GetAllListingByEmployeeId(idEmployee);
 
-            return Ok(agents);
+            return Ok(agent);
         }
 
+        [HttpPatch("Reassign")]
+        public ActionResult Reassign([FromBody] ReassignRequestDto reassignRequestDto) 
+        {
+            _agentService.ManagerReassign(reassignRequestDto.ManagerId, reassignRequestDto.AgentId);
+
+            return Ok();
+        }
 
         [HttpPost]
-
         public ActionResult<AgentDto> Create([FromBody] AgentDto agentDto)  
         {
             var agent = _agentService.Add(agentDto);

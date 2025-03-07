@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Data.InMemory.Repositories
 {
-    public class AgentRepository:Repository<Agent,int>,IAgentRepository
+    public class AgentRepository : Repository<Agent, int>, IAgentRepository
     {
         private readonly Database _db;
-        public AgentRepository(Database db):base(db.Agents)
+        public AgentRepository(Database db) : base(db.Agents)
         {
             _db = db;
         }
@@ -21,7 +21,7 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Agent> GetAllListingByEmployeeId(int idEmployee)
+        public Agent? GetAllListingByEmployeeId(int idEmployee)
         {
             throw new NotImplementedException();
         }
@@ -35,5 +35,6 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
         {
             throw new NotImplementedException();
         }
+
     }
 }

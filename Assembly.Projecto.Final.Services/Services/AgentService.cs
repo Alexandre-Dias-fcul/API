@@ -17,10 +17,16 @@ namespace Assembly.Projecto.Final.Services.Services
     {
         private readonly IAgentRepository _agentRepository;
 
+        private readonly IListingRepository _listingRepository;
+
+        private readonly IReassignRepository _reassignRepository;
+
         private readonly IMapper _mapper;
-        public AgentService(IAgentRepository agentRepository,IMapper mapper) 
+        public AgentService(IAgentRepository agentRepository,IListingRepository listingRepository,IReassignRepository reassignRepository, IMapper mapper) 
         { 
             _agentRepository = agentRepository;
+            _listingRepository = listingRepository;
+            _reassignRepository = reassignRepository;
             _mapper = mapper;
         }
         public AgentDto Add(AgentDto agentDto)
@@ -92,10 +98,10 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<List<AgentDtoId>>(_agentRepository.GetAllInclude());
         }
 
-        public List<AgentListingDto> GetAllListingByEmployeeId(int idEmployee)
+        public AgentListingDto? GetAllListingByEmployeeId(int idEmployee)
         { 
 
-            return _mapper.Map<List<AgentListingDto>>(_agentRepository.GetAllListingByEmployeeId(idEmployee));
+            return _mapper.Map<AgentListingDto>(_agentRepository.GetAllListingByEmployeeId(idEmployee));
         }
 
         public List<ManagerAgentDto> GetAllManagerAgents(int idManager)
@@ -115,6 +121,41 @@ namespace Assembly.Projecto.Final.Services.Services
         public AgentDtoId? GetByIdInclude(int id)
         {
             return _mapper.Map<AgentDtoId>(_agentRepository.GetById(id));
+        }
+
+        public void ManagerReassign(int idManager, int idAgent)
+        {
+            var manager = _agentRepository.GetById(idManager);
+
+            var agent = _agentRepository.GetById(idAgent);
+
+            if(manager == null || agent == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            if(manager.Role != RoleType.Manager || agent.Role!= RoleType.Agent) 
+            {
+                throw new ArgumentException();
+            }
+
+            var agentWithListing = _agentRepository.GetAllListingByEmployeeId(agent.Id);
+
+            var listings = agentWithListing.Listings.ToList();
+
+            foreach (var listing in listings) 
+            {
+                listing.SetAgent(manager);
+
+                _listingRepository.Update(listing);
+
+                var reassign = Reassign.Create(agent.Id, manager.Id, manager.Id, DateTime.Now);
+
+                reassign.SetListing(listing);
+
+                _reassignRepository.Add(reassign);
+            }
+            
         }
 
         public AgentDtoId Update(AgentDtoId agentDtoId)
