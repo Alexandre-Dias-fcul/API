@@ -20,7 +20,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<AgentDto>> GetAll() 
+        public ActionResult<List<AgentDto>> GetAllInclude() 
         {
             var agents = _agentService.GetAllInclude();
 
@@ -28,28 +28,45 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<AgentDto> GetById(int id) 
+        public ActionResult<AgentDto> GetByIdInclude(int id) 
         {
             var agent = _agentService.GetByIdInclude(id);
 
             return Ok(agent);
         }
 
+        [HttpGet("GetAllAgentsByManagerId{idManager:int}")]
+        public ActionResult<ManagerAgentDto> GetAllManagerAgents(int idManager) 
+        {
+            var agents = _agentService.GetAllManagerAgents(idManager);
+
+            return Ok(agents);
+        }
+
+        [HttpGet("GetAllListingsByEmployeeId{idEmployee:int}")]
+        public ActionResult<AgentListingDto> GetAllListingsByEmployeeId(int idEmployee) 
+        {
+            var agents = _agentService.GetAllListingByEmployeeId(idEmployee);
+
+            return Ok(agents);
+        }
+
+
         [HttpPost]
 
         public ActionResult<AgentDto> Create([FromBody] AgentDto agentDto)  
         {
-            var agentAdicionado = _agentService.Add(agentDto);
+            var agent = _agentService.Add(agentDto);
 
-            return Ok(agentAdicionado);
+            return Ok(agent);
         }
 
         [HttpPut]
         public ActionResult<AgentDtoId> Update([FromBody] AgentDtoId agentDtoId) 
         {
-            var agentAlterado = _agentService.Update(agentDtoId);
+            var agent = _agentService.Update(agentDtoId);
 
-            return Ok(agentAlterado);
+            return Ok(agent);
         }
     }
 }

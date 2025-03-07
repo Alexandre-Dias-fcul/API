@@ -66,6 +66,28 @@ namespace Assembly.Projecto.Final.Services.Mappings
                 .ForMember(dest => dest.Addresses, opt => opt.MapFrom(src => src.Addresses))
                 .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account))
                 .ReverseMap();
+
+            //================================================================
+
+            CreateMap<Employee, ManagerEmployeeDto>()
+                .IncludeBase<Person, PersonDtoId>()
+                .ReverseMap();
+
+            CreateMap<Agent, ManagerAgentDto>()
+            .IncludeBase<Employee, ManagerEmployeeDto>()
+                 .ReverseMap();
+
+            //================================================================
+
+            CreateMap<Agent, AgentListingDto>()
+           .IncludeBase<Employee, ManagerEmployeeDto>()
+                .ReverseMap();
+
+            CreateMap<Listing, ListingDto>().ReverseMap();
+
+            //================================================================
+
+            CreateMap<Listing, ListingDtoId>().ReverseMap();
         }
     }
 }
