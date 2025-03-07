@@ -88,6 +88,9 @@ namespace Assembly.Projecto.Final.Services.Mappings
             //================================================================
 
             CreateMap<Listing, ListingDtoId>().ReverseMap();
+
+            //================================================================
+
         }
     }
 }

@@ -16,6 +16,6 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 
         List<Agent> GetAllManagerAgents(int idManager);
 
-        List<Agent> GetAllListingByEmployeeId(int idEmployee);
+        Agent? GetAllListingByEmployeeId(int idEmployee);
     }
 }

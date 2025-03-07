@@ -16,7 +16,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 
         List<ManagerAgentDto> GetAllManagerAgents(int idManager);
 
-        List<AgentListingDto> GetAllListingByEmployeeId(int idEmployee);
+        AgentListingDto? GetAllListingByEmployeeId(int idEmployee);
+
+        void ManagerReassign(int IdManager, int IdAgent);
         
     }
 }
