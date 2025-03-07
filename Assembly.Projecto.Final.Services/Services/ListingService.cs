@@ -1,9 +1,13 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,38 +16,72 @@ namespace Assembly.Projecto.Final.Services.Services
     public class ListingService : IListingService
     {
         private readonly IListingRepository _listingRepository;
-        public ListingService(IListingRepository listingRepository) 
+        private readonly IAgentRepository _agentRepository;
+
+        private readonly IMapper _mapper;
+        public ListingService(IListingRepository listingRepository,IAgentRepository agentRepository, IMapper mapper) 
         { 
             _listingRepository = listingRepository;
-        }
-        public Listing Add(Listing listing)
-        {
-            return _listingRepository.Add(listing);
+            _agentRepository = agentRepository;
+            _mapper = mapper;
         }
 
-        public Listing Delete(Listing listing)
+        public ListingDto Add(ListingDto listingDto)
         {
-            return _listingRepository.Delete(listing);
+            var listing = Listing.Create(listingDto.Type,listingDto.Status,listingDto.NumberOfRooms,
+                listingDto.NumberOfBathrooms,listingDto.NumberOfKitchens,listingDto.Price,listingDto.Location,
+                listingDto.Area,listingDto.Parking,listingDto.Description,listingDto.MainImageFileName,
+                listingDto.OtherImagesFileNames);
+
+            var agent = _agentRepository.GetById(listingDto.AgentId);
+
+            if (agent == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            listing.SetAgent(agent);
+
+            return _mapper.Map<ListingDto>(_listingRepository.Add(listing));
         }
 
-        public Listing? Delete(int id)
+        public ListingDtoId Delete(ListingDtoId listingDtoId)
         {
-            return _listingRepository.Delete(id);
+            var listing = _mapper.Map<Listing>(listingDtoId);
+
+            return _mapper.Map<ListingDtoId>(_listingRepository.Delete(listing));
         }
 
-        public List<Listing> GetAll()
+        public ListingDtoId Delete(int id)
         {
-             return _listingRepository.GetAll();
+            return _mapper.Map<ListingDtoId>(_listingRepository.Delete(id));
         }
 
-        public Listing? GetById(int id)
+        public List<ListingDtoId> GetAll()
         {
-            return _listingRepository.GetById(id);
+            return _mapper.Map<List<ListingDtoId>>(_listingRepository.GetAll());
         }
 
-        public Listing Update(Listing listing)
+        public ListingDtoId GetById(int id)
         {
-            return _listingRepository.Update(listing);
+            return _mapper.Map<ListingDtoId>(_listingRepository.GetById(id));
+        }
+
+        public ListingDtoId Update(ListingDtoId listingDtoId)
+        {
+            var listing = _listingRepository.GetById(listingDtoId.Id);
+
+            if(listing == null) 
+            {
+                throw new ArgumentNullException();
+            }
+
+            listing.Update(listingDtoId.Type, listingDtoId.Status, listingDtoId.NumberOfRooms,
+                listingDtoId.NumberOfBathrooms, listingDtoId.NumberOfKitchens, listingDtoId.Price, listingDtoId.Location,
+                listingDtoId.Area, listingDtoId.Parking, listingDtoId.Description, listingDtoId.MainImageFileName,
+                listingDtoId.OtherImagesFileNames);
+
+            return _mapper.Map<ListingDtoId>(_listingRepository.Update(listing));
         }
     }
 }

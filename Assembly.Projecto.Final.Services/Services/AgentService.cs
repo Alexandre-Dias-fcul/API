@@ -65,47 +65,37 @@ namespace Assembly.Projecto.Final.Services.Services
                 agent.SetSupervisor(supervisor);
             }
 
-            _agentRepository.Add(agent);
-
-            return agentDto;
+            return _mapper.Map<AgentDto>(_agentRepository.Add(agent));
         }
 
         public AgentDtoId Delete(AgentDtoId agentDtoId)
         {
             var agent = _mapper.Map<Agent>(agentDtoId);
 
-            var agentApagado = _agentRepository.Delete(agent);
+            
 
-            var agentDtoIdApagado = _mapper.Map<AgentDtoId>(agentApagado);
-
-            return agentDtoIdApagado;
+            return _mapper.Map<AgentDtoId>(_agentRepository.Delete(agent));
         }
 
         public AgentDtoId? Delete(int id)
         {
-            var agent = _agentRepository.Delete(id);
-
-            var agentDtoId = _mapper.Map<AgentDtoId>(agent);
-
-            return agentDtoId;
+            return _mapper.Map<AgentDtoId>(_agentRepository.Delete(id));
         }
 
         public List<AgentDtoId> GetAll()
         {
-            var agents =_agentRepository.GetAll();
-
-            var agentDtosId = _mapper.Map<List<AgentDtoId>>(agents);
-
-            return agentDtosId;
+            return _mapper.Map<List<AgentDtoId>>(_agentRepository.GetAll());
         }
 
         public List<AgentDtoId> GetAllInclude()
-        {
-            var agents = _agentRepository.GetAllInclude();
+        { 
+            return _mapper.Map<List<AgentDtoId>>(_agentRepository.GetAllInclude());
+        }
 
-            var agentDtosId = _mapper.Map<List<AgentDtoId>>(agents);
+        public List<AgentListingDto> GetAllListingByEmployeeId(int idEmployee)
+        { 
 
-            return agentDtosId;
+            return _mapper.Map<List<AgentListingDto>>(_agentRepository.GetAllListingByEmployeeId(idEmployee));
         }
 
         public List<ManagerAgentDto> GetAllManagerAgents(int idManager)
@@ -119,48 +109,40 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public AgentDtoId? GetById(int id)
         {
-            var agent = _agentRepository.GetById(id);
-
-            var agentDtoId = _mapper.Map<AgentDtoId>(agent);
-
-            return agentDtoId;
+            return _mapper.Map<AgentDtoId>(_agentRepository.GetById(id));
         }
 
         public AgentDtoId? GetByIdInclude(int id)
         {
-            var agent = _agentRepository.GetById(id);
-
-            var agentDtoId = _mapper.Map<AgentDtoId>(agent);
-
-            return agentDtoId;
+            return _mapper.Map<AgentDtoId>(_agentRepository.GetById(id));
         }
 
         public AgentDtoId Update(AgentDtoId agentDtoId)
         {
-            var agentAlterar = _agentRepository.GetByIdInclude(agentDtoId.Id);
+            var agent = _agentRepository.GetByIdInclude(agentDtoId.Id);
 
-            if(agentAlterar == null) 
+            if(agent == null) 
             {
                 throw new ArgumentNullException();
             }
 
-            agentAlterar.Update(agentDtoId.Name.FirstName,string.Join(" ", agentDtoId.Name.MiddleNames),
+            agent.Update(agentDtoId.Name.FirstName,string.Join(" ", agentDtoId.Name.MiddleNames),
                 agentDtoId.Name.LastName,agentDtoId.DateOfBirth,agentDtoId.Gender,agentDtoId.PhotoFileName,
                 agentDtoId.IsActive,agentDtoId.HiredDate,agentDtoId.DateOfTermination,agentDtoId.Role);
 
-            if(agentDtoId.EntityLink != null && agentAlterar.EntityLink != null) 
+            if(agentDtoId.EntityLink != null && agent.EntityLink != null) 
             {
-                if (agentDtoId.EntityLink.Account != null && agentAlterar.EntityLink.Account != null) 
+                if (agentDtoId.EntityLink.Account != null && agent.EntityLink.Account != null) 
                 {
-                    agentAlterar.EntityLink.Account.Update(agentDtoId.EntityLink.Account.Password,
+                    agent.EntityLink.Account.Update(agentDtoId.EntityLink.Account.Password,
                         agentDtoId.EntityLink.Account.Email);
                 }
 
-                if (agentDtoId.EntityLink.Addresses != null && agentAlterar.EntityLink.Addresses != null)
+                if (agentDtoId.EntityLink.Addresses != null && agent.EntityLink.Addresses != null)
                 {
                     foreach(var address in agentDtoId.EntityLink.Addresses) 
                     {
-                        var addressAlterar = agentAlterar.EntityLink.Addresses.Where(e => e.Id == address.Id)
+                        var addressAlterar = agent.EntityLink.Addresses.Where(e => e.Id == address.Id)
                             .FirstOrDefault();
 
                         if (addressAlterar == null) 
@@ -172,11 +154,11 @@ namespace Assembly.Projecto.Final.Services.Services
                     }
                 }
                 
-                if(agentDtoId.EntityLink.Contacts != null && agentAlterar.EntityLink.Contacts != null) 
+                if(agentDtoId.EntityLink.Contacts != null && agent.EntityLink.Contacts != null) 
                 {
                     foreach (var contact in agentDtoId.EntityLink.Contacts)
                     {
-                        var contactAlterar = agentAlterar.EntityLink.Contacts.Where(c => c.Id == contact.Id)
+                        var contactAlterar = agent.EntityLink.Contacts.Where(c => c.Id == contact.Id)
                             .FirstOrDefault();
 
                         if(contactAlterar == null) 
@@ -189,11 +171,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
             }
 
-            var agentAlterado = _agentRepository.Update(agentAlterar);
-
-            var agentDtoIdAlterado = _mapper.Map<AgentDtoId>(agentAlterado);
-
-            return agentDtoIdAlterado;
+            return _mapper.Map<AgentDtoId>(_agentRepository.Update(agent));
         }
     }
 }

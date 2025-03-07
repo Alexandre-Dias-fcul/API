@@ -21,6 +21,11 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
             throw new NotImplementedException();
         }
 
+        public List<Agent> GetAllListingByEmployeeId(int idEmployee)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Agent> GetAllManagerAgents(int idManager)
         {
             throw new NotImplementedException();

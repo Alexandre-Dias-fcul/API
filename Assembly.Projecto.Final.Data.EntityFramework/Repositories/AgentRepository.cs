@@ -25,6 +25,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
                 .ThenInclude(a => a.Account).ToList();
         }
 
+        public List<Agent> GetAllListingByEmployeeId(int idEmployee)
+        {
+            return _context.Employees.OfType<Agent>().Include(l => l.Listings).Where(e => e.Id == idEmployee).ToList();
+        }
+
         public List<Agent> GetAllManagerAgents(int idManager)
         {
             return _context.Employees.OfType<Agent>().Include(a => a.Agents).Where(a => a.SupervisorId == idManager).ToList();
@@ -36,5 +41,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
                 .Include(e => e.EntityLink).ThenInclude(a => a.Addresses).Include(e => e.EntityLink)
                 .ThenInclude(a => a.Account).Where(a => a.Id == id).FirstOrDefault();
         }
+
+
     }
 }
