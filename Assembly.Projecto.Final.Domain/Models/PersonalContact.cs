@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private PersonalContact(string name,bool isPrimary, string notes) : this()
         {
-            Name = name;
-            IsPrimary = isPrimary;
-            Notes = notes;
+            DomainValidation(name, isPrimary, notes);
         }
 
         private PersonalContact(int id, string name, bool isPrimary, string notes) 
@@ -57,10 +56,21 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void Update(string name, bool isPrimary, string notes)
         {
+            DomainValidation(name,isPrimary,notes);
+        }
+
+        public void DomainValidation(string name, bool isPrimary, string notes) 
+        {
+
+            DomainExceptionValidation.When(name == null,"Erro: o nome do contacto é obrigatório.");
+            DomainExceptionValidation.When(name != null && name.Length>500," Erro: o nome do contacto não pode ter " +
+                "mais de 500 caracters.");
+            DomainExceptionValidation.When(notes != null && notes.Length>2000,"Erro: as notas não podem ter mais de " +
+                "2000 caracteres. ");
+
             Name = name;
             IsPrimary = isPrimary;
             Notes = notes;
-            Updated = DateTime.Now;
         }
 
         public void SetEmployee(Employee employee) 

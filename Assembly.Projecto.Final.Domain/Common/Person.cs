@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Interfaces;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,21 +24,19 @@ namespace Assembly.Projecto.Final.Domain.Common
             Gender = string.Empty;
             PhotoFileName = string.Empty;
             IsActive = false;
-            Created = DateTime.Now;
         }
 
         protected Person(Name name,DateTime? dateOfBirth,string gender,string photoFileName,bool isActive):this()
         { 
             Name = name;
-            DateOfBirth = dateOfBirth;
-            Gender = gender;
-            PhotoFileName = photoFileName;
-            IsActive = isActive;
+            DomainValidation(dateOfBirth, gender, photoFileName, isActive);
         }
 
-        protected Person(int id, Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive):this() 
+        protected Person(int id, Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive)
+            :this() 
         { 
             Id = id;
+            Name = name;
         }
 
         protected Person(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender, 
@@ -54,23 +53,30 @@ namespace Assembly.Projecto.Final.Domain.Common
 
         public void Update(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive) 
         {
-            Name = name;
-            DateOfBirth = dateOfBirth;
-            Gender = gender;
-            PhotoFileName = photoFileName;
-            IsActive = isActive;
-            Updated = DateTime.Now;
+            name.Update(name.FirstName,string.Join(" ",name.MiddleNames),name.LastName);
+            DomainValidation(dateOfBirth, gender, photoFileName, isActive);
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive)
         {
-            Name.Update(firstName,middleNames,lastName);
+
+           Name.Update(firstName,middleNames,lastName);
+
+           DomainValidation(dateOfBirth,gender,photoFileName,isActive);
+        }
+
+        public void DomainValidation(DateTime? dateOfBirth, string gender,string photoFileName, bool isActive) 
+        {
+            DomainExceptionValidation.When(gender != null && gender.Length > 50, "Erro: o género não pode ter mais de " +
+                "50 caracters.");
+            DomainExceptionValidation.When(photoFileName != null && photoFileName.Length > 300, "Erro: o PhotoFileName " +
+                " não pode ter mais de 300 caracteres.");
+
             DateOfBirth = dateOfBirth;
             Gender = gender;
             PhotoFileName = photoFileName;
             IsActive = isActive;
-            Updated = DateTime.Now;
         }
     }
 }

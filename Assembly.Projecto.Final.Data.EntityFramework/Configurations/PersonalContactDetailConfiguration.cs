@@ -22,7 +22,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                    .WithMany(pc => pc.PersonalContactDetails)
                    .HasForeignKey(pc => pc.PersonalContactId);
 
-            builder.Property(e => e.ContactType).HasMaxLength(50).IsRequired();
+            builder.Property(e => e.ContactType).IsRequired();
             builder.Property(e => e.Value).HasMaxLength(300).IsRequired();
         }
     }

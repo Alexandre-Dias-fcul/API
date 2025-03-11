@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Enums;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,11 @@ namespace Assembly.Projecto.Final.Domain.Models
         {
             ContactType = 0;
             Value = string.Empty;
-            Created = DateTime.Now;
         }
 
         private PersonalContactDetail(ContactType contactType, string value) : this()
         {
-            ContactType = contactType;
-            Value = value;
+            DomainValidation(contactType, value);
         }
 
         private PersonalContactDetail(int id, ContactType contactType, string value) : this(contactType, value)
@@ -48,9 +47,17 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void Update(ContactType contactType, string value)
         {
+            DomainValidation(contactType, value);
+        }
+
+        public void DomainValidation(ContactType contactType, string value) 
+        {
+            DomainExceptionValidation.When(value == null,"Erro: o contacto é obrigatório.");
+            DomainExceptionValidation.When(value != null && value.Length>300,"Erro: o contacto não pode ter mais de " +
+                "300 caracteres.");
+
             ContactType = contactType;
             Value = value;
-            Updated = DateTime.Now;
         }
 
         public void SetPersonalContact(PersonalContact personalContact) 
