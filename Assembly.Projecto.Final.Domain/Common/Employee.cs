@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Interfaces;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,7 @@ namespace Assembly.Projecto.Final.Domain.Common
             DateTime? hiredDate, DateTime? dateOfTermination) : 
             base(name, dateOfBirth, gender, photoFileName,isActive)
         {
-            HiredDate = hiredDate;
-            DateOfTermination = dateOfTermination;
+            DomainValidation(hiredDate, dateOfTermination);
             _personalContacts = new();
             _participants = new ();
         }
@@ -46,8 +46,7 @@ namespace Assembly.Projecto.Final.Domain.Common
            DateTime? hiredDate, DateTime? dateOfTermination) : 
             base(id, name, dateOfBirth, gender,photoFileName, isActive)
         {
-            HiredDate = hiredDate;
-            DateOfTermination = dateOfTermination;
+            DomainValidation(hiredDate, dateOfTermination);
             _personalContacts = new ();
             _participants = new ();
         }
@@ -55,8 +54,7 @@ namespace Assembly.Projecto.Final.Domain.Common
             string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
             base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
-            HiredDate = hiredDate;
-            DateOfTermination = dateOfTermination;
+            DomainValidation(hiredDate, dateOfTermination);
             _personalContacts = new ();
             _participants = new ();
         }
@@ -65,8 +63,7 @@ namespace Assembly.Projecto.Final.Domain.Common
            string gender, string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
             base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
-            HiredDate = hiredDate;
-            DateOfTermination = dateOfTermination;
+            DomainValidation(hiredDate, dateOfTermination);
             _personalContacts = new ();
             _participants = new ();
         }
@@ -75,16 +72,24 @@ namespace Assembly.Projecto.Final.Domain.Common
             DateTime? hiredDate, DateTime? dateOfTermination)
         {
             base.Update(name, dateOfBirth, gender, photoFileName, isActive);
-            HiredDate = hiredDate;
-            DateOfTermination = dateOfTermination;
+            DomainValidation(hiredDate, dateOfTermination);
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
+            DomainValidation(hiredDate, dateOfTermination);
+        }
+
+        public void DomainValidation(DateTime? hiredDate, DateTime? dateOfTermination) 
+        {
+            DomainExceptionValidation.When(hiredDate>dateOfTermination,"Erro: a data de contratação não pode ser" +
+                " posterior á data de termino.");
+
             HiredDate = hiredDate;
             DateOfTermination = dateOfTermination;
+
         }
 
         public void SetEntityLink(EntityLink entityLink) 

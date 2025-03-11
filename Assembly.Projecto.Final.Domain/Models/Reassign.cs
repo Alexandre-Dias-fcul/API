@@ -22,7 +22,6 @@ namespace Assembly.Projecto.Final.Domain.Models
             NewEmployeeId = 0;
             ReassignBy = 0;
             ReassignmentDate = DateTime.MinValue;
-            Created = DateTime.MinValue;
         }
 
         private Reassign(int olderEmplyeeId,int newEmployeeId,int reassignBy,DateTime reassigmentDate):this() 
@@ -59,7 +58,6 @@ namespace Assembly.Projecto.Final.Domain.Models
             NewEmployeeId = newEmployeeId;
             ReassignBy = reassignBy;
             ReassignmentDate = reassigmentDate;
-            Updated = DateTime.Now;
         }
 
         public void SetListing(Listing listing) 
