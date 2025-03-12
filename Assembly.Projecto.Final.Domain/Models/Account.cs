@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,11 @@ namespace Assembly.Projecto.Final.Domain.Models
         {
             Password = string.Empty;
             Email = string.Empty;
-            Created = DateTime.Now;
         }
 
         private Account(string password, string email) : this()
         {
-            Password = password;
-            Email = email;
+            DomainValidation(password, email);
         }
 
         private Account(int id, string password, string email) : 
@@ -48,11 +47,21 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void Update(string password, string email)
         {
-            Password = password;
-            Email = email;
-            Updated = DateTime.Now;
+            DomainValidation(password, email);
         }
 
+        public void DomainValidation(string password, string email) 
+        {
+            DomainExceptionValidation.When(password == null,"Erro: a password é obrigatória.");
+            DomainExceptionValidation.When(password != null && password.Length>500, "Erro: a password não pode ter " +
+                "mais de 500 caracteres.");
+            DomainExceptionValidation.When(email == null, "Erro: o email é obrigatório.");
+            DomainExceptionValidation.When(email != null && email.Length > 300, "Erro: o email não pode ter " +
+                "mais de 300 caracteres.");
+
+            Password = password;
+            Email = email;
+        }
         public void SetEntityLink(EntityLink entityLink)
         {
             if (entityLink == null)

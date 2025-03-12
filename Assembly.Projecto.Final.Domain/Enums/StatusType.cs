@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Enums
 {
-    public enum ParticipantType
+    public enum StatusType
     {
-        Organizer,
-        Participant
+        Confirmada,
+        Cancelada,
+        Concluida
     }
 }
