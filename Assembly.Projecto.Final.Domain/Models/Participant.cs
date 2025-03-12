@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Enums;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +24,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private Participant(ParticipantType role, Appointment appointment, Employee employee) :this()
         {
-            Role = role;
-
-            if(appointment == null || employee == null) 
-            {
-                throw new ArgumentNullException();    
-            }
-
-            Appointment = appointment;
-            AppointmentId = appointment.Id;
-            Employee = employee;
-            EmployeeId = employee.Id;
+            DomainValidadion(role, appointment, employee);
         }
 
         private Participant(int id,ParticipantType role, Appointment appointment, Employee employee) 
@@ -42,7 +33,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             Id = id;
         }
 
-        private static Participant Created(ParticipantType role, Appointment appointment, 
+        public static Participant Create(ParticipantType role, Appointment appointment, 
             Employee employee) 
         {
             var participant = new Participant(role, appointment, employee);
@@ -50,23 +41,24 @@ namespace Assembly.Projecto.Final.Domain.Models
             return participant;
         }
 
-        private static Participant Created(int id,ParticipantType role, Appointment appointment,Employee employee)
+        public static Participant Create(int id,ParticipantType role, Appointment appointment,Employee employee)
         {
             var participant = new Participant(id,role, appointment, employee);
 
             return participant;
         }
 
-        private void Update(ParticipantType role, Appointment appointment,Employee employee) 
+        public void Update(ParticipantType role, Appointment appointment,Employee employee) 
         {
+            DomainValidadion(role, appointment, employee);
+        }
+
+        public void DomainValidadion(ParticipantType role, Appointment appointment, Employee employee) 
+        {
+            DomainExceptionValidation.When(Appointment == null, "Erro: appointment não pode ser nulo.");
+            DomainExceptionValidation.When(Employee == null, "Erro: Employee não pode ser nulo.");
+
             Role = role;
-            Updated = DateTime.Now;
-
-            if (appointment ==null || employee == null) 
-            { 
-                throw new ArgumentNullException();
-            }
-
             Appointment = appointment;
             AppointmentId = appointment.Id;
             Employee = employee;

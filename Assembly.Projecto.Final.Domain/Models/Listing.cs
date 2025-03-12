@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,18 +61,8 @@ namespace Assembly.Projecto.Final.Domain.Models
             decimal price, string location, double area, int? parking, string description, string mainImageFileName, 
             string otherImagesFileNames):this()
         {
-            Type = type;
-            Status = status;
-            NumberOfRooms = numberOfRooms;
-            NumberOfBathrooms = numberOfBathrooms;
-            NumberOfKitchens = numberOfKitchens;
-            Price = price;
-            Location = location;
-            Area = area;
-            Parking = parking;
-            Description = description;
-            MainImageFileName = mainImageFileName;
-            OtherImagesFileNames = otherImagesFileNames;
+            DomainValidation(type, status, numberOfRooms, numberOfBathrooms, numberOfKitchens, price, location, area, parking,
+               description, mainImageFileName, otherImagesFileNames);
         }
 
         private Listing(int id,string type, string status, int? numberOfRooms, int? numberOfBathrooms, int? numberOfKitchens,
@@ -105,6 +97,33 @@ namespace Assembly.Projecto.Final.Domain.Models
             decimal price, string location, double area, int? parking, string description, string mainImageFileName,
             string otherImagesFileNames)
         {
+
+            DomainValidation(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,price,location,area,parking,
+               description, mainImageFileName,otherImagesFileNames);
+        }
+
+        public void DomainValidation(string type, string status, int? numberOfRooms, int? numberOfBathrooms, 
+            int? numberOfKitchens,decimal price, string location, double area, int? parking, string description, 
+            string mainImageFileName,string otherImagesFileNames) 
+        {
+            DomainExceptionValidation.When(type == null,"Erro: o tipo de propriedade é obrigatório.");
+            DomainExceptionValidation.When(type != null && type.Length > 250, " Erro: o tipo de propriedade não pode" +
+                " ter mais de 250 caracteres.");
+            DomainExceptionValidation.When(status == null, "Erro: o estado da propriedade é obrigatório.");
+            DomainExceptionValidation.When(status != null && status.Length > 50, " Erro: o estado da propriedade não" +
+                " pode ter mais de 50 caracteres.");
+            DomainExceptionValidation.When(location == null, "Erro: a localização da propriedade é obrigatória.");
+            DomainExceptionValidation.When(location != null && location.Length>250 ,"Erro: a localização da propriedade " +
+                "não pode ter mais de 250 caracteres.");
+            DomainExceptionValidation.When(description == null, "Erro: a descrição da propriedade é obrigatória.");
+            DomainExceptionValidation.When(description != null && description.Length>5000, " Erro: a descrição da" +
+                "propriedade não pode ter mais de 5000 caracters.");
+            DomainExceptionValidation.When(mainImageFileName != null && mainImageFileName.Length > 300, " Erro:" +
+                " o nome do ficheiro não pode ter mais de 300 caracteres.");
+            DomainExceptionValidation.When(otherImagesFileNames != null && otherImagesFileNames.Length > 1000, "Erro:" +
+                " o campo não pode ter mais de 1000 caracteres.");
+
+
             Type = type;
             Status = status;
             NumberOfRooms = numberOfRooms;
@@ -117,9 +136,7 @@ namespace Assembly.Projecto.Final.Domain.Models
             Description = description;
             MainImageFileName = mainImageFileName;
             OtherImagesFileNames = otherImagesFileNames;
-            Updated = DateTime.Now;
         }
-
         public void SetAgent(Agent agent) 
         {
             if(agent == null) 

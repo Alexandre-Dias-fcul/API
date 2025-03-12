@@ -73,6 +73,9 @@ namespace Assembly.Projecto.Final.Domain.Common
             DomainExceptionValidation.When(photoFileName != null && photoFileName.Length > 300, "Erro: o PhotoFileName " +
                 " não pode ter mais de 300 caracteres.");
 
+            DomainExceptionValidation.When(dateOfBirth > DateTime.Now, "Erro: a data de nascimento não pode ser maior" +
+                " que a data atual.");
+
             DateOfBirth = dateOfBirth;
             Gender = gender;
             PhotoFileName = photoFileName;

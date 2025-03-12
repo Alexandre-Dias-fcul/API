@@ -30,19 +30,12 @@ namespace Assembly.Projecto.Final.Domain.Models
             Status = string.Empty;
             BookedBy = 0;
             _participants = new (); 
-            Created= DateTime.Now;
         }
 
         private Appointment(string type,string description,DateTime date,TimeOnly hourStart,TimeOnly hourEnd,
             string status,int bookedBy):this() 
-        {   
-            Type = type;
-            Description = description;
-            Date = date;
-            HourStart = hourStart;
-            HourEnd = hourEnd;
-            Status = status;
-            BookedBy = bookedBy;
+        {
+            DomainValidation(type, description, date, hourStart, hourEnd, status, bookedBy);
         }
 
         private Appointment(int id,string type, string description, DateTime date, TimeOnly hourStart,TimeOnly hourEnd,
@@ -70,6 +63,13 @@ namespace Assembly.Projecto.Final.Domain.Models
         public void Update(string type, string description, DateTime date, TimeOnly hourStart, TimeOnly hourEnd, 
             string status, int bookedBy)
         {
+            DomainValidation(type,description,date,hourStart,hourEnd,status,bookedBy);
+        }
+
+        public void DomainValidation(string type, string description, DateTime date, TimeOnly hourStart, TimeOnly hourEnd,
+            string status, int bookedBy) 
+        {
+
             Type = type;
             Description = description;
             Date = date;
@@ -77,7 +77,6 @@ namespace Assembly.Projecto.Final.Domain.Models
             HourEnd = hourEnd;
             BookedBy = bookedBy;
             Status = status;
-            Updated = DateTime.Now;
         }
 
         public void AddParticipant(Participant participant) 
