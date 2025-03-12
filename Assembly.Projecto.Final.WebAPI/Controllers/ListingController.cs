@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ListingController : ControllerBase
+    public class ListingController : BaseController
     {
         private readonly IListingService _listingService;
 

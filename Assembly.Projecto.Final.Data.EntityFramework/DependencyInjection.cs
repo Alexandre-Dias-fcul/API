@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
 using Assembly.Projecto.Final.Data.EntityFramework.Interceptors;
 using Assembly.Projecto.Final.Data.EntityFramework.Repositories;
+using Assembly.Projecto.Final.Data.EntityFramework.UOW;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Interfaces;
 using Assembly.Projecto.Final.Domain.Models;
@@ -45,6 +46,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AgentController : ControllerBase
+    
+    public class AgentController : BaseController
     {
         private readonly IAgentService _agentService;
         public AgentController(IAgentService agentService) 
