@@ -35,7 +35,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasOne(u => u.User)
                    .WithOne(e => e.EntityLink)
-                   .HasForeignKey<EntityLink>(e => e.EntityId); 
+                   .HasForeignKey<EntityLink>(e => e.EntityId);
+
+            builder.Property(e => e.EntityType).IsRequired();
+            builder.Property(e => e.EntityId).IsRequired();
         }
     }
 }

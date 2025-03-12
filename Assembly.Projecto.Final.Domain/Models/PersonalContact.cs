@@ -25,7 +25,6 @@ namespace Assembly.Projecto.Final.Domain.Models
             Name = string.Empty;
             IsPrimary = false;
             Notes = string.Empty;
-            Created = DateTime.Now;
             _personalContactDetails = new();
         }
 

@@ -21,7 +21,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                    .WithMany(c => c.Contacts)
                    .HasForeignKey(e => e.EntityLinkId);
 
-            builder.Property(e => e.ContactType).HasMaxLength(50).IsRequired();
+            builder.Property(e => e.ContactType).IsRequired();
             builder.Property(e => e.Value).HasMaxLength(300).IsRequired();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Enums;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,44 +26,51 @@ namespace Assembly.Projecto.Final.Domain.Models
         private EntityLink()
         {
             EntityType = 0;
-            _contacts = new ();
-            _addresses = new ();
+            EntityId = 0;
+           _contacts = new ();
+            _addresses = new();
+           
 
         }
 
         private EntityLink(EntityType entityType, int? entityId) : this()
         {
-            EntityType = entityType;
-            EntityId = entityId;
+            DomainValidation(entityType, entityId);
         }
 
-        private EntityLink(int id, EntityType entityType, int entityId) : 
+        private EntityLink(int id, EntityType entityType, int ?entityId) : 
             this(entityType, entityId)
         {
             Id = id;
-            EntityId = entityId;
         }
 
-        public static EntityLink Create(EntityType entityType, int entityId)
+        public static EntityLink Create(EntityType entityType, int ?entityId)
         {
             var entityLink = new EntityLink(entityType, entityId);
 
             return entityLink;
         }
 
-        public static EntityLink Create(int id, EntityType entityType, int entityId, Account account)
+        public static EntityLink Create(int id, EntityType entityType, int ?entityId)
         {
             var entityLink = new EntityLink(id, entityType, entityId);
 
             return entityLink;
         }
 
-        public void Update(EntityType entityType, int entityId)
+        public void Update(EntityType entityType, int ?entityId)
         {
+            DomainValidation(entityType, entityId);
+        }
+
+        public void DomainValidation(EntityType entityType, int ?entityId) 
+        {
+            DomainExceptionValidation.When(entityType == 0 ,"Erro: o tipo de entidade é obrigatório.");
+            DomainExceptionValidation.When(entityId== null || entityId == 0, "Erro: o campo é obrigatório.");
+
             EntityType = entityType;
             EntityId = entityId;
         }
-
         public void SetAccount(Account account) 
         { 
             if(account == null) 

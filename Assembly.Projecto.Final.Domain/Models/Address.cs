@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,16 +24,12 @@ namespace Assembly.Projecto.Final.Domain.Models
             City = string.Empty;
             Country = string.Empty;
             PostalCode = string.Empty;
-            Created = DateTime.Now;
             _entityLinks = new ();
         }
 
         private Address(string street, string city, string country, string postalCode) : this()
         {
-            Street = street;
-            City = city;
-            Country = country;
-            PostalCode = postalCode;
+            DomainValidation(street, city, country, postalCode);
         }
 
         private Address(int id, string street, string city, string country, string postalCode) :
@@ -56,13 +53,29 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void Update(string street, string city, string country, string postalCode)
         {
+            DomainValidation(street,city,country,postalCode);
+        }
+
+        public void DomainValidation(string street, string city, string country, string postalCode) 
+        {
+            DomainExceptionValidation.When(street == null, "Erro: o nome da rua é obrigatória.");
+            DomainExceptionValidation.When(street != null && street.Length > 200, "Erro: o nome da rua não pode ter " +
+                "mais de 200 caracteres.");
+            DomainExceptionValidation.When(city == null, "Erro: o nome da cidade é obrigatória.");
+            DomainExceptionValidation.When(city != null && city.Length>200, "Erro: o nome da cidade não pode ter " +
+                "mais de 200 caracteres.");
+            DomainExceptionValidation.When(country == null, "Erro: o nome do país é obrigatório.");
+            DomainExceptionValidation.When(country != null && country.Length > 200, "Erro: o nome do país não pode " +
+                "ter mais de 200 caracteres.");
+            DomainExceptionValidation.When(postalCode == null, "Erro: o código postal é obrigatório.");
+            DomainExceptionValidation.When(postalCode != null && postalCode.Length>10, "Erro: o código postal não " +
+                "pode ter mais de 10 caracteres.");
+
             Street = street;
             City = city;
             Country = country;
             PostalCode = postalCode;
-            Updated = DateTime.Now;
         }
-
         public void AddEntityLink(EntityLink entityLink) 
         {
             if (entityLink == null)

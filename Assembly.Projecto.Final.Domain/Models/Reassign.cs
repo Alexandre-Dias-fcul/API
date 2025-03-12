@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +27,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private Reassign(int olderEmplyeeId,int newEmployeeId,int reassignBy,DateTime reassigmentDate):this() 
         {
-            OlderEmployeeId = olderEmplyeeId;
-            NewEmployeeId = newEmployeeId;
-            ReassignBy = reassignBy;
-            ReassignmentDate = reassigmentDate;
+            DomainValidation(olderEmplyeeId, newEmployeeId, reassignBy, reassigmentDate);
         }
 
         private Reassign(int id,int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate) 
@@ -54,12 +52,22 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void Update(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate)
         {
+            DomainValidation(olderEmplyeeId, newEmployeeId, reassignBy, reassigmentDate);
+        }
+
+        public void DomainValidation(int olderEmplyeeId, int newEmployeeId, int reassignBy, DateTime reassigmentDate) 
+        {
+            DomainExceptionValidation.When(olderEmplyeeId  == 0,"Erro: o valor é obrigatório.");
+            DomainExceptionValidation.When(newEmployeeId == 0, "Erro: o valor é obrigatório.");
+            DomainExceptionValidation.When(reassignBy == 0, "Erro: o valor é obrigatório.");
+            DomainExceptionValidation.When(reassigmentDate>DateTime.Now, "Erro: o data não pode ser maior que a data" +
+                "atual.");
+
             OlderEmployeeId = olderEmplyeeId;
             NewEmployeeId = newEmployeeId;
             ReassignBy = reassignBy;
             ReassignmentDate = reassigmentDate;
         }
-
         public void SetListing(Listing listing) 
         {
             if(listing == null) 
