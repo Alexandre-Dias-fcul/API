@@ -25,6 +25,8 @@ namespace Assembly.Projecto.Final.Services.Services
         }
         public AgentDto Add(AgentDto agentDto)
         {
+            _unitOfWork.BeginTransaction();
+
             var name = Name.Create(agentDto.Name.FirstName, string.Join(" ",agentDto.Name.MiddleNames), agentDto.Name.LastName);
 
             var agent = Agent.Create(name, agentDto.DateOfBirth, agentDto.Gender, agentDto.PhotoFileName, agentDto.IsActive,
@@ -65,7 +67,16 @@ namespace Assembly.Projecto.Final.Services.Services
                 agent.SetSupervisor(supervisor);
             }
 
-            return _mapper.Map<AgentDto>(_unitOfWork.AgentRepository.Add(agent));
+            Agent addedAgent;
+
+            using (_unitOfWork) 
+            {
+                addedAgent=_unitOfWork.AgentRepository.Add(agent);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<AgentDto>(addedAgent);
         }
 
         public AgentDtoId Delete(AgentDtoId agentDtoId)
@@ -119,6 +130,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public void ManagerReassign(int idManager, int idAgent)
         {
+            _unitOfWork.BeginTransaction();
+
             var manager = _unitOfWork.AgentRepository.GetById(idManager);
 
             var agent = _unitOfWork.AgentRepository.GetById(idAgent);
@@ -137,23 +150,29 @@ namespace Assembly.Projecto.Final.Services.Services
 
             var listings = agentWithListing.Listings.ToList();
 
-            foreach (var listing in listings) 
+            using (_unitOfWork)
             {
-                listing.SetAgent(manager);
+                foreach (var listing in listings)
+                {
+                    listing.SetAgent(manager);
 
-                _unitOfWork.ListingRepository.Update(listing);
+                    _unitOfWork.ListingRepository.Update(listing);
 
-                var reassign = Reassign.Create(agent.Id, manager.Id, manager.Id, DateTime.Now);
+                    var reassign = Reassign.Create(agent.Id, manager.Id, manager.Id, DateTime.Now);
 
-                reassign.SetListing(listing);
+                    reassign.SetListing(listing);
 
-                _unitOfWork.ReassignRepository.Add(reassign);
+                    _unitOfWork.ReassignRepository.Add(reassign);
+                }
+
+                _unitOfWork.Commit();
             }
-            
         }
 
         public AgentDtoId Update(AgentDtoId agentDtoId)
         {
+            _unitOfWork.BeginTransaction();
+
             var agent = _unitOfWork.AgentRepository.GetByIdInclude(agentDtoId.Id);
 
             if(agent == null) 
@@ -177,15 +196,15 @@ namespace Assembly.Projecto.Final.Services.Services
                 {
                     foreach(var address in agentDtoId.EntityLink.Addresses) 
                     {
-                        var addressAlterar = agent.EntityLink.Addresses.Where(e => e.Id == address.Id)
+                        var addressUpdate = agent.EntityLink.Addresses.Where(e => e.Id == address.Id)
                             .FirstOrDefault();
 
-                        if (addressAlterar == null) 
+                        if (addressUpdate == null) 
                         {
                             throw new ArgumentNullException();
                         }
 
-                        addressAlterar.Update(address.Street,address.City,address.Country,address.PostalCode);
+                        addressUpdate.Update(address.Street,address.City,address.Country,address.PostalCode);
                     }
                 }
                 
@@ -193,20 +212,29 @@ namespace Assembly.Projecto.Final.Services.Services
                 {
                     foreach (var contact in agentDtoId.EntityLink.Contacts)
                     {
-                        var contactAlterar = agent.EntityLink.Contacts.Where(c => c.Id == contact.Id)
+                        var contactUpdate = agent.EntityLink.Contacts.Where(c => c.Id == contact.Id)
                             .FirstOrDefault();
 
-                        if(contactAlterar == null) 
+                        if(contactUpdate == null) 
                         {
                             throw new ArgumentNullException();
                         }
 
-                        contactAlterar.Update(contact.ContactType,contact.Value);
+                        contactUpdate.Update(contact.ContactType,contact.Value);
                     }
                 }
             }
 
-            return _mapper.Map<AgentDtoId>(_unitOfWork.AgentRepository.Update(agent));
+            Agent updatedAgent;
+
+            using (_unitOfWork) 
+            {
+                updatedAgent = _unitOfWork.AgentRepository.Update(agent);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<AgentDtoId>(updatedAgent);
         }
     }
 }
