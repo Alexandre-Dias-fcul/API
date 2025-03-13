@@ -26,6 +26,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public ListingDto Add(ListingDto listingDto)
         {
+            _unitOfWork.BeginTransaction();
+
             var listing = Listing.Create(listingDto.Type,listingDto.Status,listingDto.NumberOfRooms,
                 listingDto.NumberOfBathrooms,listingDto.NumberOfKitchens,listingDto.Price,listingDto.Location,
                 listingDto.Area,listingDto.Parking,listingDto.Description,listingDto.MainImageFileName,
@@ -40,7 +42,15 @@ namespace Assembly.Projecto.Final.Services.Services
 
             listing.SetAgent(agent);
 
-            return _mapper.Map<ListingDto>(_unitOfWork.ListingRepository.Add(listing));
+            Listing addedListing;
+
+            using (_unitOfWork) 
+            {
+                addedListing =_unitOfWork.ListingRepository.Add(listing);
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ListingDto>(addedListing);
         }
 
         public ListingDtoId Delete(ListingDtoId listingDtoId)
@@ -67,6 +77,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public ListingDtoId Update(ListingDtoId listingDtoId)
         {
+            _unitOfWork.BeginTransaction();
+
             var listing = _unitOfWork.ListingRepository.GetById(listingDtoId.Id);
 
             if(listing == null) 
@@ -79,7 +91,15 @@ namespace Assembly.Projecto.Final.Services.Services
                 listingDtoId.Area, listingDtoId.Parking, listingDtoId.Description, listingDtoId.MainImageFileName,
                 listingDtoId.OtherImagesFileNames);
 
-            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.Update(listing));
+            Listing updatedListing;
+
+            using (_unitOfWork) 
+            {
+                updatedListing =_unitOfWork.ListingRepository.Update(listing);
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ListingDtoId>(updatedListing);
         }
     }
 }
