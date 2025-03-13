@@ -11,40 +11,40 @@ namespace Assembly.Projecto.Final.Services.Services
 {
      public class AddressService:IAddressService
     {
-        private readonly IAddressRepository _addressRepository;
-        public AddressService(IAddressRepository addressRepository) 
-        { 
-            _addressRepository = addressRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public AddressService(IUnitOfWork unitOfWork) 
+        {
+            _unitOfWork = unitOfWork;
         }
 
         public Address Add(Address address)
         {
-            return _addressRepository.Add(address);
+            return _unitOfWork.AddressRepository.Add(address);
         }
 
         public Address Delete(Address address)
         {
-            return _addressRepository.Delete(address);
+            return _unitOfWork.AddressRepository.Delete(address);
         }
 
         public Address? Delete(int id)
         {
-            return _addressRepository.Delete(id);
+            return _unitOfWork.AddressRepository.Delete(id);
         }
 
         public List<Address> GetAll()
         {
-            return _addressRepository.GetAll();
+            return _unitOfWork.AddressRepository.GetAll();
         }
 
         public Address? GetById(int id)
         {
-            return _addressRepository.GetById(id);
+            return _unitOfWork.AddressRepository.GetById(id);
         }
 
         public Address Update(Address address)
         {
-             return _addressRepository.Update(address);
+             return _unitOfWork.AddressRepository.Update(address);
         }
     }
 }

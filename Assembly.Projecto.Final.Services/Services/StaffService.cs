@@ -11,40 +11,40 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class StaffService : IStaffService
     {
-        private readonly IStaffRepository _staffRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StaffService(IStaffRepository staffRepository) 
+        public StaffService(IUnitOfWork unitOfWork) 
         {
-            _staffRepository = staffRepository;
+            _unitOfWork = unitOfWork;
         }
         public Staff Add(Staff staff)
         {
-            return _staffRepository.Add(staff);
+            return _unitOfWork.StaffRepository.Add(staff);
         }
 
         public Staff Delete(Staff staff)
         {
-            return _staffRepository.Delete(staff);
+            return _unitOfWork.StaffRepository.Delete(staff);
         }
 
         public Staff? Delete(int id)
         {
-            return _staffRepository.Delete(id);
+            return _unitOfWork.StaffRepository.Delete(id);
         }
 
         public List<Staff> GetAll()
         {
-            return _staffRepository.GetAll();
+            return _unitOfWork.StaffRepository.GetAll();
         }
 
         public Staff? GetById(int id)
         {
-            return _staffRepository.GetById(id);
+            return _unitOfWork.StaffRepository.GetById(id);
         }
 
         public Staff Update(Staff staff)
         {
-            return _staffRepository.Update(staff);
+            return _unitOfWork.StaffRepository.Update(staff);
         }
     }
 }

@@ -11,39 +11,39 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class PersonalContactDetailService : IPersonalContactDetailService
     {
-        private readonly IPersonalContactDetailRepository _personalContactDetailRepository;
-        public PersonalContactDetailService(IPersonalContactDetailRepository personalContactDetailRepository) 
+        private readonly IUnitOfWork _unitOfWork;
+        public PersonalContactDetailService(IUnitOfWork unitOfWork) 
         {
-            _personalContactDetailRepository = personalContactDetailRepository;
+            _unitOfWork = unitOfWork;
         }
         public PersonalContactDetail Add(PersonalContactDetail personalContactDetail)
         {
-            return _personalContactDetailRepository.Add(personalContactDetail);
+            return _unitOfWork.PersonalContactDetailRepository.Add(personalContactDetail);
         }
 
         public PersonalContactDetail Delete(PersonalContactDetail personalContactDetail)
         {
-            return _personalContactDetailRepository.Delete(personalContactDetail);
+            return _unitOfWork.PersonalContactDetailRepository.Delete(personalContactDetail);
         }
 
         public PersonalContactDetail? Delete(int id)
         {
-            return _personalContactDetailRepository.Delete(id);
+            return _unitOfWork.PersonalContactDetailRepository.Delete(id);
         }
 
         public List<PersonalContactDetail> GetAll()
         {
-            return _personalContactDetailRepository.GetAll();
+            return _unitOfWork.PersonalContactDetailRepository.GetAll();
         }
 
         public PersonalContactDetail? GetById(int id)
         {
-             return _personalContactDetailRepository.GetById(id);
+             return _unitOfWork.PersonalContactDetailRepository.GetById(id);
         }
 
         public PersonalContactDetail Update(PersonalContactDetail personalContactDetail)
         {
-             return _personalContactDetailRepository.Update(personalContactDetail);
+             return _unitOfWork.PersonalContactDetailRepository.Update(personalContactDetail);
         }
     }
 }
