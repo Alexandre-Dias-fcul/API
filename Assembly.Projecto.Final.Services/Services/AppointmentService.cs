@@ -11,39 +11,39 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class AppointmentService : IAppointmentService
     {
-        private readonly IAppointmentRepository _appointmentRepository;
-        public AppointmentService(IAppointmentRepository appointmentRepository) 
-        { 
-            _appointmentRepository = appointmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public AppointmentService(IUnitOfWork unitOfWork) 
+        {
+            _unitOfWork = unitOfWork;
         }
         public Appointment Add(Appointment appointment)
         {
-             return _appointmentRepository.Add(appointment);
+             return _unitOfWork.AppointmentRepository.Add(appointment);
         }
 
         public Appointment Delete(Appointment appointment)
         {
-             return _appointmentRepository.Delete(appointment);
+             return _unitOfWork.AppointmentRepository.Delete(appointment);
         }
 
         public Appointment? Delete(int id)
         {
-            return _appointmentRepository.Delete(id);
+            return _unitOfWork.AppointmentRepository.Delete(id);
         }
 
         public List<Appointment> GetAll()
         {
-            return _appointmentRepository.GetAll();
+            return _unitOfWork.AppointmentRepository.GetAll();
         }
 
         public Appointment? GetById(int id)
         {
-            return _appointmentRepository.GetById(id);
+            return _unitOfWork.AppointmentRepository.GetById(id);
         }
 
         public Appointment Update(Appointment appointment)
         {
-            return _appointmentRepository.Update(appointment);
+            return _unitOfWork.AppointmentRepository.Update(appointment);
         }
     }
 }

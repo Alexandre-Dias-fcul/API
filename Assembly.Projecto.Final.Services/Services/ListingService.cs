@@ -15,14 +15,12 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class ListingService : IListingService
     {
-        private readonly IListingRepository _listingRepository;
-        private readonly IAgentRepository _agentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
-        public ListingService(IListingRepository listingRepository,IAgentRepository agentRepository, IMapper mapper) 
-        { 
-            _listingRepository = listingRepository;
-            _agentRepository = agentRepository;
+        public ListingService(IUnitOfWork unitOfWork, IMapper mapper) 
+        {
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -33,7 +31,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 listingDto.Area,listingDto.Parking,listingDto.Description,listingDto.MainImageFileName,
                 listingDto.OtherImagesFileNames);
 
-            var agent = _agentRepository.GetById(listingDto.AgentId);
+            var agent = _unitOfWork.AgentRepository.GetById(listingDto.AgentId);
 
             if (agent == null) 
             {
@@ -42,34 +40,34 @@ namespace Assembly.Projecto.Final.Services.Services
 
             listing.SetAgent(agent);
 
-            return _mapper.Map<ListingDto>(_listingRepository.Add(listing));
+            return _mapper.Map<ListingDto>(_unitOfWork.ListingRepository.Add(listing));
         }
 
         public ListingDtoId Delete(ListingDtoId listingDtoId)
         {
             var listing = _mapper.Map<Listing>(listingDtoId);
 
-            return _mapper.Map<ListingDtoId>(_listingRepository.Delete(listing));
+            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.Delete(listing));
         }
 
         public ListingDtoId Delete(int id)
         {
-            return _mapper.Map<ListingDtoId>(_listingRepository.Delete(id));
+            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.Delete(id));
         }
 
         public List<ListingDtoId> GetAll()
         {
-            return _mapper.Map<List<ListingDtoId>>(_listingRepository.GetAll());
+            return _mapper.Map<List<ListingDtoId>>(_unitOfWork.ListingRepository.GetAll());
         }
 
         public ListingDtoId GetById(int id)
         {
-            return _mapper.Map<ListingDtoId>(_listingRepository.GetById(id));
+            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.GetById(id));
         }
 
         public ListingDtoId Update(ListingDtoId listingDtoId)
         {
-            var listing = _listingRepository.GetById(listingDtoId.Id);
+            var listing = _unitOfWork.ListingRepository.GetById(listingDtoId.Id);
 
             if(listing == null) 
             {
@@ -81,7 +79,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 listingDtoId.Area, listingDtoId.Parking, listingDtoId.Description, listingDtoId.MainImageFileName,
                 listingDtoId.OtherImagesFileNames);
 
-            return _mapper.Map<ListingDtoId>(_listingRepository.Update(listing));
+            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.Update(listing));
         }
     }
 }

@@ -11,40 +11,40 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
         public User Add(User user)
         {
-            return _userRepository.Add(user);
+            return _unitOfWork.UserRepository.Add(user);
         }
 
         public User Delete(User user)
         {
-            return _userRepository.Delete(user);
+            return _unitOfWork.UserRepository.Delete(user);
         }
 
         public User? Delete(int id)
         {
-            return _userRepository.Delete(id);
+            return _unitOfWork.UserRepository.Delete(id);
         }
 
         public List<User> GetAll()
         {
-            return _userRepository.GetAll();
+            return _unitOfWork.UserRepository.GetAll();
         }
 
         public User? GetById(int id)
         {
-            return _userRepository.GetById(id);
+            return _unitOfWork.UserRepository.GetById(id);
         }
 
         public User Update(User user)
         {
-            return _userRepository.Update(user);
+            return _unitOfWork.UserRepository.Update(user);
         }
     }
 }

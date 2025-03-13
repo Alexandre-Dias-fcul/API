@@ -35,21 +35,18 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         public TEntity Add(TEntity obj)
         {
             var entity = DbSet.Add(obj).Entity;
-            _dbContext.SaveChanges();
             return entity;
         }
 
         public TEntity Update(TEntity obj)
         {
             DbSet.Update(obj);
-            _dbContext.SaveChanges();
             return obj;
         }
 
         public TEntity Delete(TEntity obj)
         {
             DbSet.Remove(obj);
-            _dbContext.SaveChanges();
             return obj;
         }
 

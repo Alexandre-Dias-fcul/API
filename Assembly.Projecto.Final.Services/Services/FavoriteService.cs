@@ -11,39 +11,39 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class FavoriteService : IFavoriteService
     {
-        private readonly IFavoriteRepository _favoriteRepository;
-        public FavoriteService(IFavoriteRepository favoriteRepository) 
-        { 
-            _favoriteRepository = favoriteRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public FavoriteService(IUnitOfWork unitOfWork) 
+        {
+            _unitOfWork = unitOfWork;
         }
         public Favorite Add(Favorite favorite)
         {
-            return _favoriteRepository.Add(favorite);
+            return _unitOfWork.FavoriteRepository.Add(favorite);
         }
 
         public Favorite Delete(Favorite favorite)
         {
-            return _favoriteRepository.Delete(favorite);
+            return _unitOfWork.FavoriteRepository.Delete(favorite);
         }
 
         public Favorite? Delete(int id)
         {
-            return _favoriteRepository.Delete(id);
+            return _unitOfWork.FavoriteRepository.Delete(id);
         }
 
         public List<Favorite> GetAll()
         {
-            return _favoriteRepository.GetAll();
+            return _unitOfWork.FavoriteRepository.GetAll();
         }
 
         public Favorite? GetById(int id)
         {
-            return _favoriteRepository.GetById(id);
+            return _unitOfWork.FavoriteRepository.GetById(id);
         }
 
         public Favorite Update(Favorite favorite)
         {
-            return _favoriteRepository.Update(favorite);
+            return _unitOfWork.FavoriteRepository.Update(favorite);
         }
     }
 }

@@ -11,39 +11,39 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class EntityLinkService : IEntityLinkService
     {
-        private readonly IEntityLinkRepository _entityLinkRepository;
-        public EntityLinkService(IEntityLinkRepository entityLinkRepository) 
+        private readonly IUnitOfWork _unitOfWork;
+        public EntityLinkService(IUnitOfWork unitOfWork) 
         {
-            _entityLinkRepository = entityLinkRepository;
+            _unitOfWork = unitOfWork;
         }
         public EntityLink Add(EntityLink entityLink)
         {
-            return _entityLinkRepository.Add(entityLink);   
+            return _unitOfWork.EntityLinkRepository.Add(entityLink);   
         }
 
         public EntityLink Delete(EntityLink entityLink)
         {
-            return _entityLinkRepository.Delete(entityLink);
+            return _unitOfWork.EntityLinkRepository.Delete(entityLink);
         }
 
         public EntityLink? Delete(int id)
         {
-            return _entityLinkRepository.Delete(id);
+            return _unitOfWork.EntityLinkRepository.Delete(id);
         }
 
         public List<EntityLink> GetAll()
         {
-            return _entityLinkRepository.GetAll();
+            return _unitOfWork.EntityLinkRepository.GetAll();
         }
 
         public EntityLink? GetById(int id)
         {
-            return _entityLinkRepository.GetById(id);
+            return _unitOfWork.EntityLinkRepository.GetById(id);
         }
 
         public EntityLink Update(EntityLink entityLink)
         {
-            return _entityLinkRepository.Update(entityLink);
+            return _unitOfWork.EntityLinkRepository.Update(entityLink);
         }
     }
 }

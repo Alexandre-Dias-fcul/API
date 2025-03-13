@@ -11,39 +11,39 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class PersonalContactService : IPersonalContactService
     {
-        private readonly IPersonalContactRepository _personalContactRepository;
-        public PersonalContactService(IPersonalContactRepository personalContactRepository) 
-        { 
-            _personalContactRepository = personalContactRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        public PersonalContactService(IUnitOfWork unitOfWork) 
+        {
+            _unitOfWork = unitOfWork;
         }
         public PersonalContact Add(PersonalContact personalContact)
         {
-            return _personalContactRepository.Add(personalContact);
+            return _unitOfWork.PersonalContactRepository.Add(personalContact);
         }
 
         public PersonalContact Delete(PersonalContact personalContact)
         {
-            return _personalContactRepository.Delete(personalContact);
+            return _unitOfWork.PersonalContactRepository.Delete(personalContact);
         }
 
         public PersonalContact? Delete(int id)
         {
-            return _personalContactRepository.Delete(id);
+            return _unitOfWork.PersonalContactRepository.Delete(id);
         }
 
         public List<PersonalContact> GetAll()
         {
-            return _personalContactRepository.GetAll();
+            return _unitOfWork.PersonalContactRepository.GetAll();
         }
 
         public PersonalContact? GetById(int id)
         {
-            return _personalContactRepository.GetById(id);
+            return _unitOfWork.PersonalContactRepository.GetById(id);
         }
 
         public PersonalContact Update(PersonalContact personalContact)
         {
-            return _personalContactRepository.Update(personalContact);
+            return _unitOfWork.PersonalContactRepository.Update(personalContact);
         }
     }
 }

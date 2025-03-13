@@ -15,18 +15,12 @@ namespace Assembly.Projecto.Final.Services.Services
 {
     public class AgentService : IAgentService
     {
-        private readonly IAgentRepository _agentRepository;
-
-        private readonly IListingRepository _listingRepository;
-
-        private readonly IReassignRepository _reassignRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         private readonly IMapper _mapper;
-        public AgentService(IAgentRepository agentRepository,IListingRepository listingRepository,IReassignRepository reassignRepository, IMapper mapper) 
-        { 
-            _agentRepository = agentRepository;
-            _listingRepository = listingRepository;
-            _reassignRepository = reassignRepository;
+        public AgentService(IUnitOfWork unitOfWork, IMapper mapper) 
+        {
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         public AgentDto Add(AgentDto agentDto)
@@ -61,7 +55,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             if (agentDto.SupervisorId != null)
             {
-                var supervisor = _agentRepository.GetById((int)agentDto.SupervisorId);
+                var supervisor = _unitOfWork.AgentRepository.GetById((int)agentDto.SupervisorId);
 
                 if(supervisor == null) 
                 {
@@ -71,7 +65,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 agent.SetSupervisor(supervisor);
             }
 
-            return _mapper.Map<AgentDto>(_agentRepository.Add(agent));
+            return _mapper.Map<AgentDto>(_unitOfWork.AgentRepository.Add(agent));
         }
 
         public AgentDtoId Delete(AgentDtoId agentDtoId)
@@ -80,33 +74,33 @@ namespace Assembly.Projecto.Final.Services.Services
 
             
 
-            return _mapper.Map<AgentDtoId>(_agentRepository.Delete(agent));
+            return _mapper.Map<AgentDtoId>(_unitOfWork.AgentRepository.Delete(agent));
         }
 
         public AgentDtoId? Delete(int id)
         {
-            return _mapper.Map<AgentDtoId>(_agentRepository.Delete(id));
+            return _mapper.Map<AgentDtoId>(_unitOfWork.AgentRepository.Delete(id));
         }
 
         public List<AgentDtoId> GetAll()
         {
-            return _mapper.Map<List<AgentDtoId>>(_agentRepository.GetAll());
+            return _mapper.Map<List<AgentDtoId>>(_unitOfWork.AgentRepository.GetAll());
         }
 
         public List<AgentDtoId> GetAllInclude()
         { 
-            return _mapper.Map<List<AgentDtoId>>(_agentRepository.GetAllInclude());
+            return _mapper.Map<List<AgentDtoId>>(_unitOfWork.AgentRepository.GetAllInclude());
         }
 
         public AgentListingDto? GetAllListingByEmployeeId(int idEmployee)
         { 
 
-            return _mapper.Map<AgentListingDto>(_agentRepository.GetAllListingByEmployeeId(idEmployee));
+            return _mapper.Map<AgentListingDto>(_unitOfWork.AgentRepository.GetAllListingByEmployeeId(idEmployee));
         }
 
         public List<ManagerAgentDto> GetAllManagerAgents(int idManager)
         {
-            var agents = _agentRepository.GetAllManagerAgents(idManager);
+            var agents = _unitOfWork.AgentRepository.GetAllManagerAgents(idManager);
 
             var agentDtos = _mapper.Map<List<ManagerAgentDto>>(agents);
 
@@ -115,19 +109,19 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public AgentDtoId? GetById(int id)
         {
-            return _mapper.Map<AgentDtoId>(_agentRepository.GetById(id));
+            return _mapper.Map<AgentDtoId>(_unitOfWork.AgentRepository.GetById(id));
         }
 
         public AgentDtoId? GetByIdInclude(int id)
         {
-            return _mapper.Map<AgentDtoId>(_agentRepository.GetById(id));
+            return _mapper.Map<AgentDtoId>(_unitOfWork.AgentRepository.GetById(id));
         }
 
         public void ManagerReassign(int idManager, int idAgent)
         {
-            var manager = _agentRepository.GetById(idManager);
+            var manager = _unitOfWork.AgentRepository.GetById(idManager);
 
-            var agent = _agentRepository.GetById(idAgent);
+            var agent = _unitOfWork.AgentRepository.GetById(idAgent);
 
             if(manager == null || agent == null) 
             {
@@ -139,7 +133,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 throw new ArgumentException();
             }
 
-            var agentWithListing = _agentRepository.GetAllListingByEmployeeId(agent.Id);
+            var agentWithListing = _unitOfWork.AgentRepository.GetAllListingByEmployeeId(agent.Id);
 
             var listings = agentWithListing.Listings.ToList();
 
@@ -147,20 +141,20 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 listing.SetAgent(manager);
 
-                _listingRepository.Update(listing);
+                _unitOfWork.ListingRepository.Update(listing);
 
                 var reassign = Reassign.Create(agent.Id, manager.Id, manager.Id, DateTime.Now);
 
                 reassign.SetListing(listing);
 
-                _reassignRepository.Add(reassign);
+                _unitOfWork.ReassignRepository.Add(reassign);
             }
             
         }
 
         public AgentDtoId Update(AgentDtoId agentDtoId)
         {
-            var agent = _agentRepository.GetByIdInclude(agentDtoId.Id);
+            var agent = _unitOfWork.AgentRepository.GetByIdInclude(agentDtoId.Id);
 
             if(agent == null) 
             {
@@ -212,7 +206,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
             }
 
-            return _mapper.Map<AgentDtoId>(_agentRepository.Update(agent));
+            return _mapper.Map<AgentDtoId>(_unitOfWork.AgentRepository.Update(agent));
         }
     }
 }
