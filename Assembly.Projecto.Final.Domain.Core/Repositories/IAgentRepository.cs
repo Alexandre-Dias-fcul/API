@@ -10,12 +10,6 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IAgentRepository:IRepository<Agent,int>
     {
-        List<Agent> GetAllInclude();
 
-        Agent? GetByIdInclude(int id);
-
-        List<Agent> GetAllManagerAgents(int idManager);
-
-        Agent? GetAllListingByEmployeeId(int idEmployee);
     }
 }

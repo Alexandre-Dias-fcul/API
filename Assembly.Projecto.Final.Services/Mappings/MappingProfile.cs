@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using AutoMapper;
 
 namespace Assembly.Projecto.Final.Services.Mappings

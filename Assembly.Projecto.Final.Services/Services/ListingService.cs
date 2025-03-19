@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -24,82 +25,34 @@ namespace Assembly.Projecto.Final.Services.Services
             _mapper = mapper;
         }
 
-        public ListingDto Add(ListingDto listingDto)
+        public ListingDto Add(CreateListingDto obj)
         {
-            _unitOfWork.BeginTransaction();
-
-            var listing = Listing.Create(listingDto.Type,listingDto.Status,listingDto.NumberOfRooms,
-                listingDto.NumberOfBathrooms,listingDto.NumberOfKitchens,listingDto.Price,listingDto.Location,
-                listingDto.Area,listingDto.Parking,listingDto.Description,listingDto.MainImageFileName,
-                listingDto.OtherImagesFileNames);
-
-            var agent = _unitOfWork.AgentRepository.GetById(listingDto.AgentId);
-
-            if (agent == null) 
-            {
-                throw new ArgumentNullException();
-            }
-
-            listing.SetAgent(agent);
-
-            Listing addedListing;
-
-            using (_unitOfWork) 
-            {
-                addedListing =_unitOfWork.ListingRepository.Add(listing);
-                _unitOfWork.Commit();
-            }
-
-            return _mapper.Map<ListingDto>(addedListing);
+            throw new NotImplementedException();
         }
 
-        public ListingDtoId Delete(ListingDtoId listingDtoId)
+        public ListingDto Delete(ListingDto obj)
         {
-            var listing = _mapper.Map<Listing>(listingDtoId);
-
-            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.Delete(listing));
+            throw new NotImplementedException();
         }
 
-        public ListingDtoId Delete(int id)
+        public ListingDto Delete(int id)
         {
-            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.Delete(id));
+            throw new NotImplementedException();
         }
 
-        public List<ListingDtoId> GetAll()
+        public List<ListingDto> GetAll()
         {
-            return _mapper.Map<List<ListingDtoId>>(_unitOfWork.ListingRepository.GetAll());
+            throw new NotImplementedException();
         }
 
-        public ListingDtoId GetById(int id)
+        public ListingDto GetById(int id)
         {
-            return _mapper.Map<ListingDtoId>(_unitOfWork.ListingRepository.GetById(id));
+            throw new NotImplementedException();
         }
 
-        public ListingDtoId Update(ListingDtoId listingDtoId)
+        public ListingDto Update(ListingDto obj)
         {
-            _unitOfWork.BeginTransaction();
-
-            var listing = _unitOfWork.ListingRepository.GetById(listingDtoId.Id);
-
-            if(listing == null) 
-            {
-                throw new ArgumentNullException();
-            }
-
-            listing.Update(listingDtoId.Type, listingDtoId.Status, listingDtoId.NumberOfRooms,
-                listingDtoId.NumberOfBathrooms, listingDtoId.NumberOfKitchens, listingDtoId.Price, listingDtoId.Location,
-                listingDtoId.Area, listingDtoId.Parking, listingDtoId.Description, listingDtoId.MainImageFileName,
-                listingDtoId.OtherImagesFileNames);
-
-            Listing updatedListing;
-
-            using (_unitOfWork) 
-            {
-                updatedListing =_unitOfWork.ListingRepository.Update(listing);
-                _unitOfWork.Commit();
-            }
-
-            return _mapper.Map<ListingDtoId>(updatedListing);
+            throw new NotImplementedException();
         }
     }
 }

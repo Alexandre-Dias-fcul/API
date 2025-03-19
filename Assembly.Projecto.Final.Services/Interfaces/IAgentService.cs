@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,8 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-     public interface IAgentService:IServiceProvisorio<AgentDto,AgentDtoId,int>
+    public interface IAgentService:IService<CreateAgentDto,AgentDto,int>
     {
-        List<AgentDtoId> GetAllInclude();
-
-        AgentDtoId? GetByIdInclude(int id);
-
-        List<ManagerAgentDto> GetAllManagerAgents(int idManager);
-
-        AgentListingDto? GetAllListingByEmployeeId(int idEmployee);
-
-        void ManagerReassign(int IdManager, int IdAgent);
         
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,14 @@ namespace Assembly.Projecto.Final.Services.Services
      public class AddressService:IAddressService
     {
         private readonly IUnitOfWork _unitOfWork;
+
+        private readonly IMapper _mapper;
         public AddressService(IUnitOfWork unitOfWork) 
         {
             _unitOfWork = unitOfWork;
         }
 
-        public Address Add(Address address)
+        public AddressDto Add(CreateAddressDto createAddressDto)
         {
             return _unitOfWork.AddressRepository.Add(address);
         }
