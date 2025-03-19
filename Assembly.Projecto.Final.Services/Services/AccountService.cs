@@ -48,6 +48,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using(_unitOfWork) 
             {
+                _unitOfWork.BeginTransaction();
+
                 var foundedAccount = _unitOfWork.AccountRepository.GetById(account.Id);
 
                 if (foundedAccount == null) 
@@ -56,6 +58,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 deletedAccount = _unitOfWork.AccountRepository.Delete(foundedAccount);
+
+                _unitOfWork.Commit();
             }
 
              return _mapper.Map<AccountDto>(deletedAccount);
@@ -63,7 +67,25 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public AccountDto Delete(int id)
         {
-            var deletedAccount = _unitOfWork.AccountRepository.Delete(id);
+
+            Account deletedAccount;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedAccount = _unitOfWork.AccountRepository.GetById(id);
+
+                if(foundedAccount == null) 
+                {
+                    throw new ArgumentNullException(nameof(foundedAccount), "Not found");
+                }
+
+                deletedAccount = _unitOfWork.AccountRepository.Delete(id);
+
+                _unitOfWork.Commit();
+            }
+                
 
             return _mapper.Map<AccountDto>(deletedAccount);
         }
