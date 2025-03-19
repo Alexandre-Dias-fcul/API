@@ -63,6 +63,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
         public bool Commit()
         {
             bool commited = false;
+
             try
             {
                 var affectedRows = _context.SaveChanges();
