@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Mappings
 {
-    public class AccountMapping : Profile
+    public class AddressMapping:Profile
     {
-        public AccountMapping() 
+        public AddressMapping() 
         {
-            CreateMap<Account, AccountDto>().ReverseMap();
-            CreateMap<Account, CreateAccountDto>().ReverseMap();
+            CreateMap<Address, AddressDto>().ReverseMap();
+
+            CreateMap<Address, CreateAddressDto>().ReverseMap();
         }
     }
 }
