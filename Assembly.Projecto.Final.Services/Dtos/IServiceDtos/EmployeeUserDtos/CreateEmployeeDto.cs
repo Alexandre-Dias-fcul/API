@@ -10,6 +10,5 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos
     {
         public DateTime? HiredDate { get; set; }
         public DateTime? DateOfTermination { get; set; }
-        public EntityLinkDtoId EntityLink { get; set; } = new();
     }
 }

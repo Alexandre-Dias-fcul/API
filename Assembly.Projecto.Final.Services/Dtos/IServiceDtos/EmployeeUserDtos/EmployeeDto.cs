@@ -8,5 +8,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos
 {
     public class EmployeeDto:PersonDto
     {
+        public DateTime? HiredDate { get; set; }
+        public DateTime? DateOfTermination { get; set; }
     }
 }

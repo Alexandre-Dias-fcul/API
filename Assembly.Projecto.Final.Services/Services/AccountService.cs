@@ -24,15 +24,15 @@ namespace Assembly.Projecto.Final.Services.Services
         }
         public AccountDto Add(CreateAccountDto createAccountDto)
         {
-            var account =_mapper.Map<Account>(createAccountDto);
-
             Account addedAccount; 
 
             using (_unitOfWork) 
             {
                 _unitOfWork.BeginTransaction();
 
-                 addedAccount = _unitOfWork.AccountRepository.Add(account);
+                var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
+
+                addedAccount = _unitOfWork.AccountRepository.Add(account);
 
                 _unitOfWork.Commit();
             }
@@ -42,19 +42,17 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public AccountDto Delete(AccountDto accountDto)
         {
-             var account = _mapper.Map<Account>(accountDto);
-
             Account deletedAccount;
 
             using(_unitOfWork) 
             {
                 _unitOfWork.BeginTransaction();
 
-                var foundedAccount = _unitOfWork.AccountRepository.GetById(account.Id);
+                var foundedAccount = _unitOfWork.AccountRepository.GetById(accountDto.Id);
 
                 if (foundedAccount == null) 
                 {
-                    throw new ArgumentNullException(nameof(foundedAccount), "Not found");
+                    throw new ArgumentNullException(nameof(foundedAccount), "Não foi encontrado.");
                 }
 
                 deletedAccount = _unitOfWork.AccountRepository.Delete(foundedAccount);
@@ -67,7 +65,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public AccountDto Delete(int id)
         {
-
             Account deletedAccount;
 
             using (_unitOfWork) 
@@ -78,7 +75,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 if(foundedAccount == null) 
                 {
-                    throw new ArgumentNullException(nameof(foundedAccount), "Not found");
+                    throw new ArgumentNullException(nameof(foundedAccount), "Não foi encontrado.");
                 }
 
                 deletedAccount = _unitOfWork.AccountRepository.Delete(id);
@@ -112,9 +109,7 @@ namespace Assembly.Projecto.Final.Services.Services
         }
 
         public AccountDto Update(AccountDto accountDto)
-        {
-            var account = _mapper.Map<Account>(accountDto);
-
+        { 
             Account updatedAccount;
 
             using (_unitOfWork) 
@@ -125,7 +120,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 if (foundedAccount is null)
                 {
-                    throw new ArgumentNullException(nameof(foundedAccount), "Not found");
+                    throw new ArgumentNullException(nameof(foundedAccount), "Não foi encontrado.");
                 }
 
                 foundedAccount.Update(accountDto.Password,accountDto.Email);
