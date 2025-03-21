@@ -41,11 +41,11 @@ namespace Assembly.Projecto.Final.Services.Services
                     createAgentDto.PhotoFileName, createAgentDto.IsActive,createAgentDto.HiredDate, 
                     createAgentDto.DateOfTermination, createAgentDto.Role);
 
-                if (createAgentDto.SupervisorId != null) 
+                if (createAgentDto.SupervisorId is not null) 
                 {
                     var supervisor = _unitOfWork.AgentRepository.GetById((int)createAgentDto.SupervisorId);
 
-                    if(supervisor == null) 
+                    if(supervisor is null) 
                     {
                         throw new ArgumentNullException(nameof(supervisor), "Não foi encontrado.");
                     }
@@ -71,7 +71,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(agentDto.Id);
 
-                if(foundedAgent == null) 
+                if(foundedAgent is null) 
                 {
                     throw new ArgumentNullException(nameof(foundedAgent), "Não foi encontrado.");
                 }
@@ -94,7 +94,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(id);
 
-                if (foundedAgent == null)
+                if (foundedAgent is null)
                 {
                     throw new ArgumentNullException(nameof(foundedAgent), "Não foi encontrado.");
                 }
@@ -150,7 +150,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 {
                     var supervisor = _unitOfWork.AgentRepository.GetById((int)agentDto.SupervisorId);
 
-                    if (supervisor == null)
+                    if (supervisor is null)
                     {
                         throw new ArgumentNullException(nameof(supervisor), "Não foi encontrado.");
                     }
