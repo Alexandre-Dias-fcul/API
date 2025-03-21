@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
 {
-    class CreateContactDto
+    public  class CreateContactDto
     {
         public ContactType ContactType { get; set; }
         public string Value { get; set; }

@@ -9,5 +9,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
     public class FavoriteDto
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
+        public int ListingId { get; set; }
     }
 }

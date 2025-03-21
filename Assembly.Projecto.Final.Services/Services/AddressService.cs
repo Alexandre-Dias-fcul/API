@@ -51,7 +51,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAddress = _unitOfWork.AddressRepository.GetById(addressDto.Id);
 
-                if (foundedAddress == null) 
+                if (foundedAddress is null) 
                 {
                     throw new ArgumentNullException(nameof(foundedAddress), "Não foi encontrado.");
                 }
@@ -75,7 +75,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAddress = _unitOfWork.AddressRepository.GetById(id);
 
-                if(foundedAddress == null) 
+                if(foundedAddress is null) 
                 {
                     throw new ArgumentNullException(nameof(foundedAddress), "Não foi encontrado.");
                 }
@@ -120,7 +120,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAddress = _unitOfWork.AddressRepository.GetById(addressDto.Id);  
                 
-                if(foundedAddress == null) 
+                if(foundedAddress is null) 
                 {
                     throw new ArgumentNullException(nameof(foundedAddress), "Não foi encontrado.");
                 }

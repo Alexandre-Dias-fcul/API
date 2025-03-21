@@ -50,7 +50,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAccount = _unitOfWork.AccountRepository.GetById(accountDto.Id);
 
-                if (foundedAccount == null) 
+                if (foundedAccount is null) 
                 {
                     throw new ArgumentNullException(nameof(foundedAccount), "Não foi encontrado.");
                 }
@@ -73,7 +73,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAccount = _unitOfWork.AccountRepository.GetById(id);
 
-                if(foundedAccount == null) 
+                if(foundedAccount is null) 
                 {
                     throw new ArgumentNullException(nameof(foundedAccount), "Não foi encontrado.");
                 }
