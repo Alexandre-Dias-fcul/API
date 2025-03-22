@@ -8,5 +8,8 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
 {
     public class CreateFeedBackDto
     {
+        public int? Rate { get; set; }
+        public string Comment { get; set; }
+        public DateTime? CommentDate { get; set; }
     }
 }

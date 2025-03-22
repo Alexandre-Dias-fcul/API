@@ -26,36 +26,36 @@ namespace Assembly.Projecto.Final.Domain.Models
             CommentDate = DateTime.MinValue;
         }
 
-        private FeedBack(int rate,string comment,DateTime commentDate)
+        private FeedBack(int? rate,string comment,DateTime? commentDate)
             :this()
         {
             DomainValidation(rate, comment, commentDate);
         }
 
-        private FeedBack(int id, int rate, string comment, DateTime commentDate):this(rate, comment,commentDate)
+        private FeedBack(int id, int? rate, string comment, DateTime? commentDate):this(rate, comment,commentDate)
         { 
             Id = id;    
         }
 
-        public static FeedBack Create(int rate, string comment, DateTime commentDate)
+        public static FeedBack Create(int? rate, string comment, DateTime? commentDate)
         {
             var feedback = new FeedBack(rate, comment, commentDate);
 
             return feedback;
         }
-        public static FeedBack Create(int id,int rate, string comment, DateTime commentDate) 
+        public static FeedBack Create(int id,int? rate, string comment, DateTime? commentDate) 
         {
             var feedback = new FeedBack(id,rate,comment,commentDate);
 
             return feedback;
         }
 
-        public void Update(int rate, string comment, DateTime commentDate) 
+        public void Update(int? rate, string comment, DateTime? commentDate) 
         {
             DomainValidation(rate,comment,commentDate);
         }
 
-        public void DomainValidation(int rate, string comment, DateTime commentDate) 
+        public void DomainValidation(int? rate, string comment, DateTime? commentDate) 
         {
             DomainExceptionValidation.When(comment != null && comment.Length>2000," Erro: o commntário não pode ter " +
                 "mais de 2000 caracteres.");
