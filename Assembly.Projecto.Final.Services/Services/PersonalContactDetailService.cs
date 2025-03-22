@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,38 +14,43 @@ namespace Assembly.Projecto.Final.Services.Services
     public class PersonalContactDetailService : IPersonalContactDetailService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public PersonalContactDetailService(IUnitOfWork unitOfWork) 
+
+        private readonly IMapper _mapper;
+        public PersonalContactDetailService(IUnitOfWork unitOfWork,IMapper mapper) 
         {
             _unitOfWork = unitOfWork;
-        }
-        public PersonalContactDetail Add(PersonalContactDetail personalContactDetail)
-        {
-            return _unitOfWork.PersonalContactDetailRepository.Add(personalContactDetail);
+
+            _mapper = mapper;
         }
 
-        public PersonalContactDetail Delete(PersonalContactDetail personalContactDetail)
+        public PersonalContactDetailDto Add(CreatePersonalContactDetailDto obj)
         {
-            return _unitOfWork.PersonalContactDetailRepository.Delete(personalContactDetail);
+            throw new NotImplementedException();
         }
 
-        public PersonalContactDetail? Delete(int id)
+        public PersonalContactDetailDto Delete(PersonalContactDetailDto obj)
         {
-            return _unitOfWork.PersonalContactDetailRepository.Delete(id);
+            throw new NotImplementedException();
         }
 
-        public List<PersonalContactDetail> GetAll()
+        public PersonalContactDetailDto Delete(int id)
         {
-            return _unitOfWork.PersonalContactDetailRepository.GetAll();
+            throw new NotImplementedException();
         }
 
-        public PersonalContactDetail? GetById(int id)
+        public List<PersonalContactDetailDto> GetAll()
         {
-             return _unitOfWork.PersonalContactDetailRepository.GetById(id);
+            throw new NotImplementedException();
         }
 
-        public PersonalContactDetail Update(PersonalContactDetail personalContactDetail)
+        public PersonalContactDetailDto GetById(int id)
         {
-             return _unitOfWork.PersonalContactDetailRepository.Update(personalContactDetail);
+            throw new NotImplementedException();
+        }
+
+        public PersonalContactDetailDto Update(PersonalContactDetailDto obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

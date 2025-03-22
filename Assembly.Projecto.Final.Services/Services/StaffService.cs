@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,38 +15,43 @@ namespace Assembly.Projecto.Final.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public StaffService(IUnitOfWork unitOfWork) 
+        private readonly IMapper _mapper;
+
+        public StaffService(IUnitOfWork unitOfWork,IMapper mapper) 
         {
             _unitOfWork = unitOfWork;
-        }
-        public Staff Add(Staff staff)
-        {
-            return _unitOfWork.StaffRepository.Add(staff);
+
+            _mapper = mapper;
         }
 
-        public Staff Delete(Staff staff)
+        public StaffDto Add(CreateStaffDto obj)
         {
-            return _unitOfWork.StaffRepository.Delete(staff);
+            throw new NotImplementedException();
         }
 
-        public Staff? Delete(int id)
+        public StaffDto Delete(StaffDto obj)
         {
-            return _unitOfWork.StaffRepository.Delete(id);
+            throw new NotImplementedException();
         }
 
-        public List<Staff> GetAll()
+        public StaffDto Delete(int id)
         {
-            return _unitOfWork.StaffRepository.GetAll();
+            throw new NotImplementedException();
         }
 
-        public Staff? GetById(int id)
+        public List<StaffDto> GetAll()
         {
-            return _unitOfWork.StaffRepository.GetById(id);
+            throw new NotImplementedException();
         }
 
-        public Staff Update(Staff staff)
+        public StaffDto GetById(int id)
         {
-            return _unitOfWork.StaffRepository.Update(staff);
+            throw new NotImplementedException();
+        }
+
+        public StaffDto Update(StaffDto obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

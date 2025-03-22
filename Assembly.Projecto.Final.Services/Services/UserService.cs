@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,38 +15,43 @@ namespace Assembly.Projecto.Final.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-        }
-        public User Add(User user)
-        {
-            return _unitOfWork.UserRepository.Add(user);
+
+            _mapper = mapper;
         }
 
-        public User Delete(User user)
+        public UserDto Add(CreateUserDto createUserDto)
         {
-            return _unitOfWork.UserRepository.Delete(user);
+            throw new NotImplementedException();
         }
 
-        public User? Delete(int id)
+        public UserDto Delete(UserDto userDto)
         {
-            return _unitOfWork.UserRepository.Delete(id);
+            throw new NotImplementedException();
         }
 
-        public List<User> GetAll()
+        public UserDto Delete(int id)
         {
-            return _unitOfWork.UserRepository.GetAll();
+            throw new NotImplementedException();
         }
 
-        public User? GetById(int id)
+        public List<UserDto> GetAll()
         {
-            return _unitOfWork.UserRepository.GetById(id);
+            throw new NotImplementedException();
         }
 
-        public User Update(User user)
+        public UserDto GetById(int id)
         {
-            return _unitOfWork.UserRepository.Update(user);
+            throw new NotImplementedException();
+        }
+
+        public UserDto Update(UserDto userDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

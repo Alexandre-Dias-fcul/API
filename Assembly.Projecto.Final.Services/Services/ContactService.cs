@@ -115,7 +115,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var foundedContact = _unitOfWork.ContactRepository.GetById(id);
+                var foundedContact = _unitOfWork.ContactRepository.GetById(contactDto.Id);
 
                 if (foundedContact is null)
                 {

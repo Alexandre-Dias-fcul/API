@@ -10,7 +10,7 @@ namespace Assembly.Projecto.Final.Services.Mappings
     {
         public MappingProfile()
         {
-            // Mapeamento de Person para PersonDto
+           /* // Mapeamento de Person para PersonDto
             CreateMap<Person, PersonDto>().ReverseMap();
 
             CreateMap<Name, NameDto>().ReverseMap();
@@ -91,7 +91,7 @@ namespace Assembly.Projecto.Final.Services.Mappings
             CreateMap<Listing, ListingDtoId>().ReverseMap();
 
             //================================================================
-
+           */
         }
     }
 }

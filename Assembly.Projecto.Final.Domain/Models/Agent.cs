@@ -30,8 +30,8 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
 
         private Agent(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination, RoleType role) :
-            base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate, 
+            string photoFileName, bool isActive,DateTime? hiredDate, DateTime? dateOfTermination, RoleType role) :
+            base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,hiredDate, 
                 dateOfTermination)
         {
             Role = role;
@@ -41,8 +41,8 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         private Agent(int id, string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
             string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination, RoleType role) : 
-            base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,isActive, hiredDate,
-                dateOfTermination)
+            base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName,isActive, 
+                hiredDate, dateOfTermination)
         {
             Role = role;
             _agents = new();
@@ -59,7 +59,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
 
         private Agent(int id, Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive,
-           DateTime? hiredDate, DateTime? dateOfTermination, RoleType role) :
+            DateTime? hiredDate, DateTime? dateOfTermination, RoleType role) :
             base(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination)
         {
             Role = role;
@@ -70,27 +70,27 @@ namespace Assembly.Projecto.Final.Domain.Models
         public static Agent Create(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive,
               DateTime? hiredDate, DateTime? dateOfTermination, RoleType role)
         {
-            var agent = new Agent(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination,
-                role);
+            var agent = new Agent(name, dateOfBirth, gender, photoFileName, isActive,hiredDate, 
+                dateOfTermination,role);
 
             return agent;
         }
 
         public static Agent Create(int id, Name name, DateTime? dateOfBirth, string gender, string photoFileName,
-            bool isActive, DateTime? hiredDate, DateTime? dateOfTermination, RoleType role)
+            bool isActive,DateTime? hiredDate, DateTime? dateOfTermination, RoleType role)
         {
-            var agent = new Agent(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination,
-                role);
+            var agent = new Agent(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, 
+                dateOfTermination,role);
 
             return agent;
         }
 
         public static Agent Create(string firstName, string middleNames, string lastName, DateTime? dateOfBirth,
-            string gender, string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination,
-            RoleType role)
+            string gender, string photoFileName, bool isActive,DateTime? hiredDate, 
+            DateTime? dateOfTermination,RoleType role)
         {
             var agent = new Agent(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,
-                hiredDate, dateOfTermination, role);
+                 hiredDate, dateOfTermination, role);
 
             return agent;
         }
@@ -106,17 +106,17 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
 
         public void Update(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive,
-              DateTime? hiredDate, DateTime? dateOfTermination, RoleType role)
+               DateTime? hiredDate, DateTime? dateOfTermination, RoleType role)
         {
-            base.Update(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination);
+            base.Update(name, dateOfBirth, gender, photoFileName, isActive,hiredDate, dateOfTermination);
             Role = role;
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination, RoleType role)
+            string photoFileName, bool isActive,DateTime? hiredDate, DateTime? dateOfTermination, RoleType role)
         {
-            base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate,
-                dateOfTermination);
+            base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, 
+                hiredDate,dateOfTermination);
             Role = role;
         }
 

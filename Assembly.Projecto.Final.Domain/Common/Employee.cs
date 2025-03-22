@@ -60,7 +60,8 @@ namespace Assembly.Projecto.Final.Domain.Common
         }
 
         protected Employee(int id, string firstName, string middleNames, string lastName, DateTime? dateOfBirth,
-           string gender, string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
+           string gender, string photoFileName, bool isActive, DateTime? hiredDate, 
+            DateTime? dateOfTermination) :
             base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive)
         {
             DomainValidation(hiredDate, dateOfTermination);
@@ -76,7 +77,8 @@ namespace Assembly.Projecto.Final.Domain.Common
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination)
+            string photoFileName, bool isActive, DateTime? hiredDate, 
+            DateTime? dateOfTermination)
         {
             base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive);
             DomainValidation(hiredDate, dateOfTermination);

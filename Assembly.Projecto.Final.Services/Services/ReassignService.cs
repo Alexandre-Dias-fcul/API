@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,38 +14,43 @@ namespace Assembly.Projecto.Final.Services.Services
     public class ReassignService : IReassignService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ReassignService(IUnitOfWork unitOfWork) 
+
+        private readonly IMapper _mapper;
+        public ReassignService(IUnitOfWork unitOfWork,IMapper mapper) 
         {
             _unitOfWork = unitOfWork;
-        }
-        public Reassign Add(Reassign reassign)
-        {
-            return _unitOfWork.ReassignRepository.Add(reassign);
+
+            _mapper = mapper;
         }
 
-        public Reassign Delete(Reassign reassign)
+        public ReassignDto Add(CreateReassignDto createReassignDto)
         {
-            return _unitOfWork.ReassignRepository.Delete(reassign);
+            throw new NotImplementedException();
         }
 
-        public Reassign? Delete(int id)
+        public ReassignDto Delete(ReassignDto reassignDto)
         {
-            return _unitOfWork.ReassignRepository.Delete(id);
+            throw new NotImplementedException();
         }
 
-        public List<Reassign> GetAll()
+        public ReassignDto Delete(int id)
         {
-            return _unitOfWork.ReassignRepository.GetAll();
+            throw new NotImplementedException();
         }
 
-        public Reassign? GetById(int id)
+        public List<ReassignDto> GetAll()
         {
-            return _unitOfWork.ReassignRepository.GetById(id);
+            throw new NotImplementedException();
         }
 
-        public Reassign Update(Reassign reassign)
+        public ReassignDto GetById(int id)
         {
-            return _unitOfWork.ReassignRepository.Update(reassign);
+            throw new NotImplementedException();
+        }
+
+        public ReassignDto Update(ReassignDto reassignDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

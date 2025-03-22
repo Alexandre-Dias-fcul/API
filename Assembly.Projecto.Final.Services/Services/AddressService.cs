@@ -80,7 +80,7 @@ namespace Assembly.Projecto.Final.Services.Services
                     throw new ArgumentNullException(nameof(foundedAddress), "Não foi encontrado.");
                 }
 
-                deletedAddress =  _unitOfWork.AddressRepository.Delete(id)
+                deletedAddress = _unitOfWork.AddressRepository.Delete(id);
 
                 _unitOfWork.Commit();
 

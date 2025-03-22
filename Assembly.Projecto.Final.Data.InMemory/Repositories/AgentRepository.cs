@@ -16,25 +16,5 @@ namespace Assembly.Projecto.Final.Data.InMemory.Repositories
             _db = db;
         }
 
-        public List<Agent> GetAllInclude()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Agent? GetAllListingByEmployeeId(int idEmployee)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Agent> GetAllManagerAgents(int idManager)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Agent? GetByIdInclude(int id)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }
