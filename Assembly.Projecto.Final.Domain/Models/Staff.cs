@@ -16,7 +16,8 @@ namespace Assembly.Projecto.Final.Domain.Models
         {
         }
         private Staff(Name name, DateTime? dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime? hiredDate, DateTime? dateOfTermination) :
+            string photoFileName, bool isActive, DateTime? hiredDate, 
+            DateTime? dateOfTermination) :
             base(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination)
         {
         }
@@ -28,7 +29,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
 
         private Staff(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
+            string photoFileName, bool isActive,DateTime hiredDate, DateTime dateOfTermination) :
             base(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate,
                 dateOfTermination)
         {
@@ -36,25 +37,26 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
 
         private Staff(int id, string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination) :
-            base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate,
-                dateOfTermination)
+            string photoFileName, bool isActive,DateTime hiredDate, DateTime dateOfTermination) :
+            base(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,
+                hiredDate,dateOfTermination)
         {
 
         }
 
         public static Staff Create(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-           DateTime hiredDate, DateTime dateOfTermination)
+            DateTime hiredDate, DateTime dateOfTermination)
         {
-            var staff = new Staff(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination);
+            var staff = new Staff(name, dateOfBirth, gender, photoFileName, isActive,hiredDate, dateOfTermination);
 
             return staff;
         }
 
-        public static Staff Create(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive
-            , DateTime hiredDate, DateTime dateOfTermination, EntityLink? entityLink, int? entityLinkId)
+        public static Staff Create(int id, Name name, DateTime dateOfBirth, string gender, string photoFileName, 
+            bool isActive, DateTime hiredDate, DateTime dateOfTermination)
         {
-            var staff = new Staff(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination);
+            var staff = new Staff(id, name, dateOfBirth, gender, photoFileName, isActive, hiredDate, 
+                dateOfTermination);
 
             return staff;
         }
@@ -72,21 +74,22 @@ namespace Assembly.Projecto.Final.Domain.Models
             string gender,string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination)
         {
             var staff = new Staff(id, firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,
-                hiredDate, dateOfTermination);
+                 hiredDate, dateOfTermination);
 
             return staff;
         }
 
         public void Update(Name name, DateTime dateOfBirth, string gender, string photoFileName, bool isActive,
-              DateTime hiredDate, DateTime dateOfTermination)
+               DateTime hiredDate, DateTime dateOfTermination)
         {
             base.Update(name, dateOfBirth, gender, photoFileName, isActive, hiredDate, dateOfTermination);
         }
 
         public void Update(string firstName, string middleNames, string lastName, DateTime dateOfBirth, string gender,
-            string photoFileName, bool isActive, DateTime hiredDate, DateTime dateOfTermination)
+            string photoFileName, bool isActive,DateTime hiredDate, 
+            DateTime dateOfTermination)
         {
-            base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive, hiredDate,
+            base.Update(firstName, middleNames, lastName, dateOfBirth, gender, photoFileName, isActive,hiredDate,
                 dateOfTermination);
         }
     }

@@ -88,17 +88,48 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public List<FeedBackDto> GetAll()
         {
-            return _unitOfWork.FeedBackRepository.GetAll();
+            var list = new List<FeedBackDto>();
+
+            foreach (var feedBack in _unitOfWork.FeedBackRepository.GetAll()) 
+            {
+                var feedBackDto = _mapper.Map<FeedBackDto>(feedBack);
+
+                list.Add(feedBackDto);
+            }
+
+            return list;
         }
 
         public FeedBackDto GetById(int id)
         {
-            return _unitOfWork.FeedBackRepository.GetById(id);
+            var feedBack = _unitOfWork.FeedBackRepository.GetById(id);
+
+            return _mapper.Map<FeedBackDto>(feedBack);
         }
 
         public FeedBackDto Update(FeedBackDto feedBackDto)
         {
-            return _unitOfWork.FeedBackRepository.Update(feedBack);
+            FeedBack updatedFeedBack;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(feedBackDto.Id);
+
+                if (foundedFeedBack is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedFeedBack), "Não foi encontrado.");
+                }
+
+                foundedFeedBack.Update(feedBackDto.Rate,feedBackDto.Comment,feedBackDto.CommentDate);
+
+                updatedFeedBack = _unitOfWork.FeedBackRepository.Update(foundedFeedBack);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<FeedBackDto>(updatedFeedBack);
         }
     }
 }

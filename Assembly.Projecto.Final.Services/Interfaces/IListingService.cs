@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-    public interface IListingService:IServiceProvisorio<CreateListingDto,ListingDto, int>
+    public interface IListingService:IService<CreateListingDto,ListingDto, int>
     {
     }
 }

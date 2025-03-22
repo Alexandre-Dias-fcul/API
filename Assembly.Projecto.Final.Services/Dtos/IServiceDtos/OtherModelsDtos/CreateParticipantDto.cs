@@ -10,5 +10,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
     public class CreateParticipantDto
     {
         public ParticipantType Role { get; set; }
+        public int AppointmentId { get; set; }
+        public int EmployeeId { get; set; }
     }
 }

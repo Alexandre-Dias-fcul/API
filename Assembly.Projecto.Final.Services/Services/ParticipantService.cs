@@ -1,6 +1,9 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,38 +16,81 @@ namespace Assembly.Projecto.Final.Services.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ParticipantService(IUnitOfWork unitOfWork) 
+        private readonly IMapper _mapper;
+
+        public ParticipantService(IUnitOfWork unitOfWork,IMapper mapper) 
         {
             _unitOfWork = unitOfWork;
-        }
-        public Participant Add(Participant participant)
-        {
-            return _unitOfWork.ParticipantRepository.Add(participant);
+
+            _mapper = mapper;
         }
 
-        public Participant Delete(Participant participant)
+        public ParticipantDto Add(CreateParticipantDto createParticipantDto)
         {
-            return _unitOfWork.ParticipantRepository.Delete(participant);
+            Participant addedParticipant;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(createParticipantDto.AppointmentId);
+
+                if (foundedAppointment is null) 
+                {
+                    throw new ArgumentNullException(nameof(foundedAppointment), "Não foi encontrado.");
+                }
+
+                var foundedAgent = _unitOfWork.AgentRepository.GetById(createParticipantDto.EmployeeId);
+
+                var foundedStaff = _unitOfWork.StaffRepository.GetById(createParticipantDto.EmployeeId);
+
+                if (foundedAgent is null && foundedStaff is null)
+                {
+                    throw new ArgumentNullException( "Não foi encontrado o empregado.");
+                }
+
+                if (foundedAgent is not null) 
+                {
+                    var participant = Participant.Create(createParticipantDto.Role, foundedAppointment, foundedAgent);
+
+                    addedParticipant =_unitOfWork.ParticipantRepository.Add(participant);
+                }
+                else 
+                {
+                    var participant = Participant.Create(createParticipantDto.Role, foundedAppointment, foundedStaff);
+
+                    addedParticipant = _unitOfWork.ParticipantRepository.Add(participant);
+                }
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ParticipantDto>(addedParticipant);
         }
 
-        public Participant? Delete(int id)
+        public ParticipantDto Delete(ParticipantDto participantDto)
         {
-            return _unitOfWork.ParticipantRepository.Delete(id);
+            throw new NotImplementedException();
         }
 
-        public List<Participant> GetAll()
+        public ParticipantDto Delete(int id)
         {
-            return _unitOfWork.ParticipantRepository.GetAll();
+            throw new NotImplementedException();
         }
 
-        public Participant? GetById(int id)
+        public List<ParticipantDto> GetAll()
         {
-            return _unitOfWork.ParticipantRepository.GetById(id);
+            throw new NotImplementedException();
         }
 
-        public Participant Update(Participant participant)
+        public ParticipantDto GetById(int id)
         {
-             return _unitOfWork.ParticipantRepository.Update(participant);
+            throw new NotImplementedException();
+        }
+
+        public ParticipantDto Update(ParticipantDto participantDto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

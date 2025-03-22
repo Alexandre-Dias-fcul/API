@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Enums;
+using Assembly.Projecto.Final.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
     {
         public int Id { get; set; }
         public ParticipantType Role { get; set; }
+        public int AppointmentId { get; set; }
+        public int EmployeeId { get; set; }
     }
 }
