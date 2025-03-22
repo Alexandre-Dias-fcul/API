@@ -46,7 +46,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var favorite = Favorite.Create(foundedUser, foundedListing);
 
-                addedFavorite =_unitOfWork.FavoriteRepository.Add(favorite)
+                addedFavorite = _unitOfWork.FavoriteRepository.Add(favorite);
 
                 _unitOfWork.Commit();
             }
@@ -59,29 +59,71 @@ namespace Assembly.Projecto.Final.Services.Services
             Favorite deletedFavorite;
 
             using(_unitOfWork) 
-            { 
+            {
+                _unitOfWork.BeginTransaction();
 
+                var foundedFavorite = _unitOfWork.FavoriteRepository.GetById(favoriteDto.Id);
+
+                if(foundedFavorite is null) 
+                {
+                    throw new ArgumentException(nameof(foundedFavorite),"Não foi encontrado.");
+                }
+
+                deletedFavorite = _unitOfWork.FavoriteRepository.Delete(foundedFavorite);
+
+                _unitOfWork.Commit();
             }
+
+            return _mapper.Map<FavoriteDto>(deletedFavorite);
         }
 
         public FavoriteDto Delete(int id)
         {
-            return _unitOfWork.FavoriteRepository.Delete(id);
+            Favorite deletedFavorite;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedFavorite = _unitOfWork.FavoriteRepository.GetById(id);
+
+                if (foundedFavorite is null)
+                {
+                    throw new ArgumentException(nameof(foundedFavorite), "Não foi encontrado.");
+                }
+
+                deletedFavorite = _unitOfWork.FavoriteRepository.Delete(id);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<FavoriteDto>(deletedFavorite);
         }
 
         public List<FavoriteDto> GetAll()
         {
-            return _unitOfWork.FavoriteRepository.GetAll();
+            var list = new List<FavoriteDto>();
+
+            foreach (var favorite in _unitOfWork.FavoriteRepository.GetAll()) 
+            {
+                var favoriteDto = _mapper.Map<FavoriteDto>(favorite);
+
+                list.Add(favoriteDto);
+            }
+
+            return list;
         }
 
         public FavoriteDto GetById(int id)
         {
-            return _unitOfWork.FavoriteRepository.GetById(id);
+            var favorite = _unitOfWork.FavoriteRepository.GetById(id);
+
+            return _mapper.Map<FavoriteDto>(favorite);
         }
 
         public FavoriteDto Update(FavoriteDto favoriteDto)
         {
-            return _unitOfWork.FavoriteRepository.Update(favorite);
+           throw new NotImplementedException();
         }
     }
 }

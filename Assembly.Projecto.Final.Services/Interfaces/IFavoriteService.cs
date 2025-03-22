@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-    public interface IFavoriteService:IService<Favorite,FavoriteDto,int>
+    public interface IFavoriteService:IService<CreateFavoriteDto,FavoriteDto,int>
     {
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,36 +14,89 @@ namespace Assembly.Projecto.Final.Services.Services
     public class FeedBackService : IFeedBackService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public FeedBackService(IUnitOfWork unitOfWork) 
+
+        private readonly IMapper _mapper;
+        public FeedBackService(IUnitOfWork unitOfWork,IMapper mapper) 
         {
-            _unitOfWork = unitOfWork; 
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        public FeedBack Add(FeedBack feedBack)
+        public FeedBackDto Add(CreateFeedBackDto createFeedBackDto)
         {
-            return _unitOfWork.FeedBackRepository.Add(feedBack);
+            FeedBack addedFeedBack;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var feedBack = FeedBack.Create(createFeedBackDto.Rate,createFeedBackDto.Comment,
+                    createFeedBackDto.CommentDate);
+
+                addedFeedBack = _unitOfWork.FeedBackRepository.Add(feedBack);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<FeedBackDto>(addedFeedBack);
         }
 
-        public FeedBack Delete(FeedBack feedBack)
+        public FeedBackDto Delete(FeedBackDto feedBackDto)
         {
-            return _unitOfWork.FeedBackRepository.Delete(feedBack);
+            FeedBack deletedFeedBack;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(feedBackDto.Id);
+
+                if(foundedFeedBack is null) 
+                {
+                    throw new ArgumentNullException(nameof(foundedFeedBack), "Não foi encontrado.");
+                }
+
+                deletedFeedBack = _unitOfWork.FeedBackRepository.Delete(foundedFeedBack);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<FeedBackDto>(deletedFeedBack);
         }
 
-        public FeedBack? Delete(int id)
+        public FeedBackDto Delete(int id)
         {
-            return _unitOfWork.FeedBackRepository.Delete(id);
+            FeedBack deletedFeedBack;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(id);
+
+                if (foundedFeedBack is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedFeedBack), "Não foi encontrado.");
+                }
+
+                deletedFeedBack = _unitOfWork.FeedBackRepository.Delete(id);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<FeedBackDto>(deletedFeedBack);
         }
 
-        public List<FeedBack> GetAll()
+        public List<FeedBackDto> GetAll()
         {
             return _unitOfWork.FeedBackRepository.GetAll();
         }
 
-        public FeedBack? GetById(int id)
+        public FeedBackDto GetById(int id)
         {
             return _unitOfWork.FeedBackRepository.GetById(id);
         }
 
-        public FeedBack Update(FeedBack feedBack)
+        public FeedBackDto Update(FeedBackDto feedBackDto)
         {
             return _unitOfWork.FeedBackRepository.Update(feedBack);
         }
