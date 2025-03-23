@@ -22,32 +22,32 @@ namespace Assembly.Projecto.Final.Services.Services
             _mapper = mapper;
         }
 
-        public PersonalContactDetailDto Add(CreatePersonalContactDetailDto createPersonalContactDetailDto)
+        public PersonalContactDto Add(CreatePersonalContactDto createPersonalContactDto)
+        {
+            
+        }
+
+        public PersonalContactDto Delete(PersonalContactDto personalContactDto)
         {
             throw new NotImplementedException();
         }
 
-        public PersonalContactDetailDto Delete(PersonalContactDetailDto personalContactDetailDto)
+        public PersonalContactDto Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public PersonalContactDetailDto Delete(int id)
+        public List<PersonalContactDto> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public List<PersonalContactDetailDto> GetAll()
+        public PersonalContactDto GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public PersonalContactDetailDto GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PersonalContactDetailDto Update(PersonalContactDetailDto personalContactDetailDto)
+        public PersonalContactDto Update(PersonalContactDto personalContactDto)
         {
             throw new NotImplementedException();
         }

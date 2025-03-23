@@ -48,14 +48,18 @@ namespace Assembly.Projecto.Final.Services.Services
                 {
                     throw new ArgumentNullException( "Não foi encontrado o empregado.");
                 }
+                else if(foundedAgent is not null && foundedStaff is not null) 
+                {
+                    throw new ArgumentNullException("Erro.");
+                }
 
-                if (foundedAgent is not null) 
+                if (foundedAgent is not null)
                 {
                     var participant = Participant.Create(createParticipantDto.Role, foundedAppointment, foundedAgent);
 
-                    addedParticipant =_unitOfWork.ParticipantRepository.Add(participant);
+                    addedParticipant = _unitOfWork.ParticipantRepository.Add(participant);
                 }
-                else 
+                else
                 {
                     var participant = Participant.Create(createParticipantDto.Role, foundedAppointment, foundedStaff);
 
@@ -70,27 +74,123 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public ParticipantDto Delete(ParticipantDto participantDto)
         {
-            throw new NotImplementedException();
+            Participant deletedParticipant;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(participantDto.Id);
+
+                if(foundedParticipant is null) 
+                {
+                    throw new ArgumentNullException(nameof(foundedParticipant),"Não foi encontrado.");
+                }
+
+                deletedParticipant = _unitOfWork.ParticipantRepository.Delete(foundedParticipant);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ParticipantDto>(deletedParticipant);
         }
 
         public ParticipantDto Delete(int id)
         {
-            throw new NotImplementedException();
+            Participant deletedParticipant;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(id);
+
+                if (foundedParticipant is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedParticipant), "Não foi encontrado.");
+                }
+
+                deletedParticipant = _unitOfWork.ParticipantRepository.Delete(id);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ParticipantDto>(deletedParticipant);
         }
 
         public List<ParticipantDto> GetAll()
         {
-            throw new NotImplementedException();
+            var list = new List<ParticipantDto>();
+
+            foreach (var participant in _unitOfWork.ParticipantRepository.GetAll()) 
+            {
+                var participantDto = _mapper.Map<ParticipantDto>(participant);
+
+                list.Add(participantDto);
+            }
+
+            return list;
         }
 
         public ParticipantDto GetById(int id)
         {
-            throw new NotImplementedException();
+            var participant = _unitOfWork.ParticipantRepository.GetById(id);
+
+            return _mapper.Map<ParticipantDto>(participant);
         }
 
         public ParticipantDto Update(ParticipantDto participantDto)
         {
-            throw new NotImplementedException();
+            Participant updatedParticipant;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(id);
+
+                if (foundedParticipant is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedParticipant), "Não foi encontrado.");
+                }
+
+                var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(participantDto.AppointmentId);
+
+                if (foundedAppointment is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedAppointment), "Não foi encontrado.");
+                }
+
+                var foundedAgent = _unitOfWork.AgentRepository.GetById(participantDto.EmployeeId);
+
+                var foundedStaff = _unitOfWork.StaffRepository.GetById(participantDto.EmployeeId);
+
+                if (foundedAgent is null && foundedStaff is null)
+                {
+                    throw new ArgumentNullException("Não foi encontrado o empregado.");
+                }
+                else if (foundedAgent is not null && foundedStaff is not null)
+                {
+                    throw new ArgumentNullException("Erro.");
+                }
+
+                if (foundedAgent is not null)
+                {
+                    foundedParticipant.Update(participantDto.Role, foundedAppointment, foundedAgent);
+
+                    updatedParticipant = _unitOfWork.ParticipantRepository.Update(foundedParticipant);
+                }
+                else
+                {
+                    foundedParticipant.Update(participantDto.Role, foundedAppointment, foundedStaff);
+
+                    updatedParticipant = _unitOfWork.ParticipantRepository.Update(foundedParticipant);
+                }
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ParticipantDto>(updatedParticipant);
         }
     }
 }

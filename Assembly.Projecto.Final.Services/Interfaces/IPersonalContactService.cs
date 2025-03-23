@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-     public interface IPersonalContactService:IService<CreatePersonalContactDetailDto,PersonalContactDetailDto,int>
+     public interface IPersonalContactService:IService<CreatePersonalContactDto,PersonalContactDto,int>
     {
     }
 }
