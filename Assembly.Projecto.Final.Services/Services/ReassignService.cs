@@ -25,32 +25,114 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public ReassignDto Add(CreateReassignDto createReassignDto)
         {
-            throw new NotImplementedException();
+            Reassign addedReassign;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var reassign = Reassign.Create(createReassignDto.OlderEmployeeId,createReassignDto.NewEmployeeId,
+                    createReassignDto.ReassignBy,createReassignDto.ReassignmentDate);
+
+                addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ReassignDto>(addedReassign);
         }
 
         public ReassignDto Delete(ReassignDto reassignDto)
         {
-            throw new NotImplementedException();
+            Reassign deletedReassign;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedReassign = _unitOfWork.ReassignRepository.GetById(reassignDto.Id);
+
+                if(foundedReassign is null) 
+                {
+                    throw new ArgumentNullException(nameof(foundedReassign),"Não foi encontrado.");
+                }
+
+                deletedReassign = _unitOfWork.ReassignRepository.Delete(foundedReassign);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ReassignDto>(deletedReassign);
         }
 
         public ReassignDto Delete(int id)
         {
-            throw new NotImplementedException();
+            Reassign deletedReassign;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedReassign = _unitOfWork.ReassignRepository.GetById(id);
+
+                if (foundedReassign is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedReassign), "Não foi encontrado.");
+                }
+
+                deletedReassign = _unitOfWork.ReassignRepository.Delete(id);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ReassignDto>(deletedReassign);
         }
 
         public List<ReassignDto> GetAll()
         {
-            throw new NotImplementedException();
+            var list = new List<ReassignDto>();
+
+            foreach (var reassign in _unitOfWork.ReassignRepository.GetAll()) 
+            {
+                var reassignDto = _mapper.Map<ReassignDto>(reassign);
+
+                list.Add(reassignDto);
+            }
+
+            return list;
         }
 
         public ReassignDto GetById(int id)
         {
-            throw new NotImplementedException();
+            var reassign = _unitOfWork.ReassignRepository.GetById(id);
+
+            return _mapper.Map<ReassignDto>(reassign);
         }
 
         public ReassignDto Update(ReassignDto reassignDto)
         {
-            throw new NotImplementedException();
+            Reassign updatedReassign;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedReassign = _unitOfWork.ReassignRepository.GetById(id);
+
+                if (foundedReassign is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedReassign), "Não foi encontrado.");
+                }
+
+                foundedReassign.Update(reassignDto.OlderEmployeeId,reassignDto.NewEmployeeId,
+                    reassignDto.ReassignBy,reassignDto.ReassignmentDate);
+
+                updatedReassign = _unitOfWork.ReassignRepository.Update(foundedReassign);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<ReassignDto>(updatedReassign);
         }
     }
 }

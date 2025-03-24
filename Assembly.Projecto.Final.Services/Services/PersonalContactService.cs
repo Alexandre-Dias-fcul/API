@@ -24,32 +24,114 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public PersonalContactDto Add(CreatePersonalContactDto createPersonalContactDto)
         {
-            
+            PersonalContact addedPersonalContact;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var personalContact = PersonalContact.Create(createPersonalContactDto.Name,
+                    createPersonalContactDto.IsPrimary,createPersonalContactDto.Notes);
+
+                addedPersonalContact = _unitOfWork.PersonalContactRepository.Add(personalContact);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<PersonalContactDto>(addedPersonalContact);
         }
 
         public PersonalContactDto Delete(PersonalContactDto personalContactDto)
         {
-            throw new NotImplementedException();
+            PersonalContact deletedPersonalContact;
+
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(personalContactDto.Id);
+
+                if(foundedPersonalContact is null) 
+                {
+                    throw new ArgumentNullException(nameof(foundedPersonalContact),"Não foi encontrado.");
+                }
+
+                deletedPersonalContact =_unitOfWork.PersonalContactRepository.Delete(foundedPersonalContact);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<PersonalContactDto>(deletedPersonalContact);
         }
 
         public PersonalContactDto Delete(int id)
         {
-            throw new NotImplementedException();
+            PersonalContact deletedPersonalContact;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
+
+                if (foundedPersonalContact is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedPersonalContact), "Não foi encontrado.");
+                }
+
+                deletedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<PersonalContactDto>(deletedPersonalContact);
         }
 
         public List<PersonalContactDto> GetAll()
         {
-            throw new NotImplementedException();
+            var list = new List<PersonalContactDto>();
+
+            foreach (var personalContact in _unitOfWork.PersonalContactRepository.GetAll()) 
+            {
+                var personalContactDto = _mapper.Map<PersonalContactDto>(personalContact);
+
+                list.Add(personalContactDto);
+            }
+
+            return list;
         }
 
         public PersonalContactDto GetById(int id)
         {
-            throw new NotImplementedException();
+            var personalContact = _unitOfWork.PersonalContactRepository.GetById(id);
+
+            return _mapper.Map<PersonalContactDto>(personalContact);
         }
 
         public PersonalContactDto Update(PersonalContactDto personalContactDto)
         {
-            throw new NotImplementedException();
+            PersonalContact updatedPersonalContact;
+
+            using (_unitOfWork)
+            {
+                _unitOfWork.BeginTransaction();
+
+                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(personalContactDto.Id);
+
+                if (foundedPersonalContact is null)
+                {
+                    throw new ArgumentNullException(nameof(foundedPersonalContact), "Não foi encontrado.");
+                }
+
+                foundedPersonalContact.Update(personalContactDto.Name,personalContactDto.IsPrimary,
+                    personalContactDto.Notes);
+
+                updatedPersonalContact = _unitOfWork.PersonalContactRepository.Update(foundedPersonalContact);
+
+                _unitOfWork.Commit();
+            }
+
+            return _mapper.Map<PersonalContactDto>(updatedPersonalContact);
         }
     }
 }
