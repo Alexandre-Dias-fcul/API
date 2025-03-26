@@ -10,14 +10,10 @@ using System.Threading.Tasks;
 namespace Assembly.Projecto.Final.ConsoleApp.UserInterface
 {
     public class Start
-    {
-        private readonly IAgentService _agentService;
-        private readonly IEntityLinkService _entityLinkService;
-
-        public Start(IAgentService agentService,IEntityLinkService entityLinkService)
+    { 
+        public Start()
         {
-            _agentService = agentService;
-            _entityLinkService = entityLinkService;
+            
         }
 
         public void Run()
@@ -29,7 +25,7 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface
             switch (choice)
             {
                 case "1":
-                    new Admin(_agentService,_entityLinkService).Run();
+                    
                     break;
                 case "2":
                     break;

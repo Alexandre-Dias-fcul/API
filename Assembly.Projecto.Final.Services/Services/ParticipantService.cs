@@ -31,7 +31,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(createParticipantDto.AppointmentId);
 
@@ -78,7 +77,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(participantDto.Id);
 
@@ -101,7 +99,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(id);
 
@@ -145,9 +142,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
-                var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(id);
+                var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(participantDto.Id);
 
                 if (foundedParticipant is null)
                 {

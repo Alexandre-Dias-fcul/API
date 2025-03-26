@@ -13,7 +13,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
     internal class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-        private IDbContextTransaction _dbContextTransaction;
+        private IDbContextTransaction? _dbContextTransaction;
         public IUserRepository UserRepository { get; }
         public IStaffRepository StaffRepository { get; }
         public IReassignRepository ReassignRepository { get; }
@@ -57,7 +57,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
         }
         public void BeginTransaction()
         {
-            _dbContextTransaction = _context.Database.BeginTransaction();
+            if(_dbContextTransaction == null) 
+            {
+                _dbContextTransaction = _context.Database.BeginTransaction();
+            }
         }
 
         public bool Commit()
@@ -67,12 +70,19 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
             try
             {
                 var affectedRows = _context.SaveChanges();
-                _dbContextTransaction.Commit();
-                return affectedRows != 0;
+
+                if (_dbContextTransaction != null)
+                {
+                    _dbContextTransaction.Commit();
+                    _dbContextTransaction.Dispose();
+                    _dbContextTransaction = null;
+                }
+
+                return affectedRows > 0;
             }
             catch
             {
-                _dbContextTransaction.Rollback();
+                Rollback();
             }
             finally
             {
@@ -82,8 +92,19 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
             return commited;
         }
 
+        public void Rollback()
+        {
+            if (_dbContextTransaction != null)
+            {
+                _dbContextTransaction.Rollback();
+                _dbContextTransaction.Dispose();
+                _dbContextTransaction = null;
+            }
+        }
+
         public void Dispose()
         {
+            Rollback();
             _context.Dispose();
         }
     }

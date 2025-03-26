@@ -27,8 +27,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
-
                 var entityLink = EntityLink.Create(createEntityLinkDto.EntityType,createEntityLinkDto.EntityId);
 
                 addedEntityLink = _unitOfWork.EntityLinkRepository.Add(entityLink);
@@ -45,8 +43,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using(_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedEntityLink = _unitOfWork.EntityLinkRepository.GetById(entityLinkDto.Id);
 
                 if(foundedEntityLink is null) 
@@ -68,7 +64,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedEntityLink = _unitOfWork.EntityLinkRepository.GetById(id);
 
@@ -113,7 +108,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedEntityLink = _unitOfWork.EntityLinkRepository.GetById(entityLinkDto.Id);
 

@@ -1,4 +1,4 @@
-﻿using Assembly.Projecto.Final.Domain.Common;
+﻿
 using Assembly.Projecto.Final.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,10 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IAgentRepository:IRepository<Agent,int>
     {
+        public Agent? GetByIdWithAddresses(int id);
 
+        public Agent? GetByIdWithAccount(int id);
+
+        public Agent? GetByIdWithContacts(int id);
     }
 }

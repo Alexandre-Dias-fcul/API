@@ -28,7 +28,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var personalContact = PersonalContact.Create(createPersonalContactDto.Name,
                     createPersonalContactDto.IsPrimary,createPersonalContactDto.Notes);
@@ -47,7 +46,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(personalContactDto.Id);
 
@@ -70,7 +68,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
 
@@ -114,7 +111,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(personalContactDto.Id);
 
