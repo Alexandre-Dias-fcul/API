@@ -29,7 +29,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var reassign = Reassign.Create(createReassignDto.OlderEmployeeId,createReassignDto.NewEmployeeId,
                     createReassignDto.ReassignBy,createReassignDto.ReassignmentDate);
@@ -48,7 +47,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedReassign = _unitOfWork.ReassignRepository.GetById(reassignDto.Id);
 
@@ -71,7 +69,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedReassign = _unitOfWork.ReassignRepository.GetById(id);
 
@@ -115,9 +112,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
-                var foundedReassign = _unitOfWork.ReassignRepository.GetById(id);
+                var foundedReassign = _unitOfWork.ReassignRepository.GetById(reassignDto.Id);
 
                 if (foundedReassign is null)
                 {

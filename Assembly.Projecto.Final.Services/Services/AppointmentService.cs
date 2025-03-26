@@ -26,8 +26,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
-
                 var appointment = Appointment.Create(createAppointmentDto.Title,createAppointmentDto.Description,
                     createAppointmentDto.Date,createAppointmentDto.HourStart,createAppointmentDto.HourEnd,
                     createAppointmentDto.Status,createAppointmentDto.BookedBy);
@@ -46,8 +44,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(appointmentDto.Id);
 
                 if (foundedAppointment is null) 
@@ -69,8 +65,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using( _unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(id);
 
                 if(foundedAppointment is null) 
@@ -113,8 +107,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(appointmentDto.Id);
 
                 if (foundedAppointment is null)

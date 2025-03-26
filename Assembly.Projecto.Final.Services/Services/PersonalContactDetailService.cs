@@ -29,7 +29,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using(_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var personalContactDetail = PersonalContactDetail.Create(createPersonalContactDetailDto.ContactType,
                     createPersonalContactDetailDto.Value);
@@ -48,7 +47,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository
                         .GetById(personalContactDetailDto.Id);
@@ -73,7 +71,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository.GetById(id);
 
@@ -117,9 +114,9 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
-                var foundedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository.GetById(id);
+                var foundedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository.
+                    GetById(personalContactDetailDto.Id);
 
                 if (foundedPersonalContactDetail is null)
                 {

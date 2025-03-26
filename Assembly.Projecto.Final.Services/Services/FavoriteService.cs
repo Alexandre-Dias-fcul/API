@@ -28,7 +28,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedUser = _unitOfWork.UserRepository.GetById(createFavoriteDto.UserId);
 
@@ -60,8 +59,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using(_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedFavorite = _unitOfWork.FavoriteRepository.GetById(favoriteDto.Id);
 
                 if(foundedFavorite is null) 
@@ -83,8 +80,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedFavorite = _unitOfWork.FavoriteRepository.GetById(id);
 
                 if (foundedFavorite is null)

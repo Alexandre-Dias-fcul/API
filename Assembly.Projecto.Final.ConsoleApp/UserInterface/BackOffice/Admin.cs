@@ -12,13 +12,9 @@ namespace Assembly.Projecto.Final.ConsoleApp.UserInterface.BackOffice
 {
     public class Admin
     {
-        private readonly IAgentService _agentService;
-        private readonly IEntityLinkService _entityLinkService;
-
-        public Admin(IAgentService agentService,IEntityLinkService entityLinkService)
+        public Admin()
         {
-            _agentService = agentService;
-            _entityLinkService = entityLinkService;
+     
         }
 
         public async void Run()

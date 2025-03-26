@@ -27,7 +27,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var feedBack = FeedBack.Create(createFeedBackDto.Rate,createFeedBackDto.Comment,
                     createFeedBackDto.CommentDate);
@@ -46,7 +45,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(feedBackDto.Id);
 
@@ -69,7 +67,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(id);
 
@@ -113,8 +110,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(feedBackDto.Id);
 
                 if (foundedFeedBack is null)

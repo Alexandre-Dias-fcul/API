@@ -31,8 +31,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
-
                 var listing = Listing.Create(createListingDto.Type,createListingDto.Status,
                     createListingDto.NumberOfBathrooms,createListingDto.NumberOfBathrooms,
                     createListingDto.NumberOfKitchens,createListingDto.Price,createListingDto.Location,
@@ -53,7 +51,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                _unitOfWork.BeginTransaction();
 
                 var foundedListing = _unitOfWork.ListingRepository.Delete(listingDto.Id);
 
@@ -76,8 +73,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedListing = _unitOfWork.ListingRepository.Delete(id);
 
                 if (foundedListing is null)
@@ -120,8 +115,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                _unitOfWork.BeginTransaction();
-
                 var foundedListing = _unitOfWork.ListingRepository.Delete(listingDto.Id);
 
                 if (foundedListing is null)

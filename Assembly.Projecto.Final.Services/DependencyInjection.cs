@@ -16,11 +16,8 @@ namespace Assembly.Projecto.Final.Services
         {
 
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IEntityLinkService, EntityLinkService>();
             services.AddScoped<IFavoriteService, FavoriteService>();
             services.AddScoped<IFeedBackService, FeedBackService>();

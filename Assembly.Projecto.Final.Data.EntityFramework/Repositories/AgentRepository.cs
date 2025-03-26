@@ -17,5 +17,29 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         {
             _context = context;
         }
+
+        public Agent? GetByIdWithAddresses(int id)
+        {
+            return _context.Employees.OfType<Agent>()
+                .Include(a => a.EntityLink)
+                .ThenInclude(el => el.Addresses)
+                .FirstOrDefault(a => a.Id == id);
+        }
+
+        public Agent? GetByIdWithAccount(int id) 
+        {
+            return _context.Employees.OfType<Agent>()
+                .Include(a => a.EntityLink)
+                .ThenInclude(el => el.Account)
+                .FirstOrDefault(a => a.Id == id);
+        }
+
+        public Agent? GetByIdWithContacts(int id) 
+        { 
+            return _context.Employees.OfType<Agent>()
+                .Include(a => a.EntityLink)
+                .ThenInclude(el => el.Contacts)
+                .FirstOrDefault(a => a.Id == id);
+        }
     }
 }
