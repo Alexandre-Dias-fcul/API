@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
-    public interface IRepository<TEntity, TId> where TEntity : IEntity<TId>
+    public interface IRepository<TEntity, TId> where TEntity : class,IEntity<TId>
     {
         List<TEntity> GetAll();
 

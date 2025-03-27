@@ -10,6 +10,7 @@ namespace Assembly.Projecto.Final.Domain.Enums
     {
         Agent,
         Manager,
-        Broker
+        Broker,
+        Admin
     }
 }
