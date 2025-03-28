@@ -9,5 +9,10 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IStaffRepository:IRepository<Staff,int>
     {
+        public Staff? GetByIdWithAddresses(int id);
+
+        public Staff? GetByIdWithAccount(int id);
+
+        public Staff? GetByIdWithContacts(int id);
     }
 }

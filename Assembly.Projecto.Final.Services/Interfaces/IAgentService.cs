@@ -12,9 +12,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IAgentService:IService<CreateAgentDto,AgentDto,int>
     {
-        public void AgentContactAdd(int userId, CreateContactDto createContactDto);
-        public void AgentAddressAdd(int userId, CreateAddressDto createAddressDto);
-        public void AgentAccountAdd(int userId, CreateAccountDto createAccountDto);
+        public void ContactAdd(int userId, CreateContactDto createContactDto);
+        public void AddressAdd(int userId, CreateAddressDto createAddressDto);
+        public void AccountAdd(int userId, CreateAccountDto createAccountDto);
 
     }
 }

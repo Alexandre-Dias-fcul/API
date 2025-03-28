@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,27 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
     {
         public StaffRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public Staff? GetByIdWithAccount(int id)
+        {
+            return DbSet.Include(s => s.EntityLink)
+                .ThenInclude(el => el.Account)
+                .FirstOrDefault(s => s.Id == id);
+        }
+
+        public Staff? GetByIdWithAddresses(int id)
+        {
+            return DbSet.Include(s => s.EntityLink)
+                 .ThenInclude(el => el.Addresses)
+                 .FirstOrDefault(s => s.Id == id);
+        }
+
+        public Staff? GetByIdWithContacts(int id)
+        {
+            return DbSet.Include(s => s.EntityLink)
+                 .ThenInclude(el => el.Contacts)
+                 .FirstOrDefault(s => s.Id == id);
         }
     }
 }
