@@ -60,7 +60,7 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<AgentDto>(addedAgent);
         }
 
-        public void AgentAccountAdd(int userId, CreateAccountDto createAccountDto)
+        public void AccountAdd(int userId, CreateAccountDto createAccountDto)
         {
             var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(userId);
 
@@ -94,7 +94,7 @@ namespace Assembly.Projecto.Final.Services.Services
             }
         }
 
-        public void AgentAddressAdd(int userId, CreateAddressDto createAddressDto)
+        public void AddressAdd(int userId, CreateAddressDto createAddressDto)
         {
             var agent = _unitOfWork.AgentRepository.GetByIdWithAddresses(userId);
 
@@ -139,7 +139,7 @@ namespace Assembly.Projecto.Final.Services.Services
             }
         }
 
-        public void AgentContactAdd(int userId, CreateContactDto createContactDto)
+        public void ContactAdd(int userId, CreateContactDto createContactDto)
         {
             var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(userId);
 
