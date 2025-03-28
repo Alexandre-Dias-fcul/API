@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos
 {
-    public class StaffDto:PersonDto
+    public class StaffDto:EmployeeDto
     {
     }
 }

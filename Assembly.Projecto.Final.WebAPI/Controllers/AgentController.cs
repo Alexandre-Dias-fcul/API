@@ -35,5 +35,13 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         {
             return Ok(_agentService.Update(agentDto));
         }
+
+        [HttpDelete("{id:int}")]
+
+        public ActionResult<AgentDto> Delete(int id) 
+        {
+            return Ok(_agentService.Delete(id));
+        }
+
     }
 }

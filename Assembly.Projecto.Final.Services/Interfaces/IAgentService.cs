@@ -15,6 +15,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public void AgentContactAdd(int userId, CreateContactDto createContactDto);
         public void AgentAddressAdd(int userId, CreateAddressDto createAddressDto);
         public void AgentAccountAdd(int userId, CreateAccountDto createAccountDto);
-      
+
     }
 }
