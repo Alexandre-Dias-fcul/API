@@ -13,6 +13,6 @@ namespace Assembly.Projecto.Final.Services.Dtos.GetDtos
     {
         public DateTime? HiredDate { get; set; }
         public DateTime? DateOfTermination { get; set; }
-        public EntityLinkAllDto? EntityLink { get; set; }
+        public EntityLinkAllDto? EntityLink { get; set; } = new();
     }
 }

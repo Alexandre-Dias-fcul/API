@@ -27,7 +27,6 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpGet("GetByIdWithAll/{id:int}")]
-
         public ActionResult<AgentAllDto> GetByIdWithAll(int id) 
         {
             return Ok(_agentService.GetByIdWithAll(id));

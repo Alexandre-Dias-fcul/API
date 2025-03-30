@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
@@ -135,7 +136,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public void ContactAdd(int staffId, CreateContactDto createContactDto)
         {
-            var staff = _unitOfWork.AgentRepository.GetByIdWithAccount(staffId);
+            var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
 
             if (staff is null)
             {
@@ -172,7 +173,7 @@ namespace Assembly.Projecto.Final.Services.Services
                     staff.EntityLink.AddContact(contact);
                 }
 
-                _unitOfWork.AgentRepository.Update(staff);
+                _unitOfWork.StaffRepository.Update(staff);
 
                 _unitOfWork.Commit();
             }
@@ -239,6 +240,13 @@ namespace Assembly.Projecto.Final.Services.Services
             var staff = _unitOfWork.StaffRepository.GetById(id);
 
             return _mapper.Map<StaffDto>(staff);
+        }
+
+        public StaffAllDto GetByIdWithAll(int id)
+        {
+            var staff = _unitOfWork.StaffRepository.GetById(id);
+
+            return _mapper.Map<StaffAllDto>(staff);
         }
 
         public StaffDto Update(StaffDto staffDto)

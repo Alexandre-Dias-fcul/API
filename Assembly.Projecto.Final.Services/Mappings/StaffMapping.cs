@@ -11,24 +11,21 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Mappings
 {
-    public class AgentMapping:Profile
+    public class StaffMapping : Profile
     {
-        public AgentMapping() 
+         public StaffMapping()
         {
-
-            CreateMap<Agent, AgentDto>()
+            CreateMap<Staff, StaffDto>()
                  .IncludeBase<Employee, EmployeeDto>()
                  .ReverseMap();
 
-            CreateMap<Agent, CreateAgentDto>()
+            CreateMap<Staff, CreateStaffDto>()
                 .IncludeBase<Employee, CreateEmployeeDto>()
                 .ReverseMap();
 
-
-            CreateMap<Agent, AgentAllDto>()
-                 .IncludeBase<Employee, EmployeeAllDto>()
-                 .ReverseMap();
-
+            CreateMap<Staff, StaffAllDto>()
+               .IncludeBase<Employee, EmployeeAllDto>()
+               .ReverseMap();
         }
     }
 }

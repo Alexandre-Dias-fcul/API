@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
@@ -238,6 +239,13 @@ namespace Assembly.Projecto.Final.Services.Services
             var user = _unitOfWork.UserRepository.GetById(id);
 
             return _mapper.Map<UserDto>(user);
+        }
+
+        public UserAllDto GetByIdWithAll(int id)
+        {
+            var user = _unitOfWork.UserRepository.GetByIdWithAll(id);
+
+            return _mapper.Map<UserAllDto>(user);
         }
 
         public UserDto Update(UserDto userDto)
