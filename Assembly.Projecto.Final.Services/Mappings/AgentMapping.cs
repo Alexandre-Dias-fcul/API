@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using AutoMapper;
 using System;
@@ -35,6 +36,17 @@ namespace Assembly.Projecto.Final.Services.Mappings
             CreateMap<Agent, CreateAgentDto>()
                 .IncludeBase<Employee, CreateEmployeeDto>()
                 .ReverseMap();
+
+            //==============================================
+
+            CreateMap<Employee, EmployeeAllDto>()
+              .IncludeBase<Person, PersonDto>()
+              .ReverseMap();
+
+            CreateMap<Agent, AgentAllDto>()
+                 .IncludeBase<Employee, EmployeeAllDto>()
+                 .ReverseMap();
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using System;
@@ -12,9 +13,10 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IAgentService:IService<CreateAgentDto,AgentDto,int>
     {
-        public void ContactAdd(int userId, CreateContactDto createContactDto);
-        public void AddressAdd(int userId, CreateAddressDto createAddressDto);
-        public void AccountAdd(int userId, CreateAccountDto createAccountDto);
+        public void ContactAdd(int agentId, CreateContactDto createContactDto);
+        public void AddressAdd(int agentId, CreateAddressDto createAddressDto);
+        public void AccountAdd(int agentId, CreateAccountDto createAccountDto);
+        public AgentAllDto GetByIdWithAll(int id);
 
     }
 }

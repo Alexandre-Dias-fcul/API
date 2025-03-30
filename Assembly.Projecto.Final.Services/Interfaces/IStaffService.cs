@@ -11,8 +11,8 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IStaffService:IService<CreateStaffDto,StaffDto,int>
     {
-        public void ContactAdd(int userId, CreateContactDto createContactDto);
-        public void AddressAdd(int userId, CreateAddressDto createAddressDto);
-        public void AccountAdd(int userId, CreateAccountDto createAccountDto);
+        public void ContactAdd(int staffId, CreateContactDto createContactDto);
+        public void AddressAdd(int staffId, CreateAddressDto createAddressDto);
+        public void AccountAdd(int staffId, CreateAccountDto createAccountDto);
     }
 }

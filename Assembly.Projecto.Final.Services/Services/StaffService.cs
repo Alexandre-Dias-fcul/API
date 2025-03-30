@@ -27,9 +27,9 @@ namespace Assembly.Projecto.Final.Services.Services
             _mapper = mapper;
         }
 
-        public void AccountAdd(int userId, CreateAccountDto createAccountDto)
+        public void AccountAdd(int staffId, CreateAccountDto createAccountDto)
         {
-            var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(userId);
+            var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
 
             if (staff is null)
             {
@@ -45,6 +45,8 @@ namespace Assembly.Projecto.Final.Services.Services
                     staff.EntityLink.SetAccount(account);
 
                     _unitOfWork.StaffRepository.Update(staff);
+
+                    _unitOfWork.Commit();
                 }
             }
             else
@@ -58,6 +60,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 staff.EntityLink.SetAccount(account);
 
                 _unitOfWork.StaffRepository.Update(staff);
+
+                _unitOfWork.Commit();
             }
         }
 
@@ -82,9 +86,9 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<StaffDto>(addedStaff);
         }
 
-        public void AddressAdd(int userId, CreateAddressDto createAddressDto)
+        public void AddressAdd(int staffId, CreateAddressDto createAddressDto)
         {
-            var staff = _unitOfWork.StaffRepository.GetByIdWithAddresses(userId);
+            var staff = _unitOfWork.StaffRepository.GetByIdWithAddresses(staffId);
 
             if (staff is null)
             {
@@ -124,12 +128,14 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 _unitOfWork.StaffRepository.Update(staff);
+
+                _unitOfWork.Commit();
             }
         }
 
-        public void ContactAdd(int userId, CreateContactDto createContactDto)
+        public void ContactAdd(int staffId, CreateContactDto createContactDto)
         {
-            var staff = _unitOfWork.AgentRepository.GetByIdWithAccount(userId);
+            var staff = _unitOfWork.AgentRepository.GetByIdWithAccount(staffId);
 
             if (staff is null)
             {
@@ -167,6 +173,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 _unitOfWork.AgentRepository.Update(staff);
+
+                _unitOfWork.Commit();
             }
         }
 
