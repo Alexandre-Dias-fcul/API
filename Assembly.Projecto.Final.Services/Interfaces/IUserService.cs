@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using System;
@@ -14,5 +15,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public void ContactAdd(int userId, CreateContactDto createContactDto);
         public void AddressAdd(int userId, CreateAddressDto createAddressDto);
         public void AccountAdd(int userId, CreateAccountDto createAccountDto);
+        public UserAllDto GetByIdWithAll(int id);
     }
 }

@@ -30,11 +30,24 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
                  .FirstOrDefault(s => s.Id == id);
         }
 
+        public Staff? GetByIdWithAll(int id)
+        {
+            return DbSet
+                   .Include(s => s.EntityLink)
+                   .ThenInclude(el => el.Account)
+                   .Include(s => s.EntityLink)
+                   .ThenInclude(el => el.Contacts)
+                   .Include(s => s.EntityLink)
+                   .ThenInclude(el => el.Addresses)
+                   .FirstOrDefault(s => s.Id == id);
+        }
+
         public Staff? GetByIdWithContacts(int id)
         {
             return DbSet.Include(s => s.EntityLink)
                  .ThenInclude(el => el.Contacts)
                  .FirstOrDefault(s => s.Id == id);
         }
+ 
     }
 }

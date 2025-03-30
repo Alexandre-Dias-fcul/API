@@ -15,7 +15,7 @@ namespace Assembly.Projecto.Final.Services
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
 
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IEntityLinkService, EntityLinkService>();

@@ -17,9 +17,13 @@ namespace Assembly.Projecto.Final.Services.Mappings
             CreateMap<EntityLink, EntityLinkDto>().ReverseMap();
             CreateMap<EntityLink, CreateEntityLinkDto>().ReverseMap();
 
-            //===================================================
+            //========================================================
 
-            CreateMap<EntityLink, EntityLinkAllDto>().ReverseMap();
+            CreateMap<EntityLink, EntityLinkAllDto>()
+            .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => src.Contacts))
+            .ForMember(dest => dest.Addresses, opt => opt.MapFrom(src => src.Addresses))
+            .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account)).ReverseMap();
+
         }
     }
 }

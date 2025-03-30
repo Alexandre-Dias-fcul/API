@@ -13,8 +13,8 @@ namespace Assembly.Projecto.Final.Services.Dtos.GetDtos
         public int Id { get; set; }
         public EntityType EntityType { get; set; }
         public int? EntityId { get; set; }
-        public List<ContactDto> Contacts { get; set; }
-        public List<AddressDto> Addresses { get; set; }
-        public List<AccountDto> Account { get; set; }
+        public List<ContactDto> Contacts { get; set; } = new();
+        public List<AddressDto> Addresses { get; set; } = new();
+        public AccountDto Account { get; set; } = new();
     }
 }

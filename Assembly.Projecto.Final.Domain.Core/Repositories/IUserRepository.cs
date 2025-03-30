@@ -14,5 +14,7 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
         public User? GetByIdWithAccount(int id);
 
         public User? GetByIdWithContacts(int id);
+
+        public User? GetByIdWithAll(int id);
     }
 }
