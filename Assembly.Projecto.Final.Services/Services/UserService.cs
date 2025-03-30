@@ -45,11 +45,13 @@ namespace Assembly.Projecto.Final.Services.Services
                     user.EntityLink.SetAccount(account);
 
                     _unitOfWork.UserRepository.Update(user);
+
+                    _unitOfWork.Commit();
                 }
             }
             else
             {
-                var entityLink = EntityLink.Create(EntityType.Employee, user.Id);
+                var entityLink = EntityLink.Create(EntityType.User, user.Id);
 
                 user.SetEntityLink(entityLink);
 
@@ -58,6 +60,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 user.EntityLink.SetAccount(account);
 
                 _unitOfWork.UserRepository.Update(user);
+
+                _unitOfWork.Commit();
             }
         }
 
@@ -115,7 +119,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
                 else
                 {
-                    var entityLink = EntityLink.Create(EntityType.Employee, user.Id);
+                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
 
                     user.SetEntityLink(entityLink);
 
@@ -123,6 +127,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 _unitOfWork.UserRepository.Update(user);
+
+                _unitOfWork.Commit();
             }
         }
 
@@ -158,7 +164,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
                 else
                 {
-                    var entityLink = EntityLink.Create(EntityType.Employee, user.Id);
+                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
 
                     user.SetEntityLink(entityLink);
 
@@ -166,6 +172,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 _unitOfWork.UserRepository.Update(user);
+
+                _unitOfWork.Commit();
             }
         }
 

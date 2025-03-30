@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Assembly.Projecto.Final.Domain\Assembly.Projecto.Final.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\GetDtos\" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using AutoMapper;
 using System;
@@ -15,6 +16,10 @@ namespace Assembly.Projecto.Final.Services.Mappings
         {
             CreateMap<EntityLink, EntityLinkDto>().ReverseMap();
             CreateMap<EntityLink, CreateEntityLinkDto>().ReverseMap();
+
+            //===================================================
+
+            CreateMap<EntityLink, EntityLinkAllDto>().ReverseMap();
         }
     }
 }

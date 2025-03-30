@@ -3,6 +3,7 @@ using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
@@ -60,9 +61,9 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<AgentDto>(addedAgent);
         }
 
-        public void AccountAdd(int userId, CreateAccountDto createAccountDto)
+        public void AccountAdd(int agentId, CreateAccountDto createAccountDto)
         {
-            var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(userId);
+            var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
             if (agent is null)
             {
@@ -78,6 +79,8 @@ namespace Assembly.Projecto.Final.Services.Services
                     agent.EntityLink.SetAccount(account);
 
                     _unitOfWork.AgentRepository.Update(agent);
+
+                    _unitOfWork.Commit();
                 }
             }
             else 
@@ -91,12 +94,14 @@ namespace Assembly.Projecto.Final.Services.Services
                 agent.EntityLink.SetAccount(account);
 
                 _unitOfWork.AgentRepository.Update(agent);
+
+                _unitOfWork.Commit();
             }
         }
 
-        public void AddressAdd(int userId, CreateAddressDto createAddressDto)
+        public void AddressAdd(int agentId, CreateAddressDto createAddressDto)
         {
-            var agent = _unitOfWork.AgentRepository.GetByIdWithAddresses(userId);
+            var agent = _unitOfWork.AgentRepository.GetByIdWithAddresses(agentId);
 
             if(agent is null) 
             {
@@ -136,12 +141,14 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 _unitOfWork.AgentRepository.Update(agent);
+
+                _unitOfWork.Commit();
             }
         }
 
-        public void ContactAdd(int userId, CreateContactDto createContactDto)
+        public void ContactAdd(int agentId, CreateContactDto createContactDto)
         {
-            var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(userId);
+            var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
             if (agent is null)
             {
@@ -179,6 +186,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 _unitOfWork.AgentRepository.Update(agent);
+
+                _unitOfWork.Commit();
             }
         }
 
@@ -281,6 +290,13 @@ namespace Assembly.Projecto.Final.Services.Services
             }
 
             return _mapper.Map<AgentDto>(updatedAgent);
+        }
+
+        public AgentAllDto GetByIdWithAll(int id)
+        {
+            var agent = _unitOfWork.AgentRepository.GetByIdWithAll(id);
+
+            return _mapper.Map<AgentAllDto>(agent);
         }
     }
 }
