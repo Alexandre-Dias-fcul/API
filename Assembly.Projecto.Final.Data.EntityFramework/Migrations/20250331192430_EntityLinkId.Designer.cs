@@ -4,6 +4,7 @@ using Assembly.Projecto.Final.Data.EntityFramework.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250331192430_EntityLinkId")]
+    partial class EntityLinkId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,10 +90,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityLinkId")
-                        .IsUnique()
-                        .HasFilter("[EntityLinkId] IS NOT NULL");
 
                     b.ToTable("Employees", (string)null);
 
@@ -288,10 +287,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Models.EntityLink", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -747,10 +743,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Common.Employee", b =>
                 {
-                    b.HasOne("Assembly.Projecto.Final.Domain.Models.EntityLink", "EntityLink")
-                        .WithOne("Employee")
-                        .HasForeignKey("Assembly.Projecto.Final.Domain.Common.Employee", "EntityLinkId");
-
                     b.OwnsOne("Assembly.Projecto.Final.Domain.Common.Name", "Name", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
@@ -781,8 +773,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                                 .HasForeignKey("EmployeeId");
                         });
 
-                    b.Navigation("EntityLink");
-
                     b.Navigation("Name")
                         .IsRequired();
                 });
@@ -807,6 +797,17 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("EntityLink");
+                });
+
+            modelBuilder.Entity("Assembly.Projecto.Final.Domain.Models.EntityLink", b =>
+                {
+                    b.HasOne("Assembly.Projecto.Final.Domain.Common.Employee", "Employee")
+                        .WithOne("EntityLink")
+                        .HasForeignKey("Assembly.Projecto.Final.Domain.Models.EntityLink", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Models.Favorite", b =>
@@ -963,6 +964,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 
             modelBuilder.Entity("Assembly.Projecto.Final.Domain.Common.Employee", b =>
                 {
+                    b.Navigation("EntityLink");
+
                     b.Navigation("Participants");
 
                     b.Navigation("PersonalContacts");
@@ -979,9 +982,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("Contacts");
-
-                    b.Navigation("Employee")
-                        .IsRequired();
 
                     b.Navigation("User")
                         .IsRequired();
