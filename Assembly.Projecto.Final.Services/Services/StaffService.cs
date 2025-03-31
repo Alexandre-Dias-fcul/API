@@ -30,39 +30,42 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public void AccountAdd(int staffId, CreateAccountDto createAccountDto)
         {
-            var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
-
-            if (staff is null)
+            using (_unitOfWork)
             {
-                throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
-            }
+                var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
 
-            if (staff.EntityLink is not null)
-            {
-                if (staff.EntityLink.Account is null)
+                if (staff is null)
                 {
+                    throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
+                }
+
+                if (staff.EntityLink is not null)
+                {
+                    if (staff.EntityLink.Account is null)
+                    {
+                        var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
+
+                        staff.EntityLink.SetAccount(account);
+
+                        _unitOfWork.StaffRepository.Update(staff);
+
+                        _unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
+
                     var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
-                    staff.EntityLink.SetAccount(account);
+                    entityLink.SetAccount(account);
+
+                    staff.SetEntityLink(entityLink);
 
                     _unitOfWork.StaffRepository.Update(staff);
 
                     _unitOfWork.Commit();
                 }
-            }
-            else
-            {
-                var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
-
-                staff.SetEntityLink(entityLink);
-
-                var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
-
-                staff.EntityLink.SetAccount(account);
-
-                _unitOfWork.StaffRepository.Update(staff);
-
-                _unitOfWork.Commit();
             }
         }
 
@@ -89,93 +92,101 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public void AddressAdd(int staffId, CreateAddressDto createAddressDto)
         {
-            var staff = _unitOfWork.StaffRepository.GetByIdWithAddresses(staffId);
-
-            if (staff is null)
+            using (_unitOfWork)
             {
-                throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
-            }
 
-            var existe = false;
+                var staff = _unitOfWork.StaffRepository.GetByIdWithAddresses(staffId);
 
-            if (staff.EntityLink is not null)
-            {
-                foreach (var address in staff.EntityLink.Addresses)
+                if (staff is null)
                 {
-                    if (address.Street == createAddressDto.Street && address.City == createAddressDto.City &&
-                        address.Country == createAddressDto.Country && address.PostalCode == createAddressDto.PostalCode)
-                    {
-                        existe = true;
-                    }
+                    throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
                 }
-            }
 
-            if (existe is false)
-            {
-                var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
-                    createAddressDto.PostalCode);
+                var existe = false;
 
                 if (staff.EntityLink is not null)
                 {
-                   staff.EntityLink.AddAddress(address);
+                    foreach (var address in staff.EntityLink.Addresses)
+                    {
+                        if (address.Street == createAddressDto.Street && address.City == createAddressDto.City &&
+                            address.Country == createAddressDto.Country && address.PostalCode == createAddressDto.PostalCode)
+                        {
+                            existe = true;
+                        }
+                    }
                 }
-                else
+
+                if (existe is false)
                 {
-                    var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
+                    var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
+                        createAddressDto.PostalCode);
 
-                    staff.SetEntityLink(entityLink);
+                    if (staff.EntityLink is not null)
+                    {
+                        staff.EntityLink.AddAddress(address);
+                    }
+                    else
+                    {
+                        var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
 
-                    staff.EntityLink.AddAddress(address);
+                        entityLink.AddAddress(address);
+
+                        staff.SetEntityLink(entityLink);
+                    }
+
+                    _unitOfWork.StaffRepository.Update(staff);
+
+                    _unitOfWork.Commit();
                 }
-
-                _unitOfWork.StaffRepository.Update(staff);
-
-                _unitOfWork.Commit();
             }
         }
 
         public void ContactAdd(int staffId, CreateContactDto createContactDto)
         {
-            var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
-
-            if (staff is null)
+            using (_unitOfWork)
             {
-                throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
-            }
+                var staff = _unitOfWork.StaffRepository.GetByIdWithContacts(staffId);
 
-            var existe = false;
-
-            if (staff.EntityLink is not null)
-            {
-                foreach (var contact in staff.EntityLink.Contacts)
+                if (staff is null)
                 {
-                    if (contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value)
-                    {
-                        existe = true;
-                    }
+                    throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
                 }
-            }
 
-            if (existe == false)
-            {
-                var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
+                var existe = false;
 
                 if (staff.EntityLink is not null)
                 {
-                    staff.EntityLink.AddContact(contact);
+                    foreach (var contact in staff.EntityLink.Contacts)
+                    {
+                        if (contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value)
+                        {
+                            existe = true;
+                        }
+                    }
                 }
-                else
+
+                if (existe == false)
                 {
-                    var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
+                    var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
-                    staff.SetEntityLink(entityLink);
+                    if (staff.EntityLink is not null)
+                    {
+                        staff.EntityLink.AddContact(contact);
+                    }
+                    else
+                    {
+                        var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
 
-                    staff.EntityLink.AddContact(contact);
+                        entityLink.AddContact(contact);
+
+                        staff.SetEntityLink(entityLink);
+    
+                    }
+
+                    _unitOfWork.StaffRepository.Update(staff);
+
+                    _unitOfWork.Commit();
                 }
-
-                _unitOfWork.StaffRepository.Update(staff);
-
-                _unitOfWork.Commit();
             }
         }
 
@@ -244,7 +255,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public StaffAllDto GetByIdWithAll(int id)
         {
-            var staff = _unitOfWork.StaffRepository.GetById(id);
+            var staff = _unitOfWork.StaffRepository.GetByIdWithAll(id);
 
             return _mapper.Map<StaffAllDto>(staff);
         }

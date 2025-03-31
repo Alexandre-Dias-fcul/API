@@ -63,132 +63,142 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public void AccountAdd(int agentId, CreateAccountDto createAccountDto)
         {
-            var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
-
-            if (agent is null)
+            using (_unitOfWork) 
             {
-                throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
-            }
+                var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
-            if (agent.EntityLink is not null)
-            {
-                if (agent.EntityLink.Account is null) 
+                if (agent is null)
                 {
+                    throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
+                }
+
+                if (agent.EntityLink is not null)
+                {
+                    if (agent.EntityLink.Account is null)
+                    {
+                        var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
+
+                        agent.EntityLink.SetAccount(account);
+
+                        _unitOfWork.AgentRepository.Update(agent);
+
+                        _unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
+
                     var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
-                    agent.EntityLink.SetAccount(account);
+                    entityLink.SetAccount(account);
+
+                    agent.SetEntityLink(entityLink);
+
+                    _unitOfWork.AgentRepository.Update(agent);
+
+                    _unitOfWork.Commit();
+                }
+            }   
+        }
+
+        public void AddressAdd(int agentId, CreateAddressDto createAddressDto)
+        {
+            using (_unitOfWork)
+            {
+                var agent = _unitOfWork.AgentRepository.GetByIdWithAddresses(agentId);
+
+                if (agent is null)
+                {
+                    throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
+                }
+
+                var existe = false;
+
+                if (agent.EntityLink is not null)
+                {
+                    foreach (var address in agent.EntityLink.Addresses)
+                    {
+                        if (address.Street == createAddressDto.Street && address.City == createAddressDto.City &&
+                            address.Country == createAddressDto.Country && address.PostalCode == createAddressDto.PostalCode)
+                        {
+                            existe = true;
+                        }
+                    }
+                }
+
+                if (existe is false)
+                {
+                    var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
+                        createAddressDto.PostalCode);
+
+                    if (agent.EntityLink is not null)
+                    {
+                        agent.EntityLink.AddAddress(address);
+                    }
+                    else
+                    {
+                        var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
+
+                        entityLink.AddAddress(address);
+
+                        agent.SetEntityLink(entityLink);
+
+                    }
 
                     _unitOfWork.AgentRepository.Update(agent);
 
                     _unitOfWork.Commit();
                 }
             }
-            else 
-            {
-                var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
-
-                agent.SetEntityLink(entityLink);
-
-                var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
-
-                agent.EntityLink.SetAccount(account);
-
-                _unitOfWork.AgentRepository.Update(agent);
-
-                _unitOfWork.Commit();
-            }
-        }
-
-        public void AddressAdd(int agentId, CreateAddressDto createAddressDto)
-        {
-            var agent = _unitOfWork.AgentRepository.GetByIdWithAddresses(agentId);
-
-            if(agent is null) 
-            {
-                throw new ArgumentNullException(nameof(agent),"Não foi encontrado.");
-            }
-
-            var existe = false;
-
-            if(agent.EntityLink is not null) 
-            {
-                foreach (var address in agent.EntityLink.Addresses)
-                {
-                    if(address.Street == createAddressDto.Street && address.City == createAddressDto.City && 
-                        address.Country == createAddressDto.Country && address.PostalCode == createAddressDto.PostalCode) 
-                    {
-                        existe = true;
-                    }
-                }
-            }
-
-            if (existe is false)
-            {
-                var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
-                    createAddressDto.PostalCode);
-
-                if (agent.EntityLink is not null)
-                {
-                    agent.EntityLink.AddAddress(address);
-                }
-                else
-                {
-                    var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
-
-                    agent.SetEntityLink(entityLink);
-
-                    agent.EntityLink.AddAddress(address);
-                }
-
-                _unitOfWork.AgentRepository.Update(agent);
-
-                _unitOfWork.Commit();
-            }
         }
 
         public void ContactAdd(int agentId, CreateContactDto createContactDto)
         {
-            var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
-
-            if (agent is null)
+            using (_unitOfWork) 
             {
-                throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
-            }
+                var agent = _unitOfWork.AgentRepository.GetByIdWithContacts(agentId);
 
-            var existe = false;
-
-            if (agent.EntityLink is not null)
-            {
-                foreach (var contact in agent.EntityLink.Contacts)
+                if (agent is null)
                 {
-                    if (contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value)
-                    {
-                        existe = true;
-                    }
+                    throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
                 }
-            }
 
-            if (existe == false)
-            {
-                var contact = Contact.Create(createContactDto.ContactType,createContactDto.Value);
+                var existe = false;
 
                 if (agent.EntityLink is not null)
                 {
-                    agent.EntityLink.AddContact(contact);
+                    foreach (var contact in agent.EntityLink.Contacts)
+                    {
+                        if (contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value)
+                        {
+                            existe = true;
+                        }
+                    }
                 }
-                else
+
+                if (existe == false)
                 {
-                    var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
+                    var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
-                    agent.SetEntityLink(entityLink);
+                    if (agent.EntityLink is not null)
+                    {
+                        agent.EntityLink.AddContact(contact);
+                    }
+                    else
+                    {
+                        var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
 
-                    agent.EntityLink.AddContact(contact);
+                        agent.SetEntityLink(entityLink);
+
+                        agent.EntityLink.AddContact(contact);
+                    }
+
+                    _unitOfWork.AgentRepository.Update(agent);
+
+                    _unitOfWork.Commit();
                 }
-
-                _unitOfWork.AgentRepository.Update(agent);
-
-                _unitOfWork.Commit();
-            }
+            }   
         }
 
         public AgentDto Delete(AgentDto agentDto)

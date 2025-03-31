@@ -29,7 +29,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpGet("GetByIdWithAll/{id:int}")]
-        public ActionResult<AgentAllDto> GetByIdWithAll(int id)
+        public ActionResult<UserAllDto> GetByIdWithAll(int id)
         {
             return Ok(_userService.GetByIdWithAll(id));
         }
@@ -68,7 +68,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpPut("{id:int}")]
         public ActionResult<UserDto> Update([FromRoute] int id, [FromBody] UserDto userDto) 
         {
-            return _userService.Update(userDto);
+            return Ok(_userService.Update(userDto));
         }
 
         [HttpDelete("{id:int}")]
