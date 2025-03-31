@@ -27,9 +27,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                     .HasValue<Staff>(Discriminator.Staff);
 
             builder.HasOne(e => e.EntityLink)
-                   .WithOne( em => em.Employee)
-                   .HasForeignKey<Employee>(em=> em.EntityLinkId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .WithOne(em => em.Employee)
+                   .HasForeignKey<Employee>(em => em.EntityLinkId);
 
             builder.HasMany(e => e.PersonalContacts)
                    .WithOne()

@@ -83,6 +83,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
             catch
             {
                 Rollback();
+                throw;
             }
             finally
             {

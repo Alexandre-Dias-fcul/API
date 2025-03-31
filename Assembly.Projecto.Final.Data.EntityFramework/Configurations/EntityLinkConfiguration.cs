@@ -1,4 +1,5 @@
-﻿using Assembly.Projecto.Final.Domain.Models;
+﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -31,11 +32,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.HasOne(e => e.Employee)
                    .WithOne(e => e.EntityLink)
-                   .HasForeignKey<EntityLink>(e => e.EntityId);
+                   .HasForeignKey<Employee>(e => e.EntityLinkId);
 
             builder.HasOne(u => u.User)
                    .WithOne(e => e.EntityLink)
-                   .HasForeignKey<EntityLink>(e => e.EntityId);
+                   .HasForeignKey<User>(u=> u.EntityLinkId);
 
             builder.Property(e => e.EntityType).IsRequired();
             builder.Property(e => e.EntityId).IsRequired();
