@@ -86,7 +86,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
             }
             finally
             {
-                Dispose();
+                if(_dbContextTransaction == null) 
+                {
+                    _context.Dispose();
+                }
+               
             }
 
             return commited;
@@ -104,7 +108,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
 
         public void Dispose()
         {
-            Rollback();
+            if (_dbContextTransaction != null)
+            {
+                Rollback();
+            }
+
             _context.Dispose();
         }
     }

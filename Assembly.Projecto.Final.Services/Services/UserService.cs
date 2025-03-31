@@ -30,39 +30,43 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public void AccountAdd(int userId, CreateAccountDto createAccountDto)
         {
-            var user = _unitOfWork.UserRepository.GetByIdWithAccount(userId);
-
-            if (user is null)
+            using (_unitOfWork)
             {
-                throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
-            }
 
-            if (user.EntityLink is not null)
-            {
-                if (user.EntityLink.Account is null)
+                var user = _unitOfWork.UserRepository.GetByIdWithAccount(userId);
+
+                if (user is null)
                 {
+                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
+                }
+
+                if (user.EntityLink is not null)
+                {
+                    if (user.EntityLink.Account is null)
+                    {
+                        var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
+
+                        user.EntityLink.SetAccount(account);
+
+                        _unitOfWork.UserRepository.Update(user);
+
+                        _unitOfWork.Commit();
+                    }
+                }
+                else
+                {
+                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
+
                     var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
-                    user.EntityLink.SetAccount(account);
+                    entityLink.SetAccount(account);
+
+                    user.SetEntityLink(entityLink);
 
                     _unitOfWork.UserRepository.Update(user);
 
                     _unitOfWork.Commit();
                 }
-            }
-            else
-            {
-                var entityLink = EntityLink.Create(EntityType.User, user.Id);
-
-                user.SetEntityLink(entityLink);
-
-                var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
-
-                user.EntityLink.SetAccount(account);
-
-                _unitOfWork.UserRepository.Update(user);
-
-                _unitOfWork.Commit();
             }
         }
 
@@ -88,93 +92,101 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public void AddressAdd(int userId, CreateAddressDto createAddressDto)
         {
-            var user = _unitOfWork.UserRepository.GetByIdWithAddresses(userId);
-
-            if (user is null)
+            using (_unitOfWork)
             {
-                throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
-            }
+                var user = _unitOfWork.UserRepository.GetByIdWithAddresses(userId);
 
-            var existe = false;
-
-            if (user.EntityLink is not null)
-            {
-                foreach (var address in user.EntityLink.Addresses)
+                if (user is null)
                 {
-                    if (address.Street == createAddressDto.Street && address.City == createAddressDto.City &&
-                        address.Country == createAddressDto.Country && address.PostalCode == createAddressDto.PostalCode)
-                    {
-                        existe = true;
-                    }
+                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
                 }
-            }
 
-            if (existe is false)
-            {
-                var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
-                    createAddressDto.PostalCode);
+                var existe = false;
 
                 if (user.EntityLink is not null)
                 {
-                    user.EntityLink.AddAddress(address);
+                    foreach (var address in user.EntityLink.Addresses)
+                    {
+                        if (address.Street == createAddressDto.Street && address.City == createAddressDto.City &&
+                            address.Country == createAddressDto.Country && address.PostalCode == createAddressDto.PostalCode)
+                        {
+                            existe = true;
+                        }
+                    }
                 }
-                else
+
+                if (existe is false)
                 {
-                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
+                    var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
+                        createAddressDto.PostalCode);
 
-                    user.SetEntityLink(entityLink);
+                    if (user.EntityLink is not null)
+                    {
+                        user.EntityLink.AddAddress(address);
+                    }
+                    else
+                    {
+                        var entityLink = EntityLink.Create(EntityType.User, user.Id);
 
-                    user.EntityLink.AddAddress(address);
+                        entityLink.AddAddress(address);
+
+                        user.SetEntityLink(entityLink);
+                    }
+
+                    _unitOfWork.UserRepository.Update(user);
+
+                    _unitOfWork.Commit();
                 }
-
-                _unitOfWork.UserRepository.Update(user);
-
-                _unitOfWork.Commit();
             }
         }
 
         public void ContactAdd(int userId, CreateContactDto createContactDto)
         {
-            var user = _unitOfWork.UserRepository.GetByIdWithAccount(userId);
-
-            if (user is null)
+            using (_unitOfWork)
             {
-                throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
-            }
 
-            var existe = false;
+                var user = _unitOfWork.UserRepository.GetByIdWithContacts(userId);
 
-            if (user.EntityLink is not null)
-            {
-                foreach (var contact in user.EntityLink.Contacts)
+                if (user is null)
                 {
-                    if (contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value)
-                    {
-                        existe = true;
-                    }
+                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
                 }
-            }
 
-            if (existe == false)
-            {
-                var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
+                var existe = false;
 
                 if (user.EntityLink is not null)
                 {
-                    user.EntityLink.AddContact(contact);
+                    foreach (var contact in user.EntityLink.Contacts)
+                    {
+                        if (contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value)
+                        {
+                            existe = true;
+                        }
+                    }
                 }
-                else
+
+                if (existe == false)
                 {
-                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
+                    var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
-                    user.SetEntityLink(entityLink);
+                    if (user.EntityLink is not null)
+                    {
+                        user.EntityLink.AddContact(contact);
+                    }
+                    else
+                    {
+                        var entityLink = EntityLink.Create(EntityType.User, user.Id);
 
-                    user.EntityLink.AddContact(contact);
+                        entityLink.AddContact(contact);
+
+                        user.SetEntityLink(entityLink);
+                        
+                    }
+
+                    _unitOfWork.UserRepository.Update(user);
+
+                    _unitOfWork.Commit();
                 }
-
-                _unitOfWork.UserRepository.Update(user);
-
-                _unitOfWork.Commit();
             }
         }
 

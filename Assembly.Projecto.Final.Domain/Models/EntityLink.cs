@@ -65,7 +65,6 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void DomainValidation(EntityType entityType, int ?entityId) 
         {
-            DomainExceptionValidation.When(entityType == 0 ,"Erro: o tipo de entidade é obrigatório.");
             DomainExceptionValidation.When(entityId== null || entityId == 0, "Erro: o campo é obrigatório.");
 
             EntityType = entityType;

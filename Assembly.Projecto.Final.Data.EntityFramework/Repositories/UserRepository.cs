@@ -33,13 +33,13 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         public User? GetByIdWithAll(int id)
         {
             return DbSet
-                  .Include(s => s.EntityLink)
+                  .Include(u => u.EntityLink)
                   .ThenInclude(el => el.Account)
-                  .Include(s => s.EntityLink)
+                  .Include(u => u.EntityLink)
                   .ThenInclude(el => el.Contacts)
-                  .Include(s => s.EntityLink)
+                  .Include(u => u.EntityLink)
                   .ThenInclude(el => el.Addresses)
-                  .FirstOrDefault(s => s.Id == id);
+                  .FirstOrDefault(u => u.Id == id);
         }
 
         public User? GetByIdWithContacts(int id)
