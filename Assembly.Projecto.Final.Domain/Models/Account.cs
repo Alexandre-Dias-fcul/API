@@ -64,10 +64,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
         public void SetEntityLink(EntityLink entityLink)
         {
-            if (entityLink == null)
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(entityLink == null, $"Erro: Não foi encontrada a entidade {nameof(entityLink)}.");
 
             EntityLink = entityLink;
             EntityLinkId = entityLink.Id;

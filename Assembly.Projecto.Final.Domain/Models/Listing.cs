@@ -139,10 +139,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
         public void SetAgent(Agent agent) 
         {
-            if(agent == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(agent == null, $"Erro: Não foi encontrada a entidade {nameof(agent)}.");
 
             Agent = agent;
             AgentId = Agent.Id;
@@ -150,30 +147,21 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void AddFavorite(Favorite favorite)
         {
-            if (favorite == null)
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(favorite == null, $"Erro: Não foi encontrada a entidade {nameof(favorite)}.");
 
             _favorites.Add(favorite);
         }
 
         public void AddFeedBack(FeedBack feedBack)
         {
-            if (feedBack == null)
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(feedBack == null, $"Erro: Não foi encontrada a entidade {nameof(feedBack)}.");
 
             _feedBacks.Add(feedBack);
         }
 
         public void AddReassign(Reassign reassign) 
         {
-            if(reassign == null) 
-            {
-                throw new ArgumentNullException();
-            }
+             DomainExceptionValidation.When(reassign == null, $"Erro: Não foi encontrada a entidade {nameof(reassign)}.");
 
             _reassigns.Add(reassign);
         }

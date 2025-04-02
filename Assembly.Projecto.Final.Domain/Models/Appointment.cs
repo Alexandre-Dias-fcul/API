@@ -92,10 +92,8 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void AddParticipant(Participant participant) 
         {
-            if (participant == null)
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(participant == null, 
+                $"Erro: Não foi encontrada a entidade {nameof(participant)}.");
 
             _participants.Add(participant);
         }

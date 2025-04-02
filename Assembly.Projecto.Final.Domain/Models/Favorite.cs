@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,9 @@ namespace Assembly.Projecto.Final.Domain.Models
         }   
         private Favorite(User user, Listing listing):this()
         { 
-            if(user == null || listing == null) 
-            {
-                throw new ArgumentNullException();
-            }
+
+            DomainExceptionValidation.When(user == null, $"Erro: Não foi encontrada a entidade {nameof(user)}.");
+            DomainExceptionValidation.When(listing == null, $"Erro: Não foi encontrada a entidade {nameof(listing)}.");
 
             User = user;
             UserId = user.Id;

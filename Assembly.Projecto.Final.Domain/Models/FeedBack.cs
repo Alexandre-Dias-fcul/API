@@ -67,10 +67,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
         public void SetUser(User user) 
         {
-            if(user == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(user == null, $"Erro: Não foi encontrada a entidade {nameof(user)}.");
 
             User = user;
             UserId = User.Id;
@@ -78,10 +75,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void SetListing(Listing listing)
         {
-            if( listing == null) 
-            {
-                throw new ArgumentNullException();  
-            }
+            DomainExceptionValidation.When(listing == null, $"Erro: Não foi encontrada a entidade {nameof(listing)}.");
 
             Listing = listing;
             ListingId = listing.Id;

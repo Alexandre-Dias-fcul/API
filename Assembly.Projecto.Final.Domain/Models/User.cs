@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Validations;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
@@ -96,10 +97,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void SetEntityLink(EntityLink entityLink)
         {
-            if (entityLink == null)
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(entityLink == null, $"Erro: Não foi encontrada a entidade {nameof(entityLink)}.");
 
             EntityLink = entityLink;
             EntityLinkId = entityLink.Id;
@@ -107,20 +105,14 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void AddFavorite(Favorite favorite) 
         {
-            if(favorite == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(favorite == null, $"Erro: Não foi encontrada a entidade {nameof(favorite)}.");
 
             _favorites.Add(favorite);
         }
 
         public void AddFeedBack(FeedBack feedBack) 
-        { 
-            if(feedBack == null) 
-            {
-                throw new ArgumentNullException();
-            }
+        {
+            DomainExceptionValidation.When(feedBack == null, $"Erro: Não foi encontrada a entidade {nameof(feedBack)}.");
 
             _feedBacks.Add(feedBack);
         }

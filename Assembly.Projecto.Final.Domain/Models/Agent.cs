@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Enums;
+using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -122,10 +123,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void SetSupervisor(Agent supervisor) 
         {
-            if(supervisor == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(supervisor == null, $"Erro: Não foi encontrado o supervisor.");
 
             Supervisor = supervisor;
             SupervisorId = Supervisor.Id;
@@ -133,10 +131,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void AddListings(Listing listing) 
         {
-            if (listing == null) 
-            {  
-                throw new ArgumentNullException(); 
-            }
+            DomainExceptionValidation.When(listing == null, $"Erro: Não foi encontrada a entidade {nameof(listing)}.");
 
             _listings.Add(listing);
         }
