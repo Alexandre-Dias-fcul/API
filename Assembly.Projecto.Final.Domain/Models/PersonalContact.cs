@@ -74,20 +74,15 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void SetEmployee(Employee employee) 
         {
-            if (employee == null)
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(employee == null, $"Erro: Não foi encontrada a entidade {nameof(employee)}.");
 
             Employee = employee;
         }
 
         public void AddPersonalContactDetail(PersonalContactDetail personalContactDetail)
         {
-            if(personalContactDetail == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(personalContactDetail == null, 
+                $"Erro: Não foi encontrada a entidade {nameof(personalContactDetail)}.");
 
             _personalContactDetails.Add(personalContactDetail);
         }

@@ -70,10 +70,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
         public void SetListing(Listing listing) 
         {
-            if(listing == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(listing == null, $"Erro: Não foi encontrada a entidade {nameof(listing)}.");
 
             Listing = listing;
             ListingId = listing.Id;

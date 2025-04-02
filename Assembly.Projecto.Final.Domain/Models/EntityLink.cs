@@ -71,51 +71,36 @@ namespace Assembly.Projecto.Final.Domain.Models
             EntityId = entityId;
         }
         public void SetAccount(Account account) 
-        { 
-            if(account == null) 
-            {
-                throw new ArgumentNullException();
-            }
-                
+        {
+            DomainExceptionValidation.When(account == null, $"Erro: Não foi encontrada a entidade {nameof(account)}.");
+
             Account = account;
         }
 
         public void SetEmplyee(Employee employee) 
         {
-            if(employee == null)
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(employee == null, $"Erro: Não foi encontrada a entidade {nameof(employee)}.");
 
             Employee = employee;
         }
 
         public void SetUser(User user) 
         {
-            if(user == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(user == null, $"Erro: Não foi encontrada a entidade {nameof(user)}.");
 
             User = user;
         }
 
         public void AddAddress(Address address) 
         {
-            if(address == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(address == null, $"Erro: Não foi encontrada a entidade {nameof(address)}.");
 
             _addresses.Add(address);
         }
 
         public void AddContact(Contact contact) 
         {
-            if(contact == null) 
-            {
-                throw new ArgumentNullException();
-            }
+            DomainExceptionValidation.When(contact == null, $"Erro: Não foi encontrada a entidade {nameof(contact)}.");
 
             _contacts.Add(contact);
         }

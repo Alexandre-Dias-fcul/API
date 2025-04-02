@@ -62,6 +62,9 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void SetPersonalContact(PersonalContact personalContact) 
         {
+            DomainExceptionValidation.When(personalContact == null, 
+                $"Erro: Não foi encontrada a entidade {nameof(personalContact)}.");
+
             PersonalContact = personalContact;
             PersonalContactId = personalContact.Id;
         }
