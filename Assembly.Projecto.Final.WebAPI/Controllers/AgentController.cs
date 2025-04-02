@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using Assembly.Projecto.Final.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -36,38 +37,106 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpPost]
         public ActionResult<AgentDto> Add([FromBody] CreateAgentDto createAgentDto) 
         {
-            return Ok(_agentService.Add(createAgentDto));
+            try 
+            {  
+               var agentDto = _agentService.Add(createAgentDto);
+
+                return Ok(agentDto);
+            }
+            catch (ArgumentNullException ex) 
+            {
+                return NotFound(new { message = ex.Message });   
+            }
         }
 
         [HttpPost("AddAddress/{userId:int}")]
         public ActionResult<AddressDto> AddAdress(int userId,[FromBody] CreateAddressDto createAddressDto) 
         {
-            return Ok(_agentService.AddressAdd(userId, createAddressDto));
+            try
+            {
+                var addressDto = _agentService.AddressAdd(userId, createAddressDto);
+
+                return Ok(addressDto);
+
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPost("AddContact/{userId:int}")]
         public ActionResult<ContactDto> AddContact(int userId, [FromBody] CreateContactDto createContactDto)
         {
-            return Ok(_agentService.ContactAdd(userId, createContactDto));
+            try
+            {
+                var contactDto = _agentService.ContactAdd(userId, createContactDto);
+
+                return Ok(contactDto);
+
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPost("AddAccount/{userId:int}")]
         public ActionResult<AccountDto> AddAccount(int userId, [FromBody] CreateAccountDto createAccountDto)
         {
-            return Ok(_agentService.AccountAdd(userId, createAccountDto));
+            try 
+            {
+                var accountDto = _agentService.AccountAdd(userId, createAccountDto);
+
+                return accountDto;
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id:int}")]
         public ActionResult<AgentDto> Update([FromRoute] int id, [FromBody] AgentDto agentDto) 
         {
-            return Ok(_agentService.Update(agentDto));
+            try
+            {
+               var updatedAgentDto = _agentService.Update(agentDto);
+
+               return Ok(updatedAgentDto);
+            }
+            catch (ArgumentNullException ex) 
+            {
+                return NotFound(new {message = ex.Message});
+            }
         }
 
         [HttpDelete("{id:int}")]
-
         public ActionResult<AgentDto> Delete(int id) 
         {
-            return Ok(_agentService.Delete(id));
+            try
+            {
+                var deletedAgent =_agentService.Delete(id);
+
+                return Ok(deletedAgent);
+
+            }
+            catch (ArgumentNullException ex) 
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
     }
