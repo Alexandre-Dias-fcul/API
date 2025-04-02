@@ -28,48 +28,6 @@ namespace Assembly.Projecto.Final.Services.Services
             _mapper = mapper;
         }
 
-        public void AccountAdd(int userId, CreateAccountDto createAccountDto)
-        {
-            using (_unitOfWork)
-            {
-
-                var user = _unitOfWork.UserRepository.GetByIdWithAccount(userId);
-
-                if (user is null)
-                {
-                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
-                }
-
-                if (user.EntityLink is not null)
-                {
-                    if (user.EntityLink.Account is null)
-                    {
-                        var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
-
-                        user.EntityLink.SetAccount(account);
-
-                        _unitOfWork.UserRepository.Update(user);
-
-                        _unitOfWork.Commit();
-                    }
-                }
-                else
-                {
-                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
-
-                    var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
-
-                    entityLink.SetAccount(account);
-
-                    user.SetEntityLink(entityLink);
-
-                    _unitOfWork.UserRepository.Update(user);
-
-                    _unitOfWork.Commit();
-                }
-            }
-        }
-
         public UserDto Add(CreateUserDto createUserDto)
         {
             User addedUser;
@@ -90,7 +48,49 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<UserDto>(addedUser);
         }
 
-        public void AddressAdd(int userId, CreateAddressDto createAddressDto)
+        public AccountDto AccountAdd(int userId, CreateAccountDto createAccountDto)
+        {
+            using (_unitOfWork)
+            {
+                var user = _unitOfWork.UserRepository.GetByIdWithAccount(userId);
+
+                if (user is null)
+                {
+                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
+                }
+
+                if (user.EntityLink is not null && user.EntityLink.Account is not null)
+                {
+                    throw new InvalidOperationException("A account já existe.");
+                }
+
+                var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
+
+
+                if (user.EntityLink is not null)
+                {
+                    user.EntityLink.SetAccount(account);
+                }
+                else
+                {
+                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
+
+                    entityLink.SetAccount(account);
+
+                    user.SetEntityLink(entityLink);
+                }
+
+                _unitOfWork.UserRepository.Update(user);
+
+                _unitOfWork.Commit();
+
+                var accountDto = _mapper.Map<AccountDto>(account);
+
+                return accountDto;
+            }
+        }
+
+        public AddressDto AddressAdd(int userId, CreateAddressDto createAddressDto)
         {
             using (_unitOfWork)
             {
@@ -105,46 +105,47 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 if (user.EntityLink is not null)
                 {
-                    foreach (var address in user.EntityLink.Addresses)
-                    {
-                        if (address.Street == createAddressDto.Street && address.City == createAddressDto.City &&
-                            address.Country == createAddressDto.Country && address.PostalCode == createAddressDto.PostalCode)
-                        {
-                            existe = true;
-                        }
-                    }
+                    existe = user.EntityLink.Addresses.Any(address => address.Street == createAddressDto.Street &&
+                             address.City == createAddressDto.City && address.Country == createAddressDto.Country &&
+                             address.PostalCode == createAddressDto.PostalCode);
                 }
 
-                if (existe is false)
+                if (existe)
                 {
-                    var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
+                    throw new InvalidOperationException("Este endereço já existe.");
+                }
+
+                var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
                         createAddressDto.PostalCode);
 
-                    if (user.EntityLink is not null)
-                    {
-                        user.EntityLink.AddAddress(address);
-                    }
-                    else
-                    {
-                        var entityLink = EntityLink.Create(EntityType.User, user.Id);
-
-                        entityLink.AddAddress(address);
-
-                        user.SetEntityLink(entityLink);
-                    }
-
-                    _unitOfWork.UserRepository.Update(user);
-
-                    _unitOfWork.Commit();
+                if (user.EntityLink is not null)
+                {
+                    user.EntityLink.AddAddress(address);
                 }
+                else
+                {
+                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
+
+                    entityLink.AddAddress(address);
+
+                    user.SetEntityLink(entityLink);
+
+                }
+
+                _unitOfWork.UserRepository.Update(user);
+
+                _unitOfWork.Commit();
+
+                var addressDto = _mapper.Map<AddressDto>(address);
+
+                return addressDto;
             }
         }
 
-        public void ContactAdd(int userId, CreateContactDto createContactDto)
+        public ContactDto ContactAdd(int userId, CreateContactDto createContactDto)
         {
             using (_unitOfWork)
             {
-
                 var user = _unitOfWork.UserRepository.GetByIdWithContacts(userId);
 
                 if (user is null)
@@ -156,40 +157,39 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 if (user.EntityLink is not null)
                 {
-                    foreach (var contact in user.EntityLink.Contacts)
-                    {
-                        if (contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value)
-                        {
-                            existe = true;
-                        }
-                    }
+                    existe = user.EntityLink.Contacts.Any(contact =>
+                    contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value);
                 }
 
-                if (existe == false)
+                if (existe)
                 {
-                    var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
-
-                    if (user.EntityLink is not null)
-                    {
-                        user.EntityLink.AddContact(contact);
-                    }
-                    else
-                    {
-                        var entityLink = EntityLink.Create(EntityType.User, user.Id);
-
-                        entityLink.AddContact(contact);
-
-                        user.SetEntityLink(entityLink);
-                        
-                    }
-
-                    _unitOfWork.UserRepository.Update(user);
-
-                    _unitOfWork.Commit();
+                    throw new InvalidOperationException("Este contacto já existe.");
                 }
+
+                var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
+
+                if (user.EntityLink is not null)
+                {
+                    user.EntityLink.AddContact(contact);
+                }
+                else
+                {
+                    var entityLink = EntityLink.Create(EntityType.User, user.Id);
+
+                    user.SetEntityLink(entityLink);
+
+                    entityLink.AddContact(contact);
+                }
+
+                _unitOfWork.UserRepository.Update(user);
+
+                _unitOfWork.Commit();
+
+                var contactDto = _mapper.Map<ContactDto>(contact);
+
+                return contactDto;
             }
         }
-
         public UserDto Delete(UserDto userDto)
         {
             User deletedUser;

@@ -40,27 +40,21 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpPost("AddAddress/{userId:int}")]
-        public ActionResult AddAdress(int userId,[FromBody] CreateAddressDto createAddressDto) 
+        public ActionResult<AddressDto> AddAdress(int userId,[FromBody] CreateAddressDto createAddressDto) 
         {
-            _agentService.AddressAdd(userId, createAddressDto);
-
-            return Ok();
+            return Ok(_agentService.AddressAdd(userId, createAddressDto));
         }
 
         [HttpPost("AddContact/{userId:int}")]
-        public ActionResult AddContact(int userId, [FromBody] CreateContactDto createContactDto)
+        public ActionResult<ContactDto> AddContact(int userId, [FromBody] CreateContactDto createContactDto)
         {
-            _agentService.ContactAdd(userId, createContactDto);
-
-            return Ok();
+            return Ok(_agentService.ContactAdd(userId, createContactDto));
         }
 
         [HttpPost("AddAccount/{userId:int}")]
-        public ActionResult AddAccount(int userId, [FromBody] CreateAccountDto createAccountDto)
+        public ActionResult<AccountDto> AddAccount(int userId, [FromBody] CreateAccountDto createAccountDto)
         {
-            _agentService.AccountAdd(userId, createAccountDto);
-
-            return Ok();
+            return Ok(_agentService.AccountAdd(userId, createAccountDto));
         }
 
         [HttpPut("{id:int}")]
