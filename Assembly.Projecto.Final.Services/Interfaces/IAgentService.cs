@@ -13,9 +13,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IAgentService:IService<CreateAgentDto,AgentDto,int>
     {
-        public void ContactAdd(int agentId, CreateContactDto createContactDto);
-        public void AddressAdd(int agentId, CreateAddressDto createAddressDto);
-        public void AccountAdd(int agentId, CreateAccountDto createAccountDto);
+        public ContactDto ContactAdd(int agentId, CreateContactDto createContactDto);
+        public AddressDto AddressAdd(int agentId, CreateAddressDto createAddressDto);
+        public AccountDto AccountAdd(int agentId, CreateAccountDto createAccountDto);
         public AgentAllDto GetByIdWithAll(int id);
 
     }

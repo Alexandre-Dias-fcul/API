@@ -12,9 +12,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IUserService:IService<CreateUserDto,UserDto,int>
     {
-        public void ContactAdd(int userId, CreateContactDto createContactDto);
-        public void AddressAdd(int userId, CreateAddressDto createAddressDto);
-        public void AccountAdd(int userId, CreateAccountDto createAccountDto);
+        public ContactDto ContactAdd(int userId, CreateContactDto createContactDto);
+        public AddressDto AddressAdd(int userId, CreateAddressDto createAddressDto);
+        public AccountDto AccountAdd(int userId, CreateAccountDto createAccountDto);
         public UserAllDto GetByIdWithAll(int id);
     }
 }

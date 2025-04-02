@@ -12,9 +12,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IStaffService:IService<CreateStaffDto,StaffDto,int>
     {
-        public void ContactAdd(int staffId, CreateContactDto createContactDto);
-        public void AddressAdd(int staffId, CreateAddressDto createAddressDto);
-        public void AccountAdd(int staffId, CreateAccountDto createAccountDto);
+        public ContactDto ContactAdd(int staffId, CreateContactDto createContactDto);
+        public AddressDto AddressAdd(int staffId, CreateAddressDto createAddressDto);
+        public AccountDto AccountAdd(int staffId, CreateAccountDto createAccountDto);
         public StaffAllDto GetByIdWithAll(int id);
     }
 }
