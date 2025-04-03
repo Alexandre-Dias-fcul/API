@@ -38,106 +38,51 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
         public ActionResult<UserDto> Add(CreateUserDto createUserDto) 
         {
-            try
-            {
-                var userDto =_userService.Add(createUserDto);
+            var userDto = _userService.Add(createUserDto);
 
-                return Ok(userDto);
-            }
-            catch(ArgumentNullException ex) 
-            {
-                return NotFound(new { message = ex.Message });
-            }
+            return Ok(userDto);
         }
 
         [HttpPost("AddAddress/{userId:int}")]
         public ActionResult<AddressDto> AddAdress(int userId, [FromBody] CreateAddressDto createAddressDto)
         {
-            try 
-            {
-                var addressDto =_userService.AddressAdd(userId, createAddressDto);
+            var addressDto = _userService.AddressAdd(userId, createAddressDto);
 
-                return Ok(addressDto);
-            }
-            catch(ArgumentNullException ex) 
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch(InvalidOperationException ex) 
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return Ok(addressDto);
         }
 
         [HttpPost("AddContact/{userId:int}")]
         public ActionResult<ContactDto> AddContact(int userId, [FromBody] CreateContactDto createContactDto)
         {
-            try
-            {
-                var contactDto = _userService.ContactAdd(userId, createContactDto);
 
-                return Ok(contactDto);
+            var contactDto = _userService.ContactAdd(userId, createContactDto);
 
-            } 
-            catch (ArgumentNullException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return Ok(contactDto);
         }
 
         [HttpPost("AddAccount/{userId:int}")]
         public ActionResult<AccountDto> AddAccount(int userId, [FromBody] CreateAccountDto createAccountDto)
         {
-            try
-            {
-                var accountDto = _userService.AccountAdd(userId, createAccountDto);
+            var accountDto = _userService.AccountAdd(userId, createAccountDto);
 
-                return Ok(accountDto);
-
-            }
-            catch (ArgumentNullException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return Ok(accountDto);
         }
 
         [HttpPut("{id:int}")]
         public ActionResult<UserDto> Update([FromRoute] int id, [FromBody] UserDto userDto) 
         {
-            try 
-            {
-                var updatedUserDto = _userService.Update(userDto);
+            var updatedUserDto = _userService.Update(userDto);
 
-                return Ok(updatedUserDto);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            
+            return Ok(updatedUserDto);
         }
+            
 
         [HttpDelete("{id:int}")]
         public ActionResult<UserDto> Delete(int id) 
         {
-            try 
-            {
-                var deletedUserDto = _userService.Delete(id);
+            var deletedUserDto = _userService.Delete(id);
 
-                return Ok(deletedUserDto);
-            }
-            catch (ArgumentNullException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
+            return Ok(deletedUserDto);
         }
     }
 }

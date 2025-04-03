@@ -1,6 +1,7 @@
 using Assembly.Projecto.Final.IoC;
 using Assembly.Projecto.Final.Services.Mappings;
 using Assembly.Projecto.Final.WebAPI.Extensions;
+using Assembly.Projecto.Final.WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
