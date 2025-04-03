@@ -5,6 +5,7 @@ using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -55,15 +56,10 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
 
-                if (staff is null)
-                {
-                    throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
-                }
+                NotFoundException.When(staff is null,$" { nameof(staff) } não foi encontrado.");
 
-                if (staff.EntityLink is not null && staff.EntityLink.Account is not null)
-                {
-                    throw new InvalidOperationException("A account já existe.");
-                }
+                CustomApplicationException.When(staff.EntityLink is not null && staff.EntityLink.Account is not null,
+                    $"A account já existe.");
 
                 var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
@@ -97,24 +93,18 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var staff = _unitOfWork.StaffRepository.GetByIdWithAddresses(staffId);
 
-                if (staff is null)
-                {
-                    throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
-                }
+                NotFoundException.When(staff is null, $" {nameof(staff)} não foi encontrado.");
 
-                var existe = false;
+                var exists = false;
 
                 if (staff.EntityLink is not null)
                 {
-                    existe = staff.EntityLink.Addresses.Any(address => address.Street == createAddressDto.Street &&
+                    exists = staff.EntityLink.Addresses.Any(address => address.Street == createAddressDto.Street &&
                              address.City == createAddressDto.City && address.Country == createAddressDto.Country &&
                              address.PostalCode == createAddressDto.PostalCode);
                 }
 
-                if (existe)
-                {
-                    throw new InvalidOperationException("Este endereço já existe.");
-                }
+                CustomApplicationException.When(exists, "Este endereço já existe.");
 
                 var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
                         createAddressDto.PostalCode);
@@ -149,23 +139,17 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var staff = _unitOfWork.StaffRepository.GetByIdWithContacts(staffId);
 
-                if (staff is null)
-                {
-                    throw new ArgumentNullException(nameof(staff), "Não foi encontrado.");
-                }
+                NotFoundException.When(staff is null,$" { nameof(staff) } não foi encontrado.");
 
-                var existe = false;
+                var exists = false;
 
                 if (staff.EntityLink is not null)
                 {
-                    existe = staff.EntityLink.Contacts.Any(contact =>
+                    exists = staff.EntityLink.Contacts.Any(contact =>
                     contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value);
                 }
 
-                if (existe)
-                {
-                    throw new InvalidOperationException("Este contacto já existe.");
-                }
+                CustomApplicationException.When(exists, "Este contacto já existe.");
 
                 var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
@@ -200,10 +184,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedStaff = _unitOfWork.StaffRepository.GetById(staffDto.Id);
 
-                if(foundedStaff is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedStaff), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
 
                 deletedStaff = _unitOfWork.StaffRepository.Delete(foundedStaff);
 
@@ -221,10 +202,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedStaff = _unitOfWork.StaffRepository.GetById(id);
 
-                if (foundedStaff is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedStaff), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
 
                 deletedStaff = _unitOfWork.StaffRepository.Delete(id);
 
@@ -271,10 +249,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedStaff = _unitOfWork.StaffRepository.GetById(staffDto.Id);
 
-                if (foundedStaff is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedStaff), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
 
                 var name = Name.Create(staffDto.Name.FirstName,staffDto.Name.MiddleNames,
                    staffDto.Name.LastName);

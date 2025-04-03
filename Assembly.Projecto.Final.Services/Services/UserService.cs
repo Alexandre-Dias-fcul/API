@@ -5,10 +5,12 @@ using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,15 +56,10 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var user = _unitOfWork.UserRepository.GetByIdWithAccount(userId);
 
-                if (user is null)
-                {
-                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
-                }
+                NotFoundException.When(user is null, $"{nameof(user)} não foi encontrado.");
 
-                if (user.EntityLink is not null && user.EntityLink.Account is not null)
-                {
-                    throw new InvalidOperationException("A account já existe.");
-                }
+                CustomApplicationException.When(user.EntityLink is not null && user.EntityLink.Account is not null,
+                    "A account já existe.");
 
                 var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
@@ -96,24 +93,18 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var user = _unitOfWork.UserRepository.GetByIdWithAddresses(userId);
 
-                if (user is null)
-                {
-                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
-                }
+                NotFoundException.When(user is null, $"{nameof(user)} não foi encontrado.");
 
-                var existe = false;
+                var exists = false;
 
                 if (user.EntityLink is not null)
                 {
-                    existe = user.EntityLink.Addresses.Any(address => address.Street == createAddressDto.Street &&
+                    exists = user.EntityLink.Addresses.Any(address => address.Street == createAddressDto.Street &&
                              address.City == createAddressDto.City && address.Country == createAddressDto.Country &&
                              address.PostalCode == createAddressDto.PostalCode);
                 }
 
-                if (existe)
-                {
-                    throw new InvalidOperationException("Este endereço já existe.");
-                }
+                CustomApplicationException.When(exists, "Este endereço já existe.");
 
                 var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
                         createAddressDto.PostalCode);
@@ -148,23 +139,17 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var user = _unitOfWork.UserRepository.GetByIdWithContacts(userId);
 
-                if (user is null)
-                {
-                    throw new ArgumentNullException(nameof(user), "Não foi encontrado.");
-                }
+                NotFoundException.When(user is null, $" {nameof(user)} não foi encontrado.");
 
-                var existe = false;
+                var exists = false;
 
                 if (user.EntityLink is not null)
                 {
-                    existe = user.EntityLink.Contacts.Any(contact =>
+                    exists = user.EntityLink.Contacts.Any(contact =>
                     contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value);
                 }
 
-                if (existe)
-                {
-                    throw new InvalidOperationException("Este contacto já existe.");
-                }
+                CustomApplicationException.When(exists, "Este contacto já existe.");
 
                 var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
@@ -198,10 +183,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedUser = _unitOfWork.UserRepository.Delete(userDto.Id);
 
-                if(foundedUser is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedUser), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
 
                 deletedUser = _unitOfWork.UserRepository.Delete(foundedUser);
 
@@ -219,10 +201,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedUser = _unitOfWork.UserRepository.Delete(id);
 
-                if (foundedUser is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedUser), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
 
                 deletedUser = _unitOfWork.UserRepository.Delete(id);
 
@@ -268,10 +247,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedUser = _unitOfWork.UserRepository.Delete(userDto.Id);
 
-                if (foundedUser is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedUser), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
 
                 var name = Name.Create(userDto.Name.FirstName, userDto.Name.MiddleNames,
                    userDto.Name.LastName);

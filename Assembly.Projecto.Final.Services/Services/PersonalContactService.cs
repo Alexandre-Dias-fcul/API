@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -49,10 +50,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(personalContactDto.Id);
 
-                if(foundedPersonalContact is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedPersonalContact),"Não foi encontrado.");
-                }
+                NotFoundException.When(foundedPersonalContact is null, 
+                    $"{nameof(foundedPersonalContact)} não foi encontrado.");
 
                 deletedPersonalContact =_unitOfWork.PersonalContactRepository.Delete(foundedPersonalContact);
 
@@ -71,10 +70,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
 
-                if (foundedPersonalContact is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedPersonalContact), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedPersonalContact is null,
+                    $"{nameof(foundedPersonalContact)} não foi encontrado.");
 
                 deletedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
 
@@ -114,10 +111,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(personalContactDto.Id);
 
-                if (foundedPersonalContact is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedPersonalContact), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedPersonalContact is null,
+                    $"{nameof(foundedPersonalContact)} não foi encontrado.");
 
                 foundedPersonalContact.Update(personalContactDto.Name,personalContactDto.IsPrimary,
                     personalContactDto.Notes);

@@ -6,6 +6,7 @@ using Assembly.Projecto.Final.Services.Dtos;
 using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -45,10 +46,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 {
                     var supervisor = _unitOfWork.AgentRepository.GetById((int)createAgentDto.SupervisorId);
 
-                    if(supervisor is null) 
-                    {
-                        throw new ArgumentNullException(nameof(supervisor), "Não foi encontrado.");
-                    }
+                    NotFoundException.When(supervisor is null, $"{nameof(supervisor)} não foi encontrado.");
 
                     agent.SetSupervisor(supervisor);
                 }
@@ -67,18 +65,12 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
-                if (agent is null)
-                {
-                    throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
-                }
+                NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
 
-                if(agent.EntityLink is not null && agent.EntityLink.Account is not null)
-                {
-                    throw new InvalidOperationException("A account já existe.");
-                }
+                CustomApplicationException.When(agent.EntityLink is not null && agent.EntityLink.Account is not null,
+                    "A account já existe");
 
                 var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
-
 
                 if (agent.EntityLink is not null)
                 {
@@ -109,24 +101,18 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var agent = _unitOfWork.AgentRepository.GetByIdWithAddresses(agentId);
 
-                if (agent is null)
-                {
-                    throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
-                }
+                NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
 
-                var existe = false;
+                var exists = false;
 
                 if (agent.EntityLink is not null)
                 {
-                     existe = agent.EntityLink.Addresses.Any(address => address.Street == createAddressDto.Street &&
+                     exists = agent.EntityLink.Addresses.Any(address => address.Street == createAddressDto.Street &&
                               address.City == createAddressDto.City && address.Country == createAddressDto.Country &&
                               address.PostalCode == createAddressDto.PostalCode);
                 }
 
-                if (existe) 
-                {
-                    throw new InvalidOperationException("Este endereço já existe.");
-                }
+                NotFoundException.When(exists, $"{nameof(agent)} Este endereço já existe.");
 
                 var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
                         createAddressDto.PostalCode);
@@ -161,10 +147,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var agent = _unitOfWork.AgentRepository.GetByIdWithContacts(agentId);
 
-                if (agent is null)
-                {
-                    throw new ArgumentNullException(nameof(agent), "Não foi encontrado.");
-                }
+                NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
 
                 var existe = false;
 
@@ -174,10 +157,7 @@ namespace Assembly.Projecto.Final.Services.Services
                     contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value);
                 }
 
-                if (existe) 
-                {
-                    throw new InvalidOperationException("Este contacto já existe.");
-                }
+                CustomApplicationException.When(existe,"Este contacto já existe.");
 
                 var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
@@ -213,10 +193,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(agentDto.Id);
 
-                if(foundedAgent is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedAgent), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAgent is null, $"{nameof(foundedAgent)} não foi encontrado.");
 
                 deletedAgent =_unitOfWork.AgentRepository.Delete(foundedAgent);
 
@@ -235,10 +212,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(id);
 
-                if (foundedAgent is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedAgent), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAgent is null, $"{nameof(foundedAgent)} não foi encontrado.");
 
                 deletedAgent = _unitOfWork.AgentRepository.Delete(id);
 
@@ -277,10 +251,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(agentDto.Id);
 
-                if(foundedAgent is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedAgent), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAgent is null, $"{nameof(foundedAgent)} não foi encontrado.");
 
                 foundedAgent.Update(agentDto.Name.FirstName,agentDto.Name.MiddleNames,agentDto.Name.LastName,
                     agentDto.DateOfBirth,agentDto.Gender,agentDto.PhotoFileName,agentDto.IsActive);
@@ -289,10 +260,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 {
                     var supervisor = _unitOfWork.AgentRepository.GetById((int)agentDto.SupervisorId);
 
-                    if (supervisor is null)
-                    {
-                        throw new ArgumentNullException(nameof(supervisor), "Não foi encontrado.");
-                    }
+                    NotFoundException.When(supervisor is null, $"{nameof(supervisor)} não foi encontrado.");
 
                     foundedAgent.SetSupervisor(supervisor);
                 }
