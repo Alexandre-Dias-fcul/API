@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -50,10 +51,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedReassign = _unitOfWork.ReassignRepository.GetById(reassignDto.Id);
 
-                if(foundedReassign is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedReassign),"Não foi encontrado.");
-                }
+                NotFoundException.When(foundedReassign is null,$"{nameof(foundedReassign)} não foi encontrado.");
 
                 deletedReassign = _unitOfWork.ReassignRepository.Delete(foundedReassign);
 
@@ -72,10 +70,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedReassign = _unitOfWork.ReassignRepository.GetById(id);
 
-                if (foundedReassign is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedReassign), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedReassign is null, $"{nameof(foundedReassign)} não foi encontrado.");
 
                 deletedReassign = _unitOfWork.ReassignRepository.Delete(id);
 
@@ -115,10 +110,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedReassign = _unitOfWork.ReassignRepository.GetById(reassignDto.Id);
 
-                if (foundedReassign is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedReassign), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedReassign is null, $"{nameof(foundedReassign)} não foi encontrado.");
 
                 foundedReassign.Update(reassignDto.OlderEmployeeId,reassignDto.NewEmployeeId,
                     reassignDto.ReassignBy,reassignDto.ReassignmentDate);

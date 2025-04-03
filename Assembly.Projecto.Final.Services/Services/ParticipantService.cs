@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -34,23 +35,16 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(createParticipantDto.AppointmentId);
 
-                if (foundedAppointment is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedAppointment), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAppointment is null,
+                           $" {nameof(foundedAppointment)} não foi encontrado.");
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(createParticipantDto.EmployeeId);
 
                 var foundedStaff = _unitOfWork.StaffRepository.GetById(createParticipantDto.EmployeeId);
 
-                if (foundedAgent is null && foundedStaff is null)
-                {
-                    throw new ArgumentNullException( "Não foi encontrado o empregado.");
-                }
-                else if(foundedAgent is not null && foundedStaff is not null) 
-                {
-                    throw new ArgumentNullException("Erro.");
-                }
+                NotFoundException.When(foundedAgent is null && foundedStaff is null, "Não foi encontrado o empregado.");
+
+                NotFoundException.When(foundedAgent is not null && foundedStaff is not null, "Erro.");
 
                 if (foundedAgent is not null)
                 {
@@ -85,6 +79,8 @@ namespace Assembly.Projecto.Final.Services.Services
                     throw new ArgumentNullException(nameof(foundedParticipant),"Não foi encontrado.");
                 }
 
+                NotFoundException.When(foundedParticipant is null, $" {nameof(foundedParticipant)} não foi encontrado.");
+
                 deletedParticipant = _unitOfWork.ParticipantRepository.Delete(foundedParticipant);
 
                 _unitOfWork.Commit();
@@ -102,10 +98,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(id);
 
-                if (foundedParticipant is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedParticipant), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedParticipant is null, $" {nameof(foundedParticipant)} não foi encontrado.");
 
                 deletedParticipant = _unitOfWork.ParticipantRepository.Delete(id);
 
@@ -145,30 +138,19 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedParticipant = _unitOfWork.ParticipantRepository.GetById(participantDto.Id);
 
-                if (foundedParticipant is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedParticipant), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedParticipant is null,$" {nameof(foundedParticipant)} não foi encontrado.");
 
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(participantDto.AppointmentId);
 
-                if (foundedAppointment is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedAppointment), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAppointment is null, $" {nameof(foundedAppointment)} não foi encontrado.");
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(participantDto.EmployeeId);
 
                 var foundedStaff = _unitOfWork.StaffRepository.GetById(participantDto.EmployeeId);
 
-                if (foundedAgent is null && foundedStaff is null)
-                {
-                    throw new ArgumentNullException("Não foi encontrado o empregado.");
-                }
-                else if (foundedAgent is not null && foundedStaff is not null)
-                {
-                    throw new ArgumentNullException("Erro.");
-                }
+                NotFoundException.When(foundedAgent is null && foundedStaff is null, "Não foi encontrado o empregado.");
+
+                NotFoundException.When(foundedAgent is not null && foundedStaff is not null, "Erro.");
 
                 if (foundedAgent is not null)
                 {

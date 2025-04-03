@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -45,10 +46,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedEntityLink = _unitOfWork.EntityLinkRepository.GetById(entityLinkDto.Id);
 
-                if(foundedEntityLink is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedEntityLink), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedEntityLink is null, $"{nameof(foundedEntityLink)} não foi encontrado.");
 
                 deletedEntityLink = _unitOfWork.EntityLinkRepository.Delete(foundedEntityLink);
 
@@ -64,13 +62,9 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-
                 var foundedEntityLink = _unitOfWork.EntityLinkRepository.GetById(id);
 
-                if (foundedEntityLink is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedEntityLink), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedEntityLink is null, $"{nameof(foundedEntityLink)} não foi encontrado.");
 
                 deletedEntityLink = _unitOfWork.EntityLinkRepository.Delete(id);
 
@@ -111,10 +105,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedEntityLink = _unitOfWork.EntityLinkRepository.GetById(entityLinkDto.Id);
 
-                if (foundedEntityLink is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedEntityLink), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedEntityLink is null, $"{nameof(foundedEntityLink)} não foi encontrado.");
 
                 foundedEntityLink.Update(entityLinkDto.EntityType, entityLinkDto.EntityId);
 

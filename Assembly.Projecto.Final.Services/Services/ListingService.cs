@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -51,13 +52,9 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-
                 var foundedListing = _unitOfWork.ListingRepository.Delete(listingDto.Id);
 
-                if(foundedListing is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedListing), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedListing is null,$" { nameof(foundedListing) } não foi encontrado.");
 
                 deletedListing = _unitOfWork.ListingRepository.Delete(foundedListing);
 
@@ -75,10 +72,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedListing = _unitOfWork.ListingRepository.Delete(id);
 
-                if (foundedListing is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedListing), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedListing is null, $" {nameof(foundedListing)} não foi encontrado.");
 
                 deletedListing = _unitOfWork.ListingRepository.Delete(id);
 
@@ -117,10 +111,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedListing = _unitOfWork.ListingRepository.Delete(listingDto.Id);
 
-                if (foundedListing is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedListing), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedListing is null, $" {nameof(foundedListing)} não foi encontrado.");
 
                 foundedListing.Update(listingDto.Type, listingDto.Status,
                     listingDto.NumberOfBathrooms, listingDto.NumberOfBathrooms,

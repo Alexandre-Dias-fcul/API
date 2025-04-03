@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -48,10 +49,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(feedBackDto.Id);
 
-                if(foundedFeedBack is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedFeedBack), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedFeedBack is null,$" {nameof(foundedFeedBack)} não foi encontrado.");
 
                 deletedFeedBack = _unitOfWork.FeedBackRepository.Delete(foundedFeedBack);
 
@@ -70,10 +68,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(id);
 
-                if (foundedFeedBack is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedFeedBack), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedFeedBack is null, $" {nameof(foundedFeedBack)} não foi encontrado.");
 
                 deletedFeedBack = _unitOfWork.FeedBackRepository.Delete(id);
 
@@ -112,10 +107,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedFeedBack = _unitOfWork.FeedBackRepository.GetById(feedBackDto.Id);
 
-                if (foundedFeedBack is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedFeedBack), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedFeedBack is null, $" {nameof(foundedFeedBack)} não foi encontrado.");
 
                 foundedFeedBack.Update(feedBackDto.Rate,feedBackDto.Comment,feedBackDto.CommentDate);
 

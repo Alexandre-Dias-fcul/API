@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -51,10 +52,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 var foundedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository
                         .GetById(personalContactDetailDto.Id);
 
-                if(foundedPersonalContactDetail is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedPersonalContactDetail), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedPersonalContactDetail is null,
+                    $"{nameof(foundedPersonalContactDetail)} não foi encontrado.");
 
                 deletedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository
                        .Delete(foundedPersonalContactDetail);
@@ -74,10 +73,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var foundedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository.GetById(id);
 
-                if (foundedPersonalContactDetail is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedPersonalContactDetail), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedPersonalContactDetail is null,
+                    $"{nameof(foundedPersonalContactDetail)} não foi encontrado.");
 
                 deletedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository.Delete(id);
 
@@ -118,10 +115,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 var foundedPersonalContactDetail = _unitOfWork.PersonalContactDetailRepository.
                     GetById(personalContactDetailDto.Id);
 
-                if (foundedPersonalContactDetail is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedPersonalContactDetail), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedPersonalContactDetail is null,
+                    $"{nameof(foundedPersonalContactDetail)} não foi encontrado.");
 
                 foundedPersonalContactDetail.Update(personalContactDetailDto.ContactType,
                     personalContactDetailDto.Value);

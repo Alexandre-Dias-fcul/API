@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -28,20 +29,13 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-
                 var foundedUser = _unitOfWork.UserRepository.GetById(createFavoriteDto.UserId);
 
-                if (foundedUser is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedUser), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
 
                 var foundedListing = _unitOfWork.ListingRepository.GetById(createFavoriteDto.ListingId);
 
-                if (foundedListing is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedListing), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedListing is null, $"{nameof(foundedListing)} não foi encontrado.");
 
                 var favorite = Favorite.Create(foundedUser, foundedListing);
 
@@ -61,10 +55,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedFavorite = _unitOfWork.FavoriteRepository.GetById(favoriteDto.Id);
 
-                if(foundedFavorite is null) 
-                {
-                    throw new ArgumentException(nameof(foundedFavorite),"Não foi encontrado.");
-                }
+                NotFoundException.When(foundedFavorite is null, $"{nameof(foundedFavorite)} não foi encontrado.");
 
                 deletedFavorite = _unitOfWork.FavoriteRepository.Delete(foundedFavorite);
 
@@ -82,10 +73,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedFavorite = _unitOfWork.FavoriteRepository.GetById(id);
 
-                if (foundedFavorite is null)
-                {
-                    throw new ArgumentException(nameof(foundedFavorite), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedFavorite is null, $"{nameof(foundedFavorite)} não foi encontrado.");
 
                 deletedFavorite = _unitOfWork.FavoriteRepository.Delete(id);
 

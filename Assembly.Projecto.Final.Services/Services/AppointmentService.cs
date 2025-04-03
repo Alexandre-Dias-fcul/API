@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
 using System;
@@ -46,10 +47,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(appointmentDto.Id);
 
-                if (foundedAppointment is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedAppointment), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAppointment is null, $"{nameof(foundedAppointment)} não foi encontrado.");
 
                 deletedAppointment =_unitOfWork.AppointmentRepository.Delete(foundedAppointment);
 
@@ -67,10 +65,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(id);
 
-                if(foundedAppointment is null) 
-                {
-                    throw new ArgumentNullException(nameof(foundedAppointment), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAppointment is null, $"{nameof(foundedAppointment)} não foi encontrado.");
 
                 deletedAppointment = _unitOfWork.AppointmentRepository.Delete(id);
 
@@ -109,10 +104,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var foundedAppointment = _unitOfWork.AppointmentRepository.GetById(appointmentDto.Id);
 
-                if (foundedAppointment is null)
-                {
-                    throw new ArgumentNullException(nameof(foundedAppointment), "Não foi encontrado.");
-                }
+                NotFoundException.When(foundedAppointment is null, $"{nameof(foundedAppointment)} não foi encontrado.");
 
                 foundedAppointment.Update(appointmentDto.Title, appointmentDto.Description,
                     appointmentDto.Date, appointmentDto.HourStart,appointmentDto.HourEnd,
