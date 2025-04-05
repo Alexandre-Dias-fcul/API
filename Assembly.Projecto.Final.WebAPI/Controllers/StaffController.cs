@@ -74,13 +74,5 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
             return Ok(updatedStaffDto);
         }
-
-        [HttpDelete("{id:int}")]
-        public ActionResult<StaffDto> Delete(int id)
-        {
-            var deletedStaff = _staffService.Delete(id);
-
-            return Ok(deletedStaff);
-        }
     }
 }

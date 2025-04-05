@@ -18,7 +18,6 @@ namespace Assembly.Projecto.Final.Services
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IEntityLinkService, EntityLinkService>();
             services.AddScoped<IFavoriteService, FavoriteService>();
             services.AddScoped<IFeedBackService, FeedBackService>();
             services.AddScoped<IListingService, ListingService>();

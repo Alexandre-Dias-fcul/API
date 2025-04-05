@@ -72,24 +72,20 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
-                if (agent.EntityLink is not null)
+                if (agent.EntityLink is null)
                 {
-                    agent.EntityLink.SetAccount(account);
-                }
-                else
-                {
-                    var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
+                     var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
 
-                    entityLink.SetAccount(account);
-
-                    agent.SetEntityLink(entityLink);
+                     agent.SetEntityLink(entityLink);     
                 }
+
+                agent.EntityLink.SetAccount(account);
 
                 _unitOfWork.AgentRepository.Update(agent);
 
-                _unitOfWork.Commit();
+                var accountDto = _mapper.Map<AccountDto>(agent.EntityLink.Account);
 
-                var accountDto = _mapper.Map<AccountDto>(account);
+                _unitOfWork.Commit();
 
                 return accountDto;
             }   
@@ -112,30 +108,28 @@ namespace Assembly.Projecto.Final.Services.Services
                               address.PostalCode == createAddressDto.PostalCode);
                 }
 
-                NotFoundException.When(exists, $"{nameof(agent)} Este endereço já existe.");
+                NotFoundException.When(exists, "Este endereço já existe.");
 
                 var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
                         createAddressDto.PostalCode);
 
-                if (agent.EntityLink is not null)
-                {
-                    agent.EntityLink.AddAddress(address);
-                }
-                else
+                if(agent.EntityLink is null) 
                 {
                     var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
 
-                    entityLink.AddAddress(address);
-
                     agent.SetEntityLink(entityLink);
-
                 }
+
+                agent.EntityLink.AddAddress(address);
 
                 _unitOfWork.AgentRepository.Update(agent);
 
+                var foundedAddress = agent.EntityLink.Addresses.FirstOrDefault(a => a.Street == address.Street &&
+                          a.City == address.City && a.Country == address.Country && a.PostalCode == address.PostalCode);
+
                 _unitOfWork.Commit();
 
-                var addressDto = _mapper.Map<AddressDto>(address);
+                var addressDto = _mapper.Map<AddressDto>(foundedAddress);
 
                 return addressDto;
             }
@@ -161,27 +155,65 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
-                if (agent.EntityLink is not null)
-                {
-                    agent.EntityLink.AddContact(contact);
-                }
-                else
+                if(agent.EntityLink is null) 
                 {
                     var entityLink = EntityLink.Create(EntityType.Employee, agent.Id);
 
                     agent.SetEntityLink(entityLink);
-
-                    entityLink.AddContact(contact);
                 }
+
+                agent.EntityLink.AddContact(contact);
 
                 _unitOfWork.AgentRepository.Update(agent);
 
+                var foundedContact = agent.EntityLink.Contacts.FirstOrDefault(c => c.ContactType == contact.ContactType 
+                                && c.Value == contact.Value);
+
                 _unitOfWork.Commit();
 
-                var contactDto = _mapper.Map<ContactDto>(contact);
+                var contactDto = _mapper.Map<ContactDto>(foundedContact);
 
                 return contactDto;
             }
+        }
+
+        public AccountDto AccountUpdate(int agentId, AccountDto accountDto)
+        {   
+            using (_unitOfWork) 
+            {
+                var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
+
+                NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
+
+                NotFoundException.When(agent.EntityLink is null,"A account não existe.");
+
+                NotFoundException.When(agent.EntityLink is not null && agent.EntityLink.Account is null,
+                    "A account não existe.");
+
+                if (accountDto.Password != agent.EntityLink.Account.Password || 
+                     accountDto.Email != agent.EntityLink.Account.Email) 
+                {
+                    agent.EntityLink.Account.Update(accountDto.Password, accountDto.Email);
+
+                    _unitOfWork.AgentRepository.Update(agent);
+
+                    _unitOfWork.Commit();
+                }
+
+                var updatedAccountDto = _mapper.Map<AccountDto>(agent.EntityLink.Account);
+
+                return updatedAccountDto;
+            }
+        }
+
+        public AddressDto AddressUpdate(int agentId, AddressDto addressDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ContactDto ContactUpdate(int agentId, ContactDto contactDto)
+        {
+            throw new NotImplementedException();
         }
 
         public AgentDto Delete(AgentDto agentDto)
