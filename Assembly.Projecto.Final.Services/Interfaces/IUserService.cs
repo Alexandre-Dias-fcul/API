@@ -15,6 +15,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public ContactDto ContactAdd(int userId, CreateContactDto createContactDto);
         public AddressDto AddressAdd(int userId, CreateAddressDto createAddressDto);
         public AccountDto AccountAdd(int userId, CreateAccountDto createAccountDto);
+        public AccountDto AccountUpdate(int userId, AccountDto accountDto);
+        public ContactDto ContactUpdate(int userId, ContactDto contactDto);
+        public AddressDto AddressUpdate(int userId, AddressDto addressDto);
         public UserAllDto GetByIdWithAll(int id);
     }
 }
