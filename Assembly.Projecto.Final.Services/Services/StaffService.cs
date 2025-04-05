@@ -56,32 +56,27 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
 
-                NotFoundException.When(staff is null,$" { nameof(staff) } não foi encontrado.");
+                NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontrado.");
 
                 CustomApplicationException.When(staff.EntityLink is not null && staff.EntityLink.Account is not null,
-                    $"A account já existe.");
+                    "A account já existe");
 
                 var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
-
-                if (staff.EntityLink is not null)
-                {
-                    staff.EntityLink.SetAccount(account);
-                }
-                else
+                if (staff.EntityLink is null)
                 {
                     var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
-
-                    entityLink.SetAccount(account);
 
                     staff.SetEntityLink(entityLink);
                 }
 
+                staff.EntityLink.SetAccount(account);
+
                 _unitOfWork.StaffRepository.Update(staff);
 
-                _unitOfWork.Commit();
+                var accountDto = _mapper.Map<AccountDto>(staff.EntityLink.Account);
 
-                var accountDto = _mapper.Map<AccountDto>(account);
+                _unitOfWork.Commit();
 
                 return accountDto;
             }
@@ -93,7 +88,7 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var staff = _unitOfWork.StaffRepository.GetByIdWithAddresses(staffId);
 
-                NotFoundException.When(staff is null, $" {nameof(staff)} não foi encontrado.");
+                NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontrado.");
 
                 var exists = false;
 
@@ -104,30 +99,28 @@ namespace Assembly.Projecto.Final.Services.Services
                              address.PostalCode == createAddressDto.PostalCode);
                 }
 
-                CustomApplicationException.When(exists, "Este endereço já existe.");
+                NotFoundException.When(exists, "Este endereço já existe.");
 
                 var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
                         createAddressDto.PostalCode);
 
-                if (staff.EntityLink is not null)
-                {
-                    staff.EntityLink.AddAddress(address);
-                }
-                else
+                if (staff.EntityLink is null)
                 {
                     var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
 
-                    entityLink.AddAddress(address);
-
                     staff.SetEntityLink(entityLink);
-
                 }
+
+                staff.EntityLink.AddAddress(address);
 
                 _unitOfWork.StaffRepository.Update(staff);
 
+                var foundedAddress = staff.EntityLink.Addresses.FirstOrDefault(a => a.Street == address.Street &&
+                          a.City == address.City && a.Country == address.Country && a.PostalCode == address.PostalCode);
+
                 _unitOfWork.Commit();
 
-                var addressDto = _mapper.Map<AddressDto>(address);
+                var addressDto = _mapper.Map<AddressDto>(foundedAddress);
 
                 return addressDto;
             }
@@ -139,38 +132,37 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var staff = _unitOfWork.StaffRepository.GetByIdWithContacts(staffId);
 
-                NotFoundException.When(staff is null,$" { nameof(staff) } não foi encontrado.");
+                NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontrado.");
 
-                var exists = false;
+                var existe = false;
 
                 if (staff.EntityLink is not null)
                 {
-                    exists = staff.EntityLink.Contacts.Any(contact =>
+                    existe = staff.EntityLink.Contacts.Any(contact =>
                     contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value);
                 }
 
-                CustomApplicationException.When(exists, "Este contacto já existe.");
+                CustomApplicationException.When(existe, "Este contacto já existe.");
 
                 var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
-                if (staff.EntityLink is not null)
-                {
-                    staff.EntityLink.AddContact(contact);
-                }
-                else
+                if (staff.EntityLink is null)
                 {
                     var entityLink = EntityLink.Create(EntityType.Employee, staff.Id);
 
                     staff.SetEntityLink(entityLink);
-
-                    entityLink.AddContact(contact);
                 }
+
+                staff.EntityLink.AddContact(contact);
 
                 _unitOfWork.StaffRepository.Update(staff);
 
+                var foundedContact = staff.EntityLink.Contacts.FirstOrDefault(c => c.ContactType == contact.ContactType
+                                && c.Value == contact.Value);
+
                 _unitOfWork.Commit();
 
-                var contactDto = _mapper.Map<ContactDto>(contact);
+                var contactDto = _mapper.Map<ContactDto>(foundedContact);
 
                 return contactDto;
             }

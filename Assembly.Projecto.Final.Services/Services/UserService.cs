@@ -59,29 +59,24 @@ namespace Assembly.Projecto.Final.Services.Services
                 NotFoundException.When(user is null, $"{nameof(user)} não foi encontrado.");
 
                 CustomApplicationException.When(user.EntityLink is not null && user.EntityLink.Account is not null,
-                    "A account já existe.");
+                    "A account já existe");
 
                 var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
 
-
-                if (user.EntityLink is not null)
-                {
-                    user.EntityLink.SetAccount(account);
-                }
-                else
+                if (user.EntityLink is null)
                 {
                     var entityLink = EntityLink.Create(EntityType.User, user.Id);
-
-                    entityLink.SetAccount(account);
 
                     user.SetEntityLink(entityLink);
                 }
 
+                user.EntityLink.SetAccount(account);
+
                 _unitOfWork.UserRepository.Update(user);
 
-                _unitOfWork.Commit();
+                var accountDto = _mapper.Map<AccountDto>(user.EntityLink.Account);
 
-                var accountDto = _mapper.Map<AccountDto>(account);
+                _unitOfWork.Commit();
 
                 return accountDto;
             }
@@ -89,6 +84,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public AddressDto AddressAdd(int userId, CreateAddressDto createAddressDto)
         {
+
             using (_unitOfWork)
             {
                 var user = _unitOfWork.UserRepository.GetByIdWithAddresses(userId);
@@ -104,30 +100,28 @@ namespace Assembly.Projecto.Final.Services.Services
                              address.PostalCode == createAddressDto.PostalCode);
                 }
 
-                CustomApplicationException.When(exists, "Este endereço já existe.");
+                NotFoundException.When(exists, "Este endereço já existe.");
 
                 var address = Address.Create(createAddressDto.Street, createAddressDto.City, createAddressDto.Country,
                         createAddressDto.PostalCode);
 
-                if (user.EntityLink is not null)
-                {
-                    user.EntityLink.AddAddress(address);
-                }
-                else
+                if (user.EntityLink is null)
                 {
                     var entityLink = EntityLink.Create(EntityType.User, user.Id);
 
-                    entityLink.AddAddress(address);
-
                     user.SetEntityLink(entityLink);
-
                 }
+
+                user.EntityLink.AddAddress(address);
 
                 _unitOfWork.UserRepository.Update(user);
 
+                var foundedAddress = user.EntityLink.Addresses.FirstOrDefault(a => a.Street == address.Street &&
+                          a.City == address.City && a.Country == address.Country && a.PostalCode == address.PostalCode);
+
                 _unitOfWork.Commit();
 
-                var addressDto = _mapper.Map<AddressDto>(address);
+                var addressDto = _mapper.Map<AddressDto>(foundedAddress);
 
                 return addressDto;
             }
@@ -139,38 +133,37 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 var user = _unitOfWork.UserRepository.GetByIdWithContacts(userId);
 
-                NotFoundException.When(user is null, $" {nameof(user)} não foi encontrado.");
+                NotFoundException.When(user is null, $"{nameof(user)} não foi encontrado.");
 
-                var exists = false;
+                var existe = false;
 
                 if (user.EntityLink is not null)
                 {
-                    exists = user.EntityLink.Contacts.Any(contact =>
+                    existe = user.EntityLink.Contacts.Any(contact =>
                     contact.ContactType == createContactDto.ContactType && contact.Value == createContactDto.Value);
                 }
 
-                CustomApplicationException.When(exists, "Este contacto já existe.");
+                CustomApplicationException.When(existe, "Este contacto já existe.");
 
                 var contact = Contact.Create(createContactDto.ContactType, createContactDto.Value);
 
-                if (user.EntityLink is not null)
-                {
-                    user.EntityLink.AddContact(contact);
-                }
-                else
+                if (user.EntityLink is null)
                 {
                     var entityLink = EntityLink.Create(EntityType.User, user.Id);
 
                     user.SetEntityLink(entityLink);
-
-                    entityLink.AddContact(contact);
                 }
+
+                user.EntityLink.AddContact(contact);
 
                 _unitOfWork.UserRepository.Update(user);
 
+                var foundedContact = user.EntityLink.Contacts.FirstOrDefault(c => c.ContactType == contact.ContactType
+                                && c.Value == contact.Value);
+
                 _unitOfWork.Commit();
 
-                var contactDto = _mapper.Map<ContactDto>(contact);
+                var contactDto = _mapper.Map<ContactDto>(foundedContact);
 
                 return contactDto;
             }
