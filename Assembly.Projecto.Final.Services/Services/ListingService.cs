@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
@@ -37,6 +38,12 @@ namespace Assembly.Projecto.Final.Services.Services
                     createListingDto.NumberOfKitchens,createListingDto.Price,createListingDto.Location,
                     createListingDto.Area,createListingDto.Parking,createListingDto.Description,
                     createListingDto.MainImageFileName,createListingDto.OtherImagesFileNames);
+
+                var agent = _unitOfWork.AgentRepository.GetById(createListingDto.AgentId);
+
+                NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
+
+                listing.SetAgent(agent);
 
                 addedListing = _unitOfWork.ListingRepository.Add(listing);
 
