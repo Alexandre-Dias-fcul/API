@@ -36,7 +36,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using(_unitOfWork) 
             {
-                var name = Name.Create(createUserDto.Name.FirstName, createUserDto.Name.MiddleNames,
+                var name = Name.Create(createUserDto.Name.FirstName,string.Join(" ",createUserDto.Name.MiddleNames),
                    createUserDto.Name.LastName);
 
                 var user = User.Create(name, createUserDto.DateOfBirth, createUserDto.Gender,
@@ -326,11 +326,11 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedUser = _unitOfWork.UserRepository.Delete(userDto.Id);
+                var foundedUser = _unitOfWork.UserRepository.GetById(userDto.Id);
 
                 NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
 
-                var name = Name.Create(userDto.Name.FirstName, userDto.Name.MiddleNames,
+                var name = Name.Create(userDto.Name.FirstName, string.Join(" ", userDto.Name.MiddleNames),
                    userDto.Name.LastName);
 
                 foundedUser.Update(name, userDto.DateOfBirth, userDto.Gender,
