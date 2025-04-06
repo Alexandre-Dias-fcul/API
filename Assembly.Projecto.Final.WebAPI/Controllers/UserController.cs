@@ -71,10 +71,50 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpPut("{id:int}")]
         public ActionResult<UserDto> Update([FromRoute] int id, [FromBody] UserDto userDto) 
         {
+            if(id != userDto.Id) 
+            {
+                return BadRequest("Os Ids do user não coincidem");
+            }
+
             var updatedUserDto = _userService.Update(userDto);
 
             return Ok(updatedUserDto);
         }
-            
+
+        [HttpPut("UpdateAddress/{userId:int}/{addressId:int}")]
+        public ActionResult<AddressDto> UpdateAddress([FromRoute] int userId, [FromRoute] int addressId,
+           [FromBody] AddressDto addressDto)
+        {
+            if (addressId != addressDto.Id)
+            {
+                return BadRequest("Os ids do address não coincidem.");
+            }
+
+            var updatedAddressDto = _userService.AddressUpdate(userId, addressDto);
+
+            return Ok(updatedAddressDto);
+        }
+
+        [HttpPut("UpdateContact/{userId:int}/{contactId:int}")]
+        public ActionResult<ContactDto> UpdateContact([FromRoute] int userId, [FromRoute] int contactId,
+            [FromBody] ContactDto contactDto)
+        {
+            if (contactId != contactDto.Id)
+            {
+                return BadRequest("Os ids do contact não coincidem.");
+            }
+
+            var updatedContactDto = _userService.ContactUpdate(userId, contactDto);
+
+            return Ok(updatedContactDto);
+        }
+
+        [HttpPut("UpdateAccount/{userId:int}")]
+        public ActionResult<AccountDto> UpdateAccount([FromRoute] int userId, [FromBody] AccountDto accountDto)
+        {
+            var updatedAccount = _userService.AccountUpdate(userId, accountDto);
+
+            return updatedAccount;
+        }
     }
 }

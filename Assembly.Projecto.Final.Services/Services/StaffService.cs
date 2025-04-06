@@ -35,7 +35,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using(_unitOfWork) 
             {
-                var name = Name.Create(createStaffDto.Name.FirstName, createStaffDto.Name.MiddleNames,
+                var name = Name.Create(createStaffDto.Name.FirstName, string.Join(" ",createStaffDto.Name.MiddleNames),
                     createStaffDto.Name.LastName);
 
                 var staff = Staff.Create(name, createStaffDto.DateOfBirth, createStaffDto.Gender,
@@ -329,7 +329,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
 
-                var name = Name.Create(staffDto.Name.FirstName,staffDto.Name.MiddleNames,
+                var name = Name.Create(staffDto.Name.FirstName,string.Join(" ",staffDto.Name.MiddleNames),
                    staffDto.Name.LastName);
 
                 foundedStaff.Update(name, staffDto.DateOfBirth, staffDto.Gender,

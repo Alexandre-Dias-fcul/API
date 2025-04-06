@@ -4,6 +4,7 @@ using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.Services.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
 {
@@ -22,56 +23,97 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<AgentDto> GetById(int id) 
+        public ActionResult<AgentDto> GetById(int id)
         {
             return Ok(_agentService.GetById(id));
         }
 
         [HttpGet("GetByIdWithAll/{id:int}")]
-        public ActionResult<AgentAllDto> GetByIdWithAll(int id) 
+        public ActionResult<AgentAllDto> GetByIdWithAll(int id)
         {
             return Ok(_agentService.GetByIdWithAll(id));
         }
-       
+
 
         [HttpPost]
-        public ActionResult<AgentDto> Add([FromBody] CreateAgentDto createAgentDto) 
+        public ActionResult<AgentDto> Add([FromBody] CreateAgentDto createAgentDto)
         {
             var agentDto = _agentService.Add(createAgentDto);
 
             return Ok(agentDto);
         }
 
-        [HttpPost("AddAddress/{userId:int}")]
-        public ActionResult<AddressDto> AddAdress(int userId,[FromBody] CreateAddressDto createAddressDto) 
+        [HttpPost("AddAddress/{agentId:int}")]
+        public ActionResult<AddressDto> AddAdress(int agentId, [FromBody] CreateAddressDto createAddressDto)
         {
-            var addressDto = _agentService.AddressAdd(userId, createAddressDto);
+            var addressDto = _agentService.AddressAdd(agentId, createAddressDto);
 
             return Ok(addressDto);
         }
 
-        [HttpPost("AddContact/{userId:int}")]
-        public ActionResult<ContactDto> AddContact(int userId, [FromBody] CreateContactDto createContactDto)
+        [HttpPost("AddContact/{agentId:int}")]
+        public ActionResult<ContactDto> AddContact(int agentId, [FromBody] CreateContactDto createContactDto)
         {
-            var contactDto = _agentService.ContactAdd(userId, createContactDto);
+            var contactDto = _agentService.ContactAdd(agentId, createContactDto);
 
             return Ok(contactDto);
         }
 
-        [HttpPost("AddAccount/{userId:int}")]
-        public ActionResult<AccountDto> AddAccount(int userId, [FromBody] CreateAccountDto createAccountDto)
+        [HttpPost("AddAccount/{agentId:int}")]
+        public ActionResult<AccountDto> AddAccount(int agentId, [FromBody] CreateAccountDto createAccountDto)
         {
-            var accountDto = _agentService.AccountAdd(userId, createAccountDto);
+            var accountDto = _agentService.AccountAdd(agentId,createAccountDto);
 
             return accountDto;
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<AgentDto> Update([FromRoute] int id, [FromBody] AgentDto agentDto) 
+        public ActionResult<AgentDto> Update([FromRoute] int id, [FromBody] AgentDto agentDto)
         {
+            if (id != agentDto.Id)
+            {
+                return BadRequest("Os ids do agent não coincidem.");
+            }
+
             var updatedAgentDto = _agentService.Update(agentDto);
 
             return Ok(updatedAgentDto);
+        }
+
+        [HttpPut("UpdateAddress/{agentId:int}/{addressId:int}")]
+        public ActionResult<AddressDto> UpdateAddress([FromRoute] int agentId,[FromRoute] int addressId, 
+            [FromBody] AddressDto addressDto)
+        {
+            if(addressId != addressDto.Id) 
+            {
+                return BadRequest("Os ids do address não coincidem.");
+            }
+
+            var updatedAddressDto = _agentService.AddressUpdate(agentId, addressDto);
+
+            return Ok(updatedAddressDto);
+        }
+
+        [HttpPut("UpdateContact/{agentId:int}/{contactId:int}")]
+        public ActionResult<ContactDto> UpdateContact([FromRoute]int agentId, [FromRoute] int contactId,
+            [FromBody] ContactDto contactDto)
+        {
+            if(contactId != contactDto.Id) 
+            {
+                return BadRequest("Os ids do contact não coincidem.");
+            }
+
+            var updatedContactDto = _agentService.ContactUpdate(agentId, contactDto);
+
+            return Ok(updatedContactDto);
+        }
+
+        [HttpPut("UpdateAccount/{agentId:int}")]
+        public ActionResult<AccountDto> UpdateAccount([FromRoute] int agentId, [FromBody] AccountDto accountDto) 
+        {
+            var updatedAccount = _agentService.AccountUpdate(agentId, accountDto);
+
+            return updatedAccount;
         }
     }
 }

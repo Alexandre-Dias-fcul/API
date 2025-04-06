@@ -53,7 +53,7 @@ namespace Assembly.Projecto.Final.Domain.Common
 
         public void Update(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive) 
         {
-            name.Update(name.FirstName,string.Join(" ",name.MiddleNames),name.LastName);
+            Name.Update(name.FirstName,string.Join(" ",name.MiddleNames),name.LastName);
             DomainValidation(dateOfBirth, gender, photoFileName, isActive);
         }
 

@@ -35,7 +35,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                var name = Name.Create(createAgentDto.Name.FirstName,createAgentDto.Name.MiddleNames,
+                var name = Name.Create(createAgentDto.Name.FirstName,string.Join(" ",createAgentDto.Name.MiddleNames),
                     createAgentDto.Name.LastName);
 
                 var agent = Agent.Create(name, createAgentDto.DateOfBirth, createAgentDto.Gender,
@@ -335,7 +335,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedAgent is null, $"{nameof(foundedAgent)} não foi encontrado.");
 
-                foundedAgent.Update(agentDto.Name.FirstName,agentDto.Name.MiddleNames,agentDto.Name.LastName,
+                foundedAgent.Update(agentDto.Name.FirstName,string.Join(" ",agentDto.Name.MiddleNames),agentDto.Name.LastName,
                     agentDto.DateOfBirth,agentDto.Gender,agentDto.PhotoFileName,agentDto.IsActive);
 
                 if (agentDto.SupervisorId is not null)

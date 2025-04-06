@@ -35,26 +35,26 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_staffService.GetByIdWithAll(id));
         }
 
-        [HttpPost("AddAddress/{userId:int}")]
-        public ActionResult<AddressDto> AddAdress(int userId, [FromBody] CreateAddressDto createAddressDto)
+        [HttpPost("AddAddress/{staffId:int}")]
+        public ActionResult<AddressDto> AddAdress(int staffId, [FromBody] CreateAddressDto createAddressDto)
         {
-            var addressDto = _staffService.AddressAdd(userId, createAddressDto);
+            var addressDto = _staffService.AddressAdd(staffId, createAddressDto);
 
             return Ok(addressDto);
         }
 
-        [HttpPost("AddContact/{userId:int}")]
-        public ActionResult<ContactDto> AddContact(int userId, [FromBody] CreateContactDto createContactDto)
+        [HttpPost("AddContact/{staffId:int}")]
+        public ActionResult<ContactDto> AddContact(int staffId, [FromBody] CreateContactDto createContactDto)
         {
-            var contactDto = _staffService.ContactAdd(userId, createContactDto);
+            var contactDto = _staffService.ContactAdd(staffId, createContactDto);
 
             return Ok(contactDto);
         }
 
-        [HttpPost("AddAccount/{userId:int}")]
-        public ActionResult<AccountDto> AddAccount(int userId, [FromBody] CreateAccountDto createAccountDto)
+        [HttpPost("AddAccount/{staffId:int}")]
+        public ActionResult<AccountDto> AddAccount(int staffId, [FromBody] CreateAccountDto createAccountDto)
         {
-            var accountDto = _staffService.AccountAdd(userId, createAccountDto);
+            var accountDto = _staffService.AccountAdd(staffId, createAccountDto);
 
             return Ok(accountDto);
         }
@@ -70,9 +70,50 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpPut("{id:int}")]
         public ActionResult<StaffDto> Update([FromRoute] int id, [FromBody] StaffDto staffDto)
         {
+            if(id != staffDto.Id) 
+            {
+                return BadRequest("Os ids do staff não coincidem.");
+            }
+
             var updatedStaffDto = _staffService.Update(staffDto);
 
             return Ok(updatedStaffDto);
+        }
+
+        [HttpPut("UpdateAddress/{staffId:int}/{addressId:int}")]
+        public ActionResult<AddressDto> UpdateAddress([FromRoute] int staffId, [FromRoute] int addressId,
+           [FromBody] AddressDto addressDto)
+        {
+            if (addressId != addressDto.Id)
+            {
+                return BadRequest("Os ids do address não coincidem.");
+            }
+
+            var updatedAddressDto = _staffService.AddressUpdate(staffId, addressDto);
+
+            return Ok(updatedAddressDto);
+        }
+
+        [HttpPut("UpdateContact/{staffId:int}/{contactId:int}")]
+        public ActionResult<ContactDto> UpdateContact([FromRoute] int staffId, [FromRoute] int contactId,
+            [FromBody] ContactDto contactDto)
+        {
+            if (contactId != contactDto.Id)
+            {
+                return BadRequest("Os ids do contact não coincidem.");
+            }
+
+            var updatedContactDto = _staffService.ContactUpdate(staffId, contactDto);
+
+            return Ok(updatedContactDto);
+        }
+
+        [HttpPut("UpdateAccount/{staffId:int}")]
+        public ActionResult<AccountDto> UpdateAccount([FromRoute] int staffId, [FromBody] AccountDto accountDto)
+        {
+            var updatedAccount = _staffService.AccountUpdate(staffId, accountDto);
+
+            return updatedAccount;
         }
     }
 }
