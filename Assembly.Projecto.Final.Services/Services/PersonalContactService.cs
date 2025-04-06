@@ -1,4 +1,5 @@
-﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
+﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Exceptions;
@@ -32,6 +33,21 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 var personalContact = PersonalContact.Create(createPersonalContactDto.Name,
                     createPersonalContactDto.IsPrimary,createPersonalContactDto.Notes);
+
+                Employee employee;
+
+                if(createPersonalContactDto.Role is null) 
+                {
+                    employee = _unitOfWork.StaffRepository.GetById(createPersonalContactDto.EmployeeId);
+                }
+                else 
+                {
+                    employee = _unitOfWork.AgentRepository.GetById(createPersonalContactDto.EmployeeId);
+                }
+
+                NotFoundException.When(employee is null,$"{nameof(employee)} não foi encontrado.");
+
+                personalContact.SetEmployee(employee);
 
                 addedPersonalContact = _unitOfWork.PersonalContactRepository.Add(personalContact);
 
@@ -67,7 +83,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-
                 var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
 
                 NotFoundException.When(foundedPersonalContact is null,
