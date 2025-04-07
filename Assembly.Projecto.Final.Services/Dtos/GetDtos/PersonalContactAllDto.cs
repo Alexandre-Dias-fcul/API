@@ -9,6 +9,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.GetDtos
 {
     public class PersonalContactAllDto
     {
+        public int Id { get; set; }
         public string Name { get; private set; }
         public bool IsPrimary { get; private set; }
         public string Notes { get; private set; }

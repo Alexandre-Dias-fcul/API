@@ -59,7 +59,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                var foundedListing = _unitOfWork.ListingRepository.Delete(listingDto.Id);
+                var foundedListing = _unitOfWork.ListingRepository.GetById(listingDto.Id);
 
                 NotFoundException.When(foundedListing is null,$" { nameof(foundedListing) } não foi encontrado.");
 
@@ -77,7 +77,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedListing = _unitOfWork.ListingRepository.Delete(id);
+                var foundedListing = _unitOfWork.ListingRepository.GetById(id);
 
                 NotFoundException.When(foundedListing is null, $" {nameof(foundedListing)} não foi encontrado.");
 
@@ -116,7 +116,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedListing = _unitOfWork.ListingRepository.Delete(listingDto.Id);
+                var foundedListing = _unitOfWork.ListingRepository.GetById(listingDto.Id);
 
                 NotFoundException.When(foundedListing is null, $" {nameof(foundedListing)} não foi encontrado.");
 

@@ -19,7 +19,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return _listingService.GetAll();
         }
 
-        [HttpGet("{id:int")] 
+        [HttpGet("{id:int}")] 
         public ActionResult<ListingDto> GetById(int id) 
         {
             return Ok(_listingService.GetById(id));
@@ -36,7 +36,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         {
             if(id != listingDto.Id) 
             {
-                 return BadRequest("Os ids da listing não coincidem.")   
+                return BadRequest("Os ids da listing não coincidem.");   
             }
 
             return Ok(_listingService.Update(listingDto));

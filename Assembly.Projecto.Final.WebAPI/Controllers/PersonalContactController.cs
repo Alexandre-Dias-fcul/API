@@ -45,7 +45,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_personalContactService.AddDetail(personalContactId, createPersonalContactDetailDto));
         }
 
-        [HttpPut("AddDetail/{personalContactId}/{personalContactDetailID:int}")]
+        [HttpPut("AddDetail/{personalContactId:int}/{personalContactDetailId:int}")]
         public ActionResult<PersonalContactDetailDto> UpdateDetail([FromRoute] int personalContactId,
             [FromRoute] int personalContactDetailId, [FromBody] PersonalContactDetailDto personalContactDetailDto)
          
@@ -58,6 +58,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_personalContactService.UpdateDetail(personalContactId, personalContactDetailDto));
         }
 
+        [HttpPut("DeleteDetail/{personalContactId:int}/{personalContactDetailId:int}")]
+        public ActionResult<PersonalContactDetailDto> DeleteDetail([FromRoute] int personalContactId,
+            [FromRoute] int personalContactDetailId)
+        {
+            return Ok(_personalContactService.DeleteDetail(personalContactId, personalContactDetailId));
+        }
+
+
         [HttpPut("{id:int}")]
         public ActionResult<PersonalContactDto> Update([FromRoute] int id, 
             [FromBody] PersonalContactDto personalContactDto) 
@@ -68,6 +76,19 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             }
 
             return Ok(_personalContactService.Update(personalContactDto));
+        }
+
+        [HttpDelete]
+        public ActionResult<PersonalContactDto> Delete(PersonalContactDto personalContactDto) 
+        {
+            return Ok(_personalContactService.Delete(personalContactDto));
+        }
+        
+
+        [HttpDelete("{id:int}")]
+        public ActionResult<PersonalContactDto> Delete(int id) 
+        {
+            return Ok(_personalContactService.Delete(id));
         }
     }
 }
