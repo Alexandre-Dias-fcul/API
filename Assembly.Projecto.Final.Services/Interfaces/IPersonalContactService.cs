@@ -1,4 +1,6 @@
 ﻿
+using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Services;
 using System;
@@ -11,5 +13,11 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
      public interface IPersonalContactService:IService<CreatePersonalContactDto,PersonalContactDto,int>
     {
+       public PersonalContactDetailDto AddDetail(int personalContactId, 
+               CreatePersonalContactDetailDto createPersonalContactDetailDto);
+       public PersonalContactDetailDto UpdateDetail(int personalContactId,
+               PersonalContactDetailDto personalContactDetailDto);
+
+       public PersonalContactAllDto GetByIdWithDetail(int id);
     }
 }

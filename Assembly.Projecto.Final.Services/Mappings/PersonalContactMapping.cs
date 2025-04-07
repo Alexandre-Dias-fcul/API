@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using AutoMapper;
 using System;
@@ -15,6 +16,10 @@ namespace Assembly.Projecto.Final.Services.Mappings
         {
             CreateMap<PersonalContact, PersonalContactDto>().ReverseMap();
             CreateMap<PersonalContact, CreatePersonalContactDto>().ReverseMap();
+
+            CreateMap<PersonalContact, PersonalContactAllDto>()
+              .ForMember(dest => dest.PersonalContactDetails, opt => opt.MapFrom(src => src.PersonalContactDetails))
+              .ReverseMap();
         }
     }
 }

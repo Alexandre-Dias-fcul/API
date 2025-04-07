@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
@@ -55,6 +56,74 @@ namespace Assembly.Projecto.Final.Services.Services
             }
 
             return _mapper.Map<PersonalContactDto>(addedPersonalContact);
+        }
+
+        public PersonalContactDetailDto AddDetail(int personalContactId, 
+                                                   CreatePersonalContactDetailDto createPersonalContactDetailDto)
+        {
+            using (_unitOfWork) 
+            {
+                var personalContact = _unitOfWork.PersonalContactRepository.GetByIdWithDetail(personalContactId);
+
+                NotFoundException.When(personalContact is null,
+                    $"{nameof(personalContact)} não foi encontrado.");
+
+                var exists = personalContact.PersonalContactDetails
+                    .Any(p => p.ContactType == createPersonalContactDetailDto.ContactType 
+                         && p.Value == createPersonalContactDetailDto.Value);
+
+                CustomApplicationException.When(exists, " O contacto já existe.");
+
+                var personalContactDetail = PersonalContactDetail.Create(createPersonalContactDetailDto.ContactType,
+                    createPersonalContactDetailDto.Value);
+
+                personalContact.AddPersonalContactDetail(personalContactDetail);
+
+                _unitOfWork.PersonalContactRepository.Add(personalContact);
+
+                var foundedPersonalContactDetail = personalContact.PersonalContactDetails
+                    .FirstOrDefault(p => p.ContactType == personalContactDetail.ContactType &&
+                     p.Value == personalContactDetail.Value);
+
+                _unitOfWork.Commit();
+
+                var personalContactDetailDto = _mapper.Map<PersonalContactDetailDto>(foundedPersonalContactDetail);
+
+                return personalContactDetailDto;
+
+            }
+        }
+
+        public PersonalContactDetailDto UpdateDetail(int personalContactId,  
+            PersonalContactDetailDto personalContactDetailDto)
+        {
+            using (_unitOfWork) 
+            {
+                var personalContact = _unitOfWork.PersonalContactRepository.GetByIdWithDetail(personalContactId);
+
+                NotFoundException.When(personalContact is null, $"{nameof(personalContact)} não foi encontrado.");
+
+                NotFoundException.When(personalContact.PersonalContactDetails is null, "O contacto não existe.");
+
+                var personalContactDetail = personalContact.PersonalContactDetails
+                    .FirstOrDefault(p =>p.Id == personalContactDetailDto.Id);
+
+                NotFoundException.When(personalContactDetail is null,"O cantacto não existe.");
+
+                if (personalContactDetail.ContactType != personalContactDetailDto.ContactType &&
+                    personalContactDetail.Value != personalContactDetailDto.Value) 
+                {
+                    personalContact.PersonalContactDetails.FirstOrDefault(p => p.Id == personalContactDetailDto.Id)
+                        .Update(personalContactDetailDto.ContactType, personalContactDetailDto.Value);
+                }
+
+                var foundedPersonalContactDetail = personalContact.PersonalContactDetails
+                    .FirstOrDefault(p => p.Id == personalContactDetailDto.Id);
+
+                var foundedPersonalContactDetailDto = _mapper.Map<PersonalContactDetailDto>(foundedPersonalContactDetail);
+
+                return foundedPersonalContactDetailDto;
+            }
         }
 
         public PersonalContactDto Delete(PersonalContactDto personalContactDto)
@@ -115,6 +184,13 @@ namespace Assembly.Projecto.Final.Services.Services
             var personalContact = _unitOfWork.PersonalContactRepository.GetById(id);
 
             return _mapper.Map<PersonalContactDto>(personalContact);
+        }
+
+        public PersonalContactAllDto GetByIdWithDetail(int id)
+        {
+            var personalContactWithDetail = _unitOfWork.PersonalContactRepository.GetByIdWithDetail(id);
+
+            return _mapper.Map<PersonalContactAllDto>(personalContactWithDetail);
         }
 
         public PersonalContactDto Update(PersonalContactDto personalContactDto)
