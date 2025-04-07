@@ -9,5 +9,6 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IPersonalContactRepository: IRepository<PersonalContact, int>
     {
+        public PersonalContact? GetByIdWithDetail(int id);
     }
 }
