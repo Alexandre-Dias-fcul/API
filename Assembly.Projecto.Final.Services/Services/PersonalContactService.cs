@@ -79,7 +79,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 personalContact.AddPersonalContactDetail(personalContactDetail);
 
-                _unitOfWork.PersonalContactRepository.Add(personalContact);
+                _unitOfWork.PersonalContactRepository.Update(personalContact);
 
                 var foundedPersonalContactDetail = personalContact.PersonalContactDetails
                     .FirstOrDefault(p => p.ContactType == personalContactDetail.ContactType &&
@@ -108,13 +108,17 @@ namespace Assembly.Projecto.Final.Services.Services
                 var personalContactDetail = personalContact.PersonalContactDetails
                     .FirstOrDefault(p =>p.Id == personalContactDetailDto.Id);
 
-                NotFoundException.When(personalContactDetail is null,"O cantacto não existe.");
+                NotFoundException.When(personalContactDetail is null,"O contacto não existe.");
 
                 if (personalContactDetail.ContactType != personalContactDetailDto.ContactType &&
                     personalContactDetail.Value != personalContactDetailDto.Value) 
                 {
                     personalContact.PersonalContactDetails.FirstOrDefault(p => p.Id == personalContactDetailDto.Id)
                         .Update(personalContactDetailDto.ContactType, personalContactDetailDto.Value);
+
+                    _unitOfWork.PersonalContactRepository.Update(personalContact);
+
+                    _unitOfWork.Commit();
                 }
 
                 var foundedPersonalContactDetail = personalContact.PersonalContactDetails
@@ -126,6 +130,29 @@ namespace Assembly.Projecto.Final.Services.Services
             }
         }
 
+        public PersonalContactDetailDto DeleteDetail(int personalContactId, int personalContactDetailId)
+        {
+            using (_unitOfWork) 
+            {
+                var personalContact = _unitOfWork.PersonalContactRepository.GetByIdWithDetail(personalContactDetailId);
+
+                NotFoundException.When(personalContact is null,$"{nameof(personalContact)} não foi encontrado.");
+
+                NotFoundException.When(personalContact.PersonalContactDetails is null,"O contacto não existe.");
+
+                var personalContactDetail = personalContact.PersonalContactDetails
+                    .FirstOrDefault(p => p.Id == personalContactDetailId);
+
+                NotFoundException.When(personalContactDetail is null, "O contacto não existe.");
+
+                var deletedPersonalContactDetail=_unitOfWork.PersonalContactDetailRepository.Delete(personalContactDetail);
+
+                _unitOfWork.Commit();
+
+                return _mapper.Map<PersonalContactDetailDto>(deletedPersonalContactDetail);
+            }
+        }
+
         public PersonalContactDto Delete(PersonalContactDto personalContactDto)
         {
             PersonalContact deletedPersonalContact;
@@ -133,10 +160,15 @@ namespace Assembly.Projecto.Final.Services.Services
             using (_unitOfWork) 
             {
 
-                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(personalContactDto.Id);
+                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.GetById(personalContactDto.Id);
 
                 NotFoundException.When(foundedPersonalContact is null, 
                     $"{nameof(foundedPersonalContact)} não foi encontrado.");
+
+                foreach(var detail in foundedPersonalContact.PersonalContactDetails) 
+                {
+                    _unitOfWork.PersonalContactDetailRepository.Delete(detail);
+                }
 
                 deletedPersonalContact =_unitOfWork.PersonalContactRepository.Delete(foundedPersonalContact);
 
@@ -152,10 +184,15 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
+                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.GetById(id);
 
                 NotFoundException.When(foundedPersonalContact is null,
                     $"{nameof(foundedPersonalContact)} não foi encontrado.");
+
+                foreach (var detail in foundedPersonalContact.PersonalContactDetails)
+                {
+                    _unitOfWork.PersonalContactDetailRepository.Delete(detail);
+                }
 
                 deletedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
 

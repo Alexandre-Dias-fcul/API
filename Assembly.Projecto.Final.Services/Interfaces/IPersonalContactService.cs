@@ -18,6 +18,8 @@ namespace Assembly.Projecto.Final.Services.Interfaces
        public PersonalContactDetailDto UpdateDetail(int personalContactId,
                PersonalContactDetailDto personalContactDetailDto);
 
+       public PersonalContactDetailDto DeleteDetail(int personalContactId, int personalContactDetailId);
+
        public PersonalContactAllDto GetByIdWithDetail(int id);
     }
 }

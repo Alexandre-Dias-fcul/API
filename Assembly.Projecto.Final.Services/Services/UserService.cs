@@ -262,7 +262,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                var foundedUser = _unitOfWork.UserRepository.Delete(userDto.Id);
+                var foundedUser = _unitOfWork.UserRepository.GetById(userDto.Id);
 
                 NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
 
@@ -280,7 +280,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedUser = _unitOfWork.UserRepository.Delete(id);
+                var foundedUser = _unitOfWork.UserRepository.GetById(id);
 
                 NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
 
