@@ -21,7 +21,6 @@ namespace Assembly.Projecto.Final.Services
             services.AddScoped<IFavoriteService, FavoriteService>();
             services.AddScoped<IFeedBackService, FeedBackService>();
             services.AddScoped<IListingService, ListingService>();
-            services.AddScoped<IParticipantService, ParticipantService>();
             services.AddScoped<IPersonalContactService, PersonalContactService>();
             services.AddScoped<IReassignService, ReassignService>();    
             services.AddScoped<IStaffService, StaffService>();

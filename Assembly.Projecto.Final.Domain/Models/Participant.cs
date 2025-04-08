@@ -55,8 +55,8 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void DomainValidadion(ParticipantType role, Appointment appointment, Employee employee) 
         {
-            DomainExceptionValidation.When(Appointment == null, "Erro: appointment não pode ser nulo.");
-            DomainExceptionValidation.When(Employee == null, "Erro: Employee não pode ser nulo.");
+            DomainExceptionValidation.When(appointment == null, "Erro: appointment não pode ser nulo.");
+            DomainExceptionValidation.When(employee == null, "Erro: Employee não pode ser nulo.");
 
             Role = role;
             Appointment = appointment;

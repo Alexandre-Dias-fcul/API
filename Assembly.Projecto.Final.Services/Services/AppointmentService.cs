@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
+using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
@@ -55,6 +56,7 @@ namespace Assembly.Projecto.Final.Services.Services
                 _unitOfWork.ParticipantRepository.Add(participant);
 
                 _unitOfWork.Commit();
+
             }
 
             return _mapper.Map<AppointmentDto>(addedAppointment);
@@ -206,6 +208,13 @@ namespace Assembly.Projecto.Final.Services.Services
             }
 
             return _mapper.Map<AppointmentDto>(updatedAppointment);
+        }
+
+        public AppointmentAllDto GetByIdWithParticipants(int id)
+        {
+            var appointment =_unitOfWork.AppointmentRepository.GetByIdWithParticipants(id);
+
+            return _mapper.Map<AppointmentAllDto>(appointment);
         }
     }
 }
