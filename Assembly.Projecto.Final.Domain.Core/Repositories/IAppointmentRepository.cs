@@ -9,5 +9,6 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IAppointmentRepository:IRepository<Appointment, int>
     {
+        public Appointment? GetByIdWithParticipants(int id);
     }
 }

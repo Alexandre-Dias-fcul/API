@@ -16,6 +16,5 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
         public TimeOnly HourStart { get; set; }
         public TimeOnly HourEnd { get; set; }
         public StatusType Status { get; set; }
-        public int BookedBy { get; set; }
     }
 }

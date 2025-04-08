@@ -17,7 +17,6 @@ namespace Assembly.Projecto.Final.Domain.Models
         public TimeOnly HourStart { get; private set; }
         public TimeOnly HourEnd { get; private set; }
         public StatusType Status { get; private set; }
-        public int BookedBy { get; private set; }
 
         private List<Participant> _participants;
         public IReadOnlyCollection<Participant> Participants => _participants.AsReadOnly();
@@ -30,46 +29,45 @@ namespace Assembly.Projecto.Final.Domain.Models
             HourStart = new TimeOnly();
             HourEnd = new TimeOnly();
             Status = 0;
-            BookedBy = 0;
             _participants = new (); 
         }
 
         private Appointment(string title,string description,DateTime date,TimeOnly hourStart,TimeOnly hourEnd,
-            StatusType status,int bookedBy):this() 
+            StatusType status):this() 
         {
-            DomainValidation(title, description, date, hourStart, hourEnd, status, bookedBy);
+            DomainValidation(title, description, date, hourStart, hourEnd, status);
         }
 
         private Appointment(int id,string title, string description, DateTime date, TimeOnly hourStart,TimeOnly hourEnd,
-           StatusType status,int bookedBy) : this(title, description,date,hourStart,hourEnd,status,bookedBy)
+           StatusType status) : this(title, description,date,hourStart,hourEnd,status)
         {
             Id = Id;
         }
 
         public static Appointment Create(string title, string description, DateTime date, TimeOnly hourStart,
-            TimeOnly hourEnd, StatusType status, int bookedBy) 
+            TimeOnly hourEnd, StatusType status) 
         {
-            var appointment = new Appointment(title, description,date,hourStart,hourEnd,status,bookedBy);
+            var appointment = new Appointment(title, description,date,hourStart,hourEnd,status);
 
             return appointment;
         }
 
         public static Appointment Create(int id,string title, string description, DateTime date, 
-            TimeOnly hourStart,TimeOnly hourEnd, StatusType status,int bookedBy)
+            TimeOnly hourStart,TimeOnly hourEnd, StatusType status)
         {
-            var appointment = new Appointment(id, title, description, date, hourStart, hourEnd,status, bookedBy);
+            var appointment = new Appointment(id, title, description, date, hourStart, hourEnd,status);
 
             return appointment;
         }
 
         public void Update(string title, string description, DateTime date, TimeOnly hourStart, TimeOnly hourEnd,
-            StatusType status, int bookedBy)
+            StatusType status)
         {
-            DomainValidation(title, description,date,hourStart,hourEnd,status,bookedBy);
+            DomainValidation(title, description,date,hourStart,hourEnd,status);
         }
 
         public void DomainValidation(string title, string description, DateTime date, TimeOnly hourStart, TimeOnly hourEnd,
-            StatusType status, int bookedBy) 
+            StatusType status) 
         {
             DomainExceptionValidation.When(title == null,"Erro: o título é obrigatório.");
             DomainExceptionValidation.When(title != null && title.Length>200, "Erro: o título não pode ter mais " +
@@ -79,14 +77,12 @@ namespace Assembly.Projecto.Final.Domain.Models
                 "pode ter mais de 2000 caracteres.");
             DomainExceptionValidation.When(hourStart > hourEnd, "Erro: a hora de inicio não pode ser posterior à hora " +
                 "de fim.");
-            DomainExceptionValidation.When(bookedBy == 0,"Erro: o campo não pode ser vazio.");
 
             Title = title;
             Description = description;
             Date = date;
             HourStart = hourStart;
             HourEnd = hourEnd;
-            BookedBy = bookedBy;
             Status = status;
         }
 
