@@ -20,6 +20,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public ContactDto ContactUpdate(int agentId, ContactDto contactDto);
         public AddressDto AddressUpdate(int agentId, AddressDto addressDto);
         public AgentAllDto GetByIdWithAll(int id);
+        public AgentWithPersonalContactsDto GetByIdWithPersonalContacts(int id);
+
+        public AgentWithParticipantsDto GetByIdWithParticipants(int id);
 
     }
 }
