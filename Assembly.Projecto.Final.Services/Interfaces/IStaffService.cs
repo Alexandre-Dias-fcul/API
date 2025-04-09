@@ -19,5 +19,7 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public ContactDto ContactUpdate(int staffId, ContactDto contactDto);
         public AddressDto AddressUpdate(int staffId, AddressDto addressDto);
         public StaffAllDto GetByIdWithAll(int id);
+        public StaffWithPersonalContactsDto GetByIdWithPersonalContacts(int id);
+        public StaffWithParticipantsDto GetByIdWithParticipants(int id);
     }
 }
