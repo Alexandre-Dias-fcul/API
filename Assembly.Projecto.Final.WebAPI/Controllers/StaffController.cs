@@ -35,6 +35,18 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_staffService.GetByIdWithAll(id));
         }
 
+        [HttpGet("GetByIdWithPersonalContacs/{id:int}")]
+        public ActionResult<StaffWithPersonalContactsDto> GetByIdWithPersonalContacts(int id)
+        {
+            return Ok(_staffService.GetByIdWithPersonalContacts(id));
+        }
+
+        [HttpGet("GetByIdWithParticipants/{id:int}")]
+        public ActionResult<StaffWithParticipantsDto> GetByIdWithParticipants(int id)
+        {
+            return Ok(_staffService.GetByIdWithParticipants(id));
+        }
+
         [HttpPost("AddAddress/{staffId:int}")]
         public ActionResult<AddressDto> AddAdress(int staffId, [FromBody] CreateAddressDto createAddressDto)
         {

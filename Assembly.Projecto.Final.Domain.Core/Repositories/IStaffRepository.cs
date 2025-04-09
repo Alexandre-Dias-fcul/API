@@ -16,5 +16,9 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
         public Staff? GetByIdWithContacts(int id);
 
         public Staff? GetByIdWithAll(int id);
+
+        public Staff? GetByIdWithPersonalContacts(int id);
+
+        public Staff? GetByIdWithParticipants(int id);
     }
 }

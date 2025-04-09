@@ -343,5 +343,19 @@ namespace Assembly.Projecto.Final.Services.Services
 
             return _mapper.Map<StaffDto>(updatedStaff);
         }
+
+        public StaffWithPersonalContactsDto GetByIdWithPersonalContacts(int id)
+        {
+            var staff = _unitOfWork.StaffRepository.GetByIdWithPersonalContacts(id);
+
+            return _mapper.Map<StaffWithPersonalContactsDto>(staff);
+        }
+
+        public StaffWithParticipantsDto GetByIdWithParticipants(int id)
+        {
+            var staff = _unitOfWork.StaffRepository.GetByIdWithParticipants(id);
+
+            return _mapper.Map<StaffWithParticipantsDto>(staff);
+        }
     }
 }

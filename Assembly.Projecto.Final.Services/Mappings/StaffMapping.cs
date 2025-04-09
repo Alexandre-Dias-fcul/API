@@ -26,6 +26,14 @@ namespace Assembly.Projecto.Final.Services.Mappings
             CreateMap<Staff, StaffAllDto>()
                .IncludeBase<Employee, EmployeeAllDto>()
                .ReverseMap();
+
+            CreateMap<Staff, StaffWithPersonalContactsDto>()
+               .IncludeBase<Employee, EmployeeWithPersonalContactsDto>()
+               .ReverseMap();
+
+            CreateMap<Staff, StaffWithParticipantsDto>()
+               .IncludeBase<Employee, EmployeeWithParticipantsDto>()
+               .ReverseMap();
         }
     }
 }
