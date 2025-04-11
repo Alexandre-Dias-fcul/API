@@ -15,6 +15,7 @@ namespace Assembly.Projecto.Final.Services.Mappings
         {
             CreateMap<Account, AccountDto>().ReverseMap();
             CreateMap<Account, CreateAccountDto>().ReverseMap();
+            CreateMap<Account, UpdateAccountDto>().ReverseMap();
         }
     }
 }

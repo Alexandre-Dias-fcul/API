@@ -21,7 +21,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                    .WithOne(e => e.Account)
                    .HasForeignKey<Account>(e => e.EntityLinkId);
 
-            builder.Property(e => e.Password).HasMaxLength(500).IsRequired();
+            builder.Property(e => e.PasswordHash).HasMaxLength(500).IsRequired();
+            builder.Property(e => e.PasswordSalt).HasMaxLength(500).IsRequired();
             builder.Property(e => e.Email).HasMaxLength(300).IsRequired();
         }
     }

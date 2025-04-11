@@ -58,7 +58,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_personalContactService.UpdateDetail(personalContactId, personalContactDetailDto));
         }
 
-        [HttpPut("DeleteDetail/{personalContactId:int}/{personalContactDetailId:int}")]
+        [HttpDelete("DeleteDetail/{personalContactId:int}/{personalContactDetailId:int}")]
         public ActionResult<PersonalContactDetailDto> DeleteDetail([FromRoute] int personalContactId,
             [FromRoute] int personalContactDetailId)
         {
