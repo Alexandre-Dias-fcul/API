@@ -10,56 +10,61 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class Account : AuditableEntity<int>
     {
-        public string Password { get; private set; }
+        public byte[] PasswordHash { get; private set; }
+        public byte[] PasswordSalt { get; private set; }
         public string Email { get; private set; }
         public int EntityLinkId { get; private set; }
         public EntityLink EntityLink { get; private set; }
         private Account()
         {
-            Password = string.Empty;
+           
             Email = string.Empty;
         }
 
-        private Account(string password, string email) : this()
+        private Account(byte[] passwordHash,byte[] passwordSalt, string email) : this()
         {
-            DomainValidation(password, email);
+            DomainValidation(passwordHash, passwordSalt,email);
         }
 
-        private Account(int id, string password, string email) : 
-            this(password, email)
+        private Account(int id, byte[] passwordHash,byte[] passwordSalt, string email) : 
+            this(passwordHash,passwordSalt, email)
         {
             Id = id;
         }
 
-        public static Account Create(string password, string email)
+        public static Account Create(byte[] passwordHash, byte[] passwordSalt, string email)
         {
-            var account = new Account(password, email);
+            var account = new Account(passwordHash, passwordSalt, email);
 
             return account;
         }
 
-        public static Account Create(int id, string password, string email)
+        public static Account Create(int id, byte[] passwordHash, byte[] passwordSalt, string email)
         {
-            var account = new Account(id, password, email);
+            var account = new Account(id, passwordHash,passwordSalt, email);
 
             return account;
         }
 
-        public void Update(string password, string email)
+        public void Update(byte[] passwordHash, byte[] passwordSalt, string email)
         {
-            DomainValidation(password, email);
+            DomainValidation(passwordHash,passwordSalt, email);
         }
 
-        public void DomainValidation(string password, string email) 
+        public void DomainValidation(byte[] passwordHash, byte[] passwordSalt, string email) 
         {
-            DomainExceptionValidation.When(password == null,"Erro: a password é obrigatória.");
-            DomainExceptionValidation.When(password != null && password.Length>500, "Erro: a password não pode ter " +
-                "mais de 500 caracteres.");
+            DomainExceptionValidation.When(passwordHash == null,"Erro: a passwordHash é obrigatória.");
+            DomainExceptionValidation.When(passwordHash != null && passwordHash.Length>500, "Erro: a passwordHash " +
+                "não pode ter mais de 500 caracteres.");
+            DomainExceptionValidation.When(passwordSalt == null, "Erro: a passwordSalt é obrigatória.");
+            DomainExceptionValidation.When(passwordSalt != null && passwordSalt.Length > 500, "Erro: a passwordSalt " +
+                "não pode ter mais de 500 caracteres.");
             DomainExceptionValidation.When(email == null, "Erro: o email é obrigatório.");
             DomainExceptionValidation.When(email != null && email.Length > 300, "Erro: o email não pode ter " +
                 "mais de 300 caracteres.");
 
-            Password = password;
+            PasswordHash = passwordHash;
+            PasswordSalt = passwordSalt;
             Email = email;
         }
         public void SetEntityLink(EntityLink entityLink)

@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,7 +71,15 @@ namespace Assembly.Projecto.Final.Services.Services
                 CustomApplicationException.When(agent.EntityLink is not null && agent.EntityLink.Account is not null,
                     "A account já existe");
 
-                var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
+                byte[] passwordHash;
+                byte[] passwordSalt;
+
+                using (HMACSHA512 hmac = new HMACSHA512()) 
+                {
+                    passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(createAccountDto.Password));
+                    passwordSalt = hmac.Key;
+                }
+                var account = Account.Create(passwordHash, passwordSalt, createAccountDto.Email);
 
                 if (agent.EntityLink is null)
                 {
@@ -168,28 +177,56 @@ namespace Assembly.Projecto.Final.Services.Services
             }
         }
 
-        public AccountDto AccountUpdate(int agentId, AccountDto accountDto)
-        {   
-            using (_unitOfWork) 
+        public AccountDto AccountUpdate(int agentId, UpdateAccountDto updateAccountDto)
+        {
+            using (_unitOfWork)
             {
                 var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
                 NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
 
-                NotFoundException.When(agent.EntityLink is null,"A account não existe.");
+                NotFoundException.When(agent.EntityLink is null, "A account não existe.");
 
-                NotFoundException.When(agent.EntityLink.Account is null,"A account não existe.");
+                NotFoundException.When(agent.EntityLink.Account is null, "A account não existe.");
 
-                if (accountDto.Password != agent.EntityLink.Account.Password || 
-                     accountDto.Email != agent.EntityLink.Account.Email) 
+                bool isSamePassword;
+                byte[] passowrdHash;
+                byte[] passwordSalt;
+
+                using (var hmac = new HMACSHA512(agent.EntityLink.Account.PasswordSalt))
                 {
-                    agent.EntityLink.Account.Update(accountDto.Password, accountDto.Email);
+                    var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
+
+                    // Compara com o hash atual
+                    isSamePassword = computedHash.SequenceEqual(agent.EntityLink.Account.PasswordHash);
+
+                   
+                }
+
+                if (isSamePassword)
+                {
+                    passowrdHash = agent.EntityLink.Account.PasswordHash;
+                    passwordSalt = agent.EntityLink.Account.PasswordSalt;
+                }
+                else
+                {
+                    using (var hmac = new HMACSHA512())
+                    {
+                        passowrdHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
+
+                        passwordSalt = hmac.Key;
+                    }
+                }
+
+                if (!isSamePassword || updateAccountDto.Email != agent.EntityLink.Account.Email)
+                { 
+                    agent.EntityLink.Account.Update(passowrdHash,passwordSalt,updateAccountDto.Email);
 
                     _unitOfWork.AgentRepository.Update(agent);
 
                     _unitOfWork.Commit();
                 }
-
+                
                 var updatedAccountDto = _mapper.Map<AccountDto>(agent.EntityLink.Account);
 
                 return updatedAccountDto;
