@@ -74,11 +74,12 @@ namespace Assembly.Projecto.Final.Services.Services
                 byte[] passwordHash;
                 byte[] passwordSalt;
 
-                using (HMACSHA512 hmac = new HMACSHA512()) 
+                using (var hmac = new HMACSHA512()) 
                 {
                     passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(createAccountDto.Password));
                     passwordSalt = hmac.Key;
                 }
+
                 var account = Account.Create(passwordHash, passwordSalt, createAccountDto.Email);
 
                 if (agent.EntityLink is null)
@@ -196,11 +197,8 @@ namespace Assembly.Projecto.Final.Services.Services
                 using (var hmac = new HMACSHA512(agent.EntityLink.Account.PasswordSalt))
                 {
                     var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
-
-                    // Compara com o hash atual
-                    isSamePassword = computedHash.SequenceEqual(agent.EntityLink.Account.PasswordHash);
-
                    
+                    isSamePassword = computedHash.SequenceEqual(agent.EntityLink.Account.PasswordHash);
                 }
 
                 if (isSamePassword)
