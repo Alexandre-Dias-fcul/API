@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,7 +62,16 @@ namespace Assembly.Projecto.Final.Services.Services
                 CustomApplicationException.When(user.EntityLink is not null && user.EntityLink.Account is not null,
                     "A account já existe");
 
-                var account = Account.Create(createAccountDto.Password, createAccountDto.Email);
+                byte[] passwordHash;
+                byte[] passwordSalt;
+
+                using (var hmac = new HMACSHA512())
+                {
+                    passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(createAccountDto.Password));
+                    passwordSalt = hmac.Key;
+                }
+
+                var account = Account.Create(passwordHash, passwordSalt, createAccountDto.Email);
 
                 if (user.EntityLink is null)
                 {
@@ -159,7 +169,7 @@ namespace Assembly.Projecto.Final.Services.Services
             }
         }
 
-        public AccountDto AccountUpdate(int userId, AccountDto accountDto)
+        public AccountDto AccountUpdate(int userId, UpdateAccountDto updateAccountDto)
         {
             using (_unitOfWork)
             {
@@ -171,10 +181,35 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(user.EntityLink.Account is null,"A account não existe.");
 
-                if (accountDto.Password != user.EntityLink.Account.Password ||
-                     accountDto.Email != user.EntityLink.Account.Email)
+                bool isSamePassword;
+                byte[] passowrdHash;
+                byte[] passwordSalt;
+
+                using (var hmac = new HMACSHA512(user.EntityLink.Account.PasswordSalt))
                 {
-                    user.EntityLink.Account.Update(accountDto.Password, accountDto.Email);
+                    var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
+
+                    isSamePassword = computedHash.SequenceEqual(user.EntityLink.Account.PasswordHash);
+                }
+
+                if (isSamePassword)
+                {
+                    passowrdHash = user.EntityLink.Account.PasswordHash;
+                    passwordSalt = user.EntityLink.Account.PasswordSalt;
+                }
+                else
+                {
+                    using (var hmac = new HMACSHA512())
+                    {
+                        passowrdHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
+
+                        passwordSalt = hmac.Key;
+                    }
+                }
+
+                if (!isSamePassword || updateAccountDto.Email != user.EntityLink.Account.Email)
+                {
+                    user.EntityLink.Account.Update(passowrdHash, passwordSalt, updateAccountDto.Email);
 
                     _unitOfWork.UserRepository.Update(user);
 

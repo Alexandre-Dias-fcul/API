@@ -121,9 +121,9 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpPut("UpdateAccount/{staffId:int}")]
-        public ActionResult<AccountDto> UpdateAccount([FromRoute] int staffId, [FromBody] AccountDto accountDto)
+        public ActionResult<AccountDto> UpdateAccount([FromRoute] int staffId, [FromBody] UpdateAccountDto updateAccountDto)
         {
-            var updatedAccount = _staffService.AccountUpdate(staffId, accountDto);
+            var updatedAccount = _staffService.AccountUpdate(staffId, updateAccountDto);
 
             return updatedAccount;
         }
