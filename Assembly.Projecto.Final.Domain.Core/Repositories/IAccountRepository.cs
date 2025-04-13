@@ -9,5 +9,6 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IAccountRepository:IRepository<Account,int>
     {
+        public Account? GetByEmailWithEmployee(string email);
     }
 }
