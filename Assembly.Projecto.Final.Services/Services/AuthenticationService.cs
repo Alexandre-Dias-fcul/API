@@ -9,7 +9,9 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -25,7 +27,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
         private readonly IMapper _mapper;
 
-        private readonly IConfiguration _config
+        private readonly IConfiguration _config;
         public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration config)
         {
             _unitOfWork = unitOfWork;
@@ -33,7 +35,7 @@ namespace Assembly.Projecto.Final.Services.Services
             _config = config;
         }
 
-        public string AuthenticationEmployee(string email, string senha)
+        public string AuthenticationEmployee(string email, string password)
         {
             var account = _unitOfWork.AccountRepository.GetByEmailWithEmployee(email);
 
@@ -41,7 +43,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             CustomApplicationException.When(account.EntityLink.EntityType is not EntityType.Employee, " Não é empregado.");
 
-            CustomApplicationException.When(!VerifyPassword(senha, account.PasswordHash, account.PasswordSalt),
+            CustomApplicationException.When(!VerifyPassword(password, account.PasswordHash, account.PasswordSalt),
                 "Password inválida");
 
             var employeeId = account.EntityLink.Employee.Id;
@@ -58,6 +60,9 @@ namespace Assembly.Projecto.Final.Services.Services
             else
             {
                 var staff = _unitOfWork.StaffRepository.GetById(employeeId);
+
+                NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontrado.");
+
                 id = staff.Id;
                 role = "Staff";
             }
@@ -65,11 +70,50 @@ namespace Assembly.Projecto.Final.Services.Services
             return GenerateJwtToken(id, email, role);
         }
 
-        public string AuthenticationUser(string email, string senha)
+        public string AuthenticationUser(string email, string password)
         {
-            throw new NotImplementedException();
+            var account = _unitOfWork.AccountRepository.GetByEmailWithUser(email);
+
+            NotFoundException.When(account is null, $"{nameof(account)} não foi encontrada.");
+
+            CustomApplicationException.When(account.EntityLink.EntityType is not EntityType.User, " Não é usuário.");
+
+            CustomApplicationException.When(!VerifyPassword(password, account.PasswordHash, account.PasswordSalt),
+               "Password inválida");
+
+            var userId = account.EntityLink.User.Id;
+
+            var user = _unitOfWork.UserRepository.GetById(userId);
+
+            NotFoundException.When(user is null, $"{nameof(user)} não foi encontrado.");
+
+            var id = user.Id;
+
+            return GenerateJwtToken(id, email);
         }
 
+        private string GenerateJwtToken(int id, string email)
+        {
+            var claims = new[]
+            {
+                new Claim("Id", id.ToString()),
+                new Claim("Email", email),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expiration = DateTime.UtcNow.AddMinutes(10);
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: expiration,
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
         private string GenerateJwtToken(int id, string email, string role)
         {
             var claims = new[]
@@ -93,6 +137,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
         private bool VerifyPassword(string inputPassword, byte[] storedHash, byte[] storedSalt)
         {
             using (var hmac = new HMACSHA512(storedSalt))
@@ -100,7 +145,6 @@ namespace Assembly.Projecto.Final.Services.Services
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(inputPassword));
                 return computedHash.SequenceEqual(storedHash);
             }
-        }
-         
+        }  
     }
 }

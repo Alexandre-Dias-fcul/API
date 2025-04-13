@@ -22,5 +22,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         {
             return DbSet.Include(e => e.EntityLink).ThenInclude(em => em.Employee).FirstOrDefault(a => a.Email == email);
         }
+
+        public Account? GetByEmailWithUser(string email) 
+        {
+            return DbSet.Include(e => e.EntityLink).ThenInclude(u => u.User).FirstOrDefault(u => u.Email == email);
+        }
     }
 }

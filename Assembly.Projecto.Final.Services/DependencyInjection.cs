@@ -25,6 +25,7 @@ namespace Assembly.Projecto.Final.Services
             services.AddScoped<IReassignService, ReassignService>();    
             services.AddScoped<IStaffService, StaffService>();
             services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             return services;
         }

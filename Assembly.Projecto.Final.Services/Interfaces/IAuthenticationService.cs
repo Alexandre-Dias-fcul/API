@@ -8,7 +8,7 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IAuthenticationService
     {
-        public string AuthenticationEmployee(string email, string senha);
-        public string AuthenticationUser(string email, string senha); 
+        public string AuthenticationEmployee(string email, string password);
+        public string AuthenticationUser(string email, string password); 
     }
 }

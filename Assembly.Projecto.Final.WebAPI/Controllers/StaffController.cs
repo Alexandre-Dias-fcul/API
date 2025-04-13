@@ -4,6 +4,7 @@ using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -64,6 +65,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpPost("AddAccount/{staffId:int}")]
+        [AllowAnonymous]
         public ActionResult<AccountDto> AddAccount(int staffId, [FromBody] CreateAccountDto createAccountDto)
         {
             var accountDto = _staffService.AccountAdd(staffId, createAccountDto);
@@ -72,6 +74,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult<StaffDto> Add([FromBody] CreateStaffDto createStaffDto)
         {
             var staffDto = _staffService.Add(createStaffDto);
