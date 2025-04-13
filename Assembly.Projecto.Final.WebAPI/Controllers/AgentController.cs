@@ -3,6 +3,7 @@ using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 
@@ -48,6 +49,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult<AgentDto> Add([FromBody] CreateAgentDto createAgentDto)
         {
             var agentDto = _agentService.Add(createAgentDto);
@@ -72,6 +74,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpPost("AddAccount/{agentId:int}")]
+        [AllowAnonymous]
         public ActionResult<AccountDto> AddAccount(int agentId, [FromBody] CreateAccountDto createAccountDto)
         {
             var accountDto = _agentService.AccountAdd(agentId,createAccountDto);
