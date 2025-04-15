@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using Assembly.Projecto.Final.WebAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -35,15 +36,49 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpPost]
         public ActionResult<AppointmentDto> Add(CreateAppointmentDto createAppointmentDto)
         {
-            return Ok(_appointmentService.Add(createAppointmentDto));
+            string? id = User.GetId();
+
+            if (id == null)
+            {
+                return BadRequest("Não está autenticado como empregado.");
+            }
+
+            int employeeId = int.Parse(id);
+
+            string? role = User.GetRole();
+
+            if (role == null)
+            {
+                return BadRequest("Não está autenticado como empregado.");
+            }
+
+            bool isStaff = false;
+
+            if (role == "Staff")
+            {
+                isStaff = true;
+            }
+
+            CreateAppointmentServiceDto createAppointmentServiceDto = new()
+            {
+                Title = createAppointmentDto.Title,
+                Description = createAppointmentDto.Description,
+                Date = createAppointmentDto.Date,
+                HourStart = createAppointmentDto.HourStart,
+                HourEnd = createAppointmentDto.HourEnd,
+                Status = createAppointmentDto.Status,
+                IsStaff = isStaff,
+                EmployeeId = employeeId
+            };
+
+
+            return Ok(_appointmentService.Add(createAppointmentServiceDto));
         }
 
         [HttpPost("AddParticipant/{appointmentId:int}/{employeeId:int}")]
-        public ActionResult<ParticipantDto> AddParticipant([FromRoute] int appointmentId, [FromRoute] int employeeId,
-                       [FromQuery] RoleType? role)
+        public ActionResult<ParticipantDto> AddParticipant([FromRoute] int appointmentId, [FromRoute] int employeeId)
         {
-
-            return Ok(_appointmentService.AddParticipant(appointmentId, employeeId, role));
+            return Ok(_appointmentService.AddParticipant(appointmentId, employeeId));
         }
 
         [HttpPut("{id:int}")]

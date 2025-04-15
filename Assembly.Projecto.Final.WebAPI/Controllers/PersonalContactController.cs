@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using Assembly.Projecto.Final.WebAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -33,9 +34,41 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PersonalContactDto> Add([FromBody]CreatePersonalContactDto personalContactDto) 
+        public ActionResult<PersonalContactDto> Add([FromBody]CreatePersonalContactDto createPersonalContactDto) 
         {
-            return Ok(_personalContactService.Add(personalContactDto));
+            string? id = User.GetId();
+
+            if(id == null) 
+            {
+                return BadRequest("Não está autenticado como empregado.");
+            }
+
+            int employeeId = int.Parse(id);
+
+            string? role = User.GetRole();
+
+            if(role == null) 
+            {
+                return BadRequest("Não está autenticado como empregado.");
+            }
+
+            bool isStaff = false;
+
+            if(role == "Staff") 
+            {
+                isStaff = true;
+            }
+
+            CreatePersonalContactServiceDto createPersonalContactServiceDto = new()
+            {
+                Name = createPersonalContactDto.Name,
+                IsPrimary = createPersonalContactDto.IsPrimary,
+                Notes = createPersonalContactDto.Notes,
+                IsStaff = isStaff,
+                EmployeeId = employeeId
+            };
+            
+            return Ok(_personalContactService.Add(createPersonalContactServiceDto));
         }
 
         [HttpPost("{personalContactId:int}")]

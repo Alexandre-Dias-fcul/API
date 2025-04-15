@@ -24,7 +24,7 @@ namespace Assembly.Projecto.Final.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public AppointmentDto Add(CreateAppointmentDto createAppointmentDto)
+        public AppointmentDto Add(CreateAppointmentServiceDto createAppointmentServiceDto)
         {
             Appointment addedAppointment;
 
@@ -34,20 +34,22 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 Employee employee;
 
-                if (createAppointmentDto.Role is null)
+                if (createAppointmentServiceDto.IsStaff)
                 {
-                    employee = _unitOfWork.StaffRepository.GetById(createAppointmentDto.EmployeeId);
+                    employee = _unitOfWork.StaffRepository.GetById(createAppointmentServiceDto.EmployeeId);
                 }
                 else
                 {
-                    employee = _unitOfWork.AgentRepository.GetById(createAppointmentDto.EmployeeId);
+                    employee = _unitOfWork.AgentRepository.GetById(createAppointmentServiceDto.EmployeeId);
                 }
 
                 NotFoundException.When(employee is null, $"{nameof(employee)} não foi encontrado.");
 
-                var appointment = Appointment.Create(createAppointmentDto.Title,createAppointmentDto.Description,
-                    createAppointmentDto.Date,createAppointmentDto.HourStart,createAppointmentDto.HourEnd,
-                    createAppointmentDto.Status);
+                var appointment = Appointment.Create(createAppointmentServiceDto.Title,
+                    createAppointmentServiceDto.Description,
+                    createAppointmentServiceDto.Date,
+                    createAppointmentServiceDto.HourStart,createAppointmentServiceDto.HourEnd,
+                    createAppointmentServiceDto.Status);
 
                 addedAppointment = _unitOfWork.AppointmentRepository.Add(appointment);
 
@@ -62,7 +64,7 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<AppointmentDto>(addedAppointment);
         }
 
-        public ParticipantDto AddParticipant(int appointmentId, int employeeId,RoleType? role)
+        public ParticipantDto AddParticipant(int appointmentId, int employeeId)
         {
             using (_unitOfWork) 
             {
@@ -70,13 +72,9 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(appointment is null,$"{nameof(appointment)} não foi encontrado.");
 
-                Employee employee;
+                Employee employee = _unitOfWork.StaffRepository.GetById(employeeId);
 
-                if(role is null) 
-                {
-                    employee = _unitOfWork.StaffRepository.GetById(employeeId);
-                }
-                else 
+                if (employee == null) 
                 {
                     employee = _unitOfWork.AgentRepository.GetById(employeeId);
                 }

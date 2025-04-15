@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
 {
-    public class CreateAppointmentDto
+    public class CreateAppointmentServiceDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
@@ -15,6 +15,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
         public TimeOnly HourStart { get; set; }
         public TimeOnly HourEnd { get; set; }
         public StatusType Status { get; set; }
-        
+        public bool IsStaff { get; set; }
+        public int EmployeeId { get; set; }
     }
 }
