@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-    public interface IAppointmentService:IService<CreateAppointmentDto,AppointmentDto,int>
+    public interface IAppointmentService:IService<CreateAppointmentServiceDto,AppointmentDto,int>
     {
-        public ParticipantDto AddParticipant(int appointmentId, int employeeId,RoleType?role);
+        public ParticipantDto AddParticipant(int appointmentId, int employeeId);
         public ParticipantDto DeleteParticipant(int appointmentId, int participantId);
         public AppointmentAllDto GetByIdWithParticipants(int id);
     }

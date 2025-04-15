@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
@@ -25,25 +26,25 @@ namespace Assembly.Projecto.Final.Services.Services
             _mapper = mapper;
         }
 
-        public PersonalContactDto Add(CreatePersonalContactDto createPersonalContactDto)
+        public PersonalContactDto Add(CreatePersonalContactServiceDto createPersonalContactServiceDto)
         {
             PersonalContact addedPersonalContact;
 
             using (_unitOfWork) 
             {
 
-                var personalContact = PersonalContact.Create(createPersonalContactDto.Name,
-                    createPersonalContactDto.IsPrimary,createPersonalContactDto.Notes);
+                var personalContact = PersonalContact.Create(createPersonalContactServiceDto.Name,
+                    createPersonalContactServiceDto.IsPrimary,createPersonalContactServiceDto.Notes);
 
                 Employee employee;
 
-                if(createPersonalContactDto.Role is null) 
+                if(createPersonalContactServiceDto.IsStaff) 
                 {
-                    employee = _unitOfWork.StaffRepository.GetById(createPersonalContactDto.EmployeeId);
+                    employee = _unitOfWork.StaffRepository.GetById(createPersonalContactServiceDto.EmployeeId);
                 }
                 else 
                 {
-                    employee = _unitOfWork.AgentRepository.GetById(createPersonalContactDto.EmployeeId);
+                    employee = _unitOfWork.AgentRepository.GetById(createPersonalContactServiceDto.EmployeeId);
                 }
 
                 NotFoundException.When(employee is null,$"{nameof(employee)} não foi encontrado.");

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Interfaces
 {
-     public interface IPersonalContactService:IService<CreatePersonalContactDto,PersonalContactDto,int>
+     public interface IPersonalContactService:IService<CreatePersonalContactServiceDto,PersonalContactDto,int>
     {
        public PersonalContactDetailDto AddDetail(int personalContactId, 
                CreatePersonalContactDetailDto createPersonalContactDetailDto);
