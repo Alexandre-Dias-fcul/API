@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Assembly.Projecto.Final.Services.Dtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
@@ -27,19 +28,19 @@ namespace Assembly.Projecto.Final.Services.Services
             _mapper = mapper;
         }
 
-        public ListingDto Add(CreateListingDto createListingDto)
+        public ListingDto Add(CreateListingServiceDto createListingServiceDto)
         {
             Listing addedListing;
 
             using (_unitOfWork) 
             {
-                var listing = Listing.Create(createListingDto.Type,createListingDto.Status,
-                    createListingDto.NumberOfBathrooms,createListingDto.NumberOfBathrooms,
-                    createListingDto.NumberOfKitchens,createListingDto.Price,createListingDto.Location,
-                    createListingDto.Area,createListingDto.Parking,createListingDto.Description,
-                    createListingDto.MainImageFileName,createListingDto.OtherImagesFileNames);
+                var listing = Listing.Create(createListingServiceDto.Type,createListingServiceDto.Status,
+                    createListingServiceDto.NumberOfBathrooms,createListingServiceDto.NumberOfBathrooms,
+                    createListingServiceDto.NumberOfKitchens,createListingServiceDto.Price,createListingServiceDto.Location,
+                    createListingServiceDto.Area,createListingServiceDto.Parking,createListingServiceDto.Description,
+                    createListingServiceDto.MainImageFileName,createListingServiceDto.OtherImagesFileNames);
 
-                var agent = _unitOfWork.AgentRepository.GetById(createListingDto.AgentId);
+                var agent = _unitOfWork.AgentRepository.GetById(createListingServiceDto.AgentId);
 
                 NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
 
@@ -53,6 +54,40 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<ListingDto>(addedListing);
         }
 
+        public ReassignDto ListingReassign(int listingId, int agentId)
+        {
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var listing = _unitOfWork.ListingRepository.GetById(listingId);
+
+                NotFoundException.When(listing is null, $" {nameof(listing)} não foi encontrada.");
+
+                var agent = _unitOfWork.AgentRepository.GetById(agentId);
+
+                NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
+
+                CustomApplicationException.When(listing.AgentId == agent.Id, " Esta listing já é deste agente.");
+
+                CustomApplicationException.When(agent.Supervisor is null,"O agente não tem supervisor.");
+
+                var olderAgentId = listing.AgentId;
+
+                listing.SetAgent(agent);
+               
+                var reassign = Reassign.Create(olderAgentId, listing.AgentId,(int)agent.SupervisorId, DateTime.UtcNow);
+
+                _unitOfWork.ListingRepository.Update(listing);
+
+                var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+
+                _unitOfWork.Commit();
+
+                return _mapper.Map<ReassignDto>(addedReassign);
+
+            }      
+        }
         public ListingDto Delete(ListingDto listingDto)
         {
             Listing deletedListing;
