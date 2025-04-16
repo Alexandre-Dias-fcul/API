@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
 {
-    public class CreateListingDto
+    public class CreateListingServiceDto
     {
         public string Type { get; set; }
         public string Status { get; set; }
@@ -20,5 +20,6 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
         public string Description { get; set; }
         public string MainImageFileName { get; set; }
         public string OtherImagesFileNames { get; set; }
+        public int AgentId { get; set; }
     }
 }

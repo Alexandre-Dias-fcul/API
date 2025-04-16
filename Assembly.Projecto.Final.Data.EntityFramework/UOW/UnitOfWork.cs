@@ -65,7 +65,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
 
         public bool Commit()
         {
-            bool commited = false;
 
             try
             {
@@ -91,10 +90,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
                 {
                     _context.Dispose();
                 }
-               
             }
-
-            return commited;
         }
 
         public void Rollback()

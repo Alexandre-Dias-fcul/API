@@ -49,6 +49,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
                     NotFoundException.When(supervisor is null, $"{nameof(supervisor)} não foi encontrado.");
 
+                    NotFoundException.When(agent.Role >= supervisor.Role, "O supervisor não tem hierarquia superior.");
+
                     agent.SetSupervisor(supervisor);
                 }
 
@@ -371,13 +373,17 @@ namespace Assembly.Projecto.Final.Services.Services
                 NotFoundException.When(foundedAgent is null, $"{nameof(foundedAgent)} não foi encontrado.");
 
                 foundedAgent.Update(agentDto.Name.FirstName,string.Join(" ",agentDto.Name.MiddleNames),agentDto.Name.LastName,
-                    agentDto.DateOfBirth,agentDto.Gender,agentDto.PhotoFileName,agentDto.IsActive);
+                    agentDto.DateOfBirth,agentDto.Gender,agentDto.PhotoFileName,agentDto.IsActive,
+                    agentDto.DateOfTermination,agentDto.HiredDate,agentDto.Role);
 
                 if (agentDto.SupervisorId is not null)
                 {
                     var supervisor = _unitOfWork.AgentRepository.GetById((int)agentDto.SupervisorId);
 
                     NotFoundException.When(supervisor is null, $"{nameof(supervisor)} não foi encontrado.");
+
+                    NotFoundException.When(foundedAgent.Role >= supervisor.Role, 
+                                            "O supervisor não tem hierarquia superior.");
 
                     foundedAgent.SetSupervisor(supervisor);
                 }

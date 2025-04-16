@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
+using Assembly.Projecto.Final.WebAPI.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -28,7 +29,39 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpPost]
         public ActionResult<ListingDto> Add([FromBody] CreateListingDto createListingDto) 
         {
-            return Ok(_listingService.Add(createListingDto));
+            string? id = User.GetId();
+
+            if (id == null)
+            {
+                return BadRequest("Não está autenticado como empregado.");
+            }
+
+            int agentId = int.Parse(id);
+
+            CreateListingServiceDto createListingServiceDto = new()
+            {
+                Type = createListingDto.Type,
+                Status = createListingDto.Status,
+                NumberOfRooms = createListingDto.NumberOfRooms,
+                NumberOfKitchens = createListingDto.NumberOfKitchens,
+                NumberOfBathrooms = createListingDto.NumberOfBathrooms,
+                Price = createListingDto.Price,
+                Location = createListingDto.Location,
+                Area = createListingDto.Area,
+                Parking = createListingDto.Parking,
+                Description = createListingDto.Description,
+                MainImageFileName = createListingDto.MainImageFileName,
+                OtherImagesFileNames = createListingDto.OtherImagesFileNames,
+                AgentId = agentId
+            };
+
+            return Ok(_listingService.Add(createListingServiceDto));
+        }
+
+        [HttpPost("{listingId:int}/{agentId:int}")] 
+        public ActionResult<ReassignDto> Reassign(int listingId,int agentId) 
+        {
+           return  Ok(_listingService.ListingReassign(listingId, agentId));
         }
 
         [HttpPut("{id:int}")]
