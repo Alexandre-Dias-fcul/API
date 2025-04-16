@@ -11,6 +11,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IListingService:IService<CreateListingServiceDto,ListingDto, int>
     {
-        public ReassignDto ListingReassign(int listingId,int agentId);
+        public ReassignDto ListingReassign(int listingId,int newAgentId);
     }
 }

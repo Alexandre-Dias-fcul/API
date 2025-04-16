@@ -54,7 +54,7 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<ListingDto>(addedListing);
         }
 
-        public ReassignDto ListingReassign(int listingId, int agentId)
+        public ReassignDto ListingReassign(int listingId, int newAgentId)
         {
             using (_unitOfWork) 
             {
@@ -64,19 +64,32 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(listing is null, $" {nameof(listing)} não foi encontrada.");
 
-                var agent = _unitOfWork.AgentRepository.GetById(agentId);
+                var newAgent = _unitOfWork.AgentRepository.GetById(newAgentId);
 
-                NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
+                NotFoundException.When(newAgent is null, $"{nameof(newAgent)} não foi encontrado.");
 
-                CustomApplicationException.When(listing.AgentId == agent.Id, " Esta listing já é deste agente.");
+                CustomApplicationException.When(listing.AgentId == newAgent.Id, "Esta listing já é deste agente.");
 
-                CustomApplicationException.When(agent.Supervisor is null,"O agente não tem supervisor.");
+                var previousAgent = _unitOfWork.AgentRepository.GetById(listing.AgentId);
 
-                var olderAgentId = listing.AgentId;
+                NotFoundException.When(previousAgent is null,$"{nameof(previousAgent)} não fot encontrado.");
 
-                listing.SetAgent(agent);
-               
-                var reassign = Reassign.Create(olderAgentId, listing.AgentId,(int)agent.SupervisorId, DateTime.UtcNow);
+                int? supervisorId = null;
+
+                if(previousAgent.SupervisorId is not null && (previousAgent.SupervisorId == newAgent.SupervisorId)) 
+                {
+                    supervisorId = (int)newAgent.SupervisorId;
+                }
+                else if (previousAgent.SupervisorId is not null && (previousAgent.SupervisorId == newAgent.Id))
+                {
+                    supervisorId = (int)previousAgent.SupervisorId;
+                } 
+
+                listing.SetAgent(newAgent);
+
+                NotFoundException.When(supervisorId is null, "Não foi possivel determinar o supervisor.");
+
+                var reassign = Reassign.Create(previousAgent.Id, listing.AgentId,(int)supervisorId, DateTime.UtcNow);
 
                 _unitOfWork.ListingRepository.Update(listing);
 
@@ -85,7 +98,6 @@ namespace Assembly.Projecto.Final.Services.Services
                 _unitOfWork.Commit();
 
                 return _mapper.Map<ReassignDto>(addedReassign);
-
             }      
         }
         public ListingDto Delete(ListingDto listingDto)
