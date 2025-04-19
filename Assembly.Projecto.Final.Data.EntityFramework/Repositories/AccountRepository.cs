@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,6 +19,36 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
              
         }
 
+        public bool EmailExistsEmployee(string email)
+        {
+            var accounts = DbSet.Include(e => e.EntityLink).Where(a => a.Email == email).ToList();
+
+            foreach(var account in accounts) 
+            {
+                if(account.EntityLink.EntityType == EntityType.Employee) 
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool EmailExistsUser(string email)
+        {
+            var accounts = DbSet.Include(e => e.EntityLink).Where(a => a.Email == email).ToList();
+
+            foreach (var account in accounts)
+            {
+                if (account.EntityLink.EntityType == EntityType.User)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public Account? GetByEmailWithEmployee(string email)
         {
             return DbSet.Include(e => e.EntityLink).ThenInclude(em => em.Employee).FirstOrDefault(a => a.Email == email);
@@ -27,5 +58,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         {
             return DbSet.Include(e => e.EntityLink).ThenInclude(u => u.User).FirstOrDefault(u => u.Email == email);
         }
+
+        
     }
 }

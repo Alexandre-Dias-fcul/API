@@ -12,5 +12,9 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
         public Account? GetByEmailWithEmployee(string email);
 
         public Account? GetByEmailWithUser(string emal);
+
+        public bool EmailExistsEmployee(string email);
+
+        public bool EmailExistsUser(string email);
     }
 }

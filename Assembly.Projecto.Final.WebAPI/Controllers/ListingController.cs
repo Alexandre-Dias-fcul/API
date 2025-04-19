@@ -58,10 +58,25 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_listingService.Add(createListingServiceDto));
         }
 
-        [HttpPost("{listingId:int}/{agentId:int}")] 
-        public ActionResult<ReassignDto> Reassign(int listingId,int agentId) 
+        [HttpPost("{listingId:int}")] 
+        public ActionResult<ReassignDto> SelfReassign(int listingId) 
         {
-           return  Ok(_listingService.ListingReassign(listingId, agentId));
+            var agentIdString = User.GetId();
+
+            if (agentIdString == null)
+            {
+                return NotFound("Não está autenticado.");
+            }
+
+            var agentId = int.Parse(agentIdString);
+
+            return Ok(_listingService.SelfReassign(listingId, agentId));
+        }
+
+        [HttpPost("{listingId:int}/{agentId:int}")]
+        public ActionResult<ReassignDto> BetweenReassign(int listingId,int agentId)
+        {
+            return Ok(_listingService.BetweenReassign(listingId, agentId));
         }
 
         [HttpPut("{id:int}")]
