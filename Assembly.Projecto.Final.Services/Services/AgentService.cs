@@ -66,6 +66,10 @@ namespace Assembly.Projecto.Final.Services.Services
         {
             using (_unitOfWork) 
             {
+                var emailExists = _unitOfWork.AccountRepository.EmailExistsEmployee(createAccountDto.Email);
+
+                CustomApplicationException.When(emailExists is true, "O email já existe.");
+
                 var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
                 NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
@@ -184,6 +188,10 @@ namespace Assembly.Projecto.Final.Services.Services
         {
             using (_unitOfWork)
             {
+                var emailExists = _unitOfWork.AccountRepository.EmailExistsEmployee(updateAccountDto.Email);
+
+                CustomApplicationException.When(emailExists is true, "O email já existe.");
+
                 var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
                 NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");

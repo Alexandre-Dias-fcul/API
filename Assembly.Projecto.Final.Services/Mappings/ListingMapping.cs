@@ -15,6 +15,8 @@ namespace Assembly.Projecto.Final.Services.Mappings
         {
             CreateMap<Listing, ListingDto>().ReverseMap();
             CreateMap<Listing, CreateListingDto>().ReverseMap();
+
+            CreateMap<Reassign, ReassignDto>().ReverseMap();
         }
     }
 }
