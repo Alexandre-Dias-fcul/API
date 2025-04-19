@@ -99,6 +99,51 @@ namespace Assembly.Projecto.Final.Services.Services
             }      
         }
 
+        public ReassignDto SelfReassignTo(int listingId, int newAgentId)
+        {
+            using (_unitOfWork) 
+            {
+                _unitOfWork.BeginTransaction();
+
+                var listing = _unitOfWork.ListingRepository.GetById(listingId);
+
+                NotFoundException.When(listing is null, $" {nameof(listing)} não foi encontrada.");
+
+                var newAgent = _unitOfWork.AgentRepository.GetById(newAgentId);
+
+                NotFoundException.When(newAgent is null, $"{nameof(newAgent)} não foi encontrado.");
+
+                CustomApplicationException.When(listing.AgentId == newAgent.Id, "Esta listing já é deste agente.");
+
+                var previousAgent = _unitOfWork.AgentRepository.GetById(listing.AgentId);
+
+                NotFoundException.When(previousAgent is null,$"{nameof(previousAgent)} não foi encontrado.");
+
+                int? supervisorId = null;
+
+                if (newAgent.Supervisor is not null && (newAgent.SupervisorId == previousAgent.Id))
+                {
+                    supervisorId = (int)newAgent.SupervisorId;
+                }
+
+                NotFoundException.When(supervisorId is null, "Não foi possivel determinar o supervisor.");
+
+                listing.SetAgent(newAgent);
+
+                _unitOfWork.ListingRepository.Update(listing);
+
+                var reassign = Reassign.Create(previousAgent.Id,listing.AgentId,(int)supervisorId, DateTime.UtcNow);
+
+                reassign.SetListing(listing);
+
+                var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+
+                _unitOfWork.Commit();
+
+                return _mapper.Map<ReassignDto>(addedReassign);
+            }      
+        }
+
         public ReassignDto BetweenReassign(int listingId, int newAgentId)
         {
             using (_unitOfWork)

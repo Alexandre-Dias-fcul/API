@@ -58,7 +58,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_listingService.Add(createListingServiceDto));
         }
 
-        [HttpPost("{listingId:int}")] 
+        [HttpPost("SelfReassign/{listingId:int}")] 
         public ActionResult<ReassignDto> SelfReassign(int listingId) 
         {
             var agentIdString = User.GetId();
@@ -73,7 +73,13 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_listingService.SelfReassign(listingId, agentId));
         }
 
-        [HttpPost("{listingId:int}/{agentId:int}")]
+        [HttpPost("SelfReassignTo/{listingId:int}/{agentId:int}")]
+        public ActionResult<ReassignDto> SelfReassignTo(int listingId,int agentId)
+        {
+            return Ok(_listingService.SelfReassignTo(listingId, agentId));
+        }
+
+        [HttpPost("BetweenReassign/{listingId:int}/{agentId:int}")]
         public ActionResult<ReassignDto> BetweenReassign(int listingId,int agentId)
         {
             return Ok(_listingService.BetweenReassign(listingId, agentId));
