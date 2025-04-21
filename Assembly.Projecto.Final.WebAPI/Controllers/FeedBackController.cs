@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.WebAPI.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -14,18 +15,21 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             _feedBackService = feedBackService;
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet]
         public IEnumerable<FeedBackDto> GetAll()
         {
             return _feedBackService.GetAll();
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpGet("{id:int}")]
         public ActionResult<FeedBackDto> GetById(int id)
         {
             return Ok(_feedBackService.GetById(id));
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpPost]
         public ActionResult<FeedBackDto> Add([FromBody] CreateFeedBackServiceDto createFeedBackServiceDto)
         {
@@ -50,6 +54,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_feedBackService.Add(createFeedBackDto));
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpPut("{id:int}")]
         public ActionResult<FeedBackDto> Update([FromRoute] int id, [FromBody] FeedBackServiceDto feedBackServiceDto)
         {
@@ -79,6 +84,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_feedBackService.Update(feedBackDto));
         }
 
+        [Authorize(Roles = "User,Admin")]
         [HttpDelete("{id:int}")]
         public ActionResult<FeedBackDto> Delete(int id) 
         {

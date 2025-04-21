@@ -17,39 +17,43 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             _agentService = agentService;
         }
 
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpGet]
         public IEnumerable<AgentDto> GetAll()
         {
             return _agentService.GetAll();
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpGet("{id:int}")]
         public ActionResult<AgentDto> GetById(int id)
         {
             return Ok(_agentService.GetById(id));
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithAll/{id:int}")]
         public ActionResult<AgentAllDto> GetByIdWithAll(int id)
         {
             return Ok(_agentService.GetByIdWithAll(id));
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithPersonalContacs/{id:int}")]
         public ActionResult<AgentWithPersonalContactsDto> GetByIdWithPersonalContacts(int id) 
         {
             return Ok(_agentService.GetByIdWithPersonalContacts(id));
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithParticipants/{id:int}")]
         public ActionResult<AgentWithParticipantsDto> GetByIdWithParticipants(int id) 
         {
             return Ok(_agentService.GetByIdWithParticipants(id));
         }
 
-
-        [HttpPost]
         [AllowAnonymous]
+        [HttpPost]
         public ActionResult<AgentDto> Add([FromBody] CreateAgentDto createAgentDto)
         {
             var agentDto = _agentService.Add(createAgentDto);
@@ -57,6 +61,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(agentDto);
         }
 
+
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPost("AddAddress/{agentId:int}")]
         public ActionResult<AddressDto> AddAdress(int agentId, [FromBody] CreateAddressDto createAddressDto)
         {
@@ -65,6 +71,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(addressDto);
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPost("AddContact/{agentId:int}")]
         public ActionResult<ContactDto> AddContact(int agentId, [FromBody] CreateContactDto createContactDto)
         {
@@ -73,8 +80,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(contactDto);
         }
 
-        [HttpPost("AddAccount/{agentId:int}")]
         [AllowAnonymous]
+        [HttpPost("AddAccount/{agentId:int}")]
         public ActionResult<AccountDto> AddAccount(int agentId, [FromBody] CreateAccountDto createAccountDto)
         {
             var accountDto = _agentService.AccountAdd(agentId,createAccountDto);
@@ -82,6 +89,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return accountDto;
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPut("{id:int}")]
         public ActionResult<AgentDto> Update([FromRoute] int id, [FromBody] AgentDto agentDto)
         {
@@ -95,6 +103,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(updatedAgentDto);
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPut("UpdateAddress/{agentId:int}/{addressId:int}")]
         public ActionResult<AddressDto> UpdateAddress([FromRoute] int agentId,[FromRoute] int addressId, 
             [FromBody] AddressDto addressDto)
@@ -109,6 +118,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(updatedAddressDto);
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPut("UpdateContact/{agentId:int}/{contactId:int}")]
         public ActionResult<ContactDto> UpdateContact([FromRoute]int agentId, [FromRoute] int contactId,
             [FromBody] ContactDto contactDto)
@@ -123,6 +133,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(updatedContactDto);
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPut("UpdateAccount/{agentId:int}")]
         public ActionResult<AccountDto> UpdateAccount([FromRoute] int agentId, [FromBody] UpdateAccountDto updateAccountDto) 
         {

@@ -89,31 +89,11 @@ namespace Assembly.Projecto.Final.Services.Services
 
             var id = user.Id;
 
-            return GenerateJwtToken(id, email);
+            var role = "User";
+
+            return GenerateJwtToken(id, email,role);
         }
 
-        private string GenerateJwtToken(int id, string email)
-        {
-            var claims = new[]
-            {
-                new Claim("Id", id.ToString()),
-                new Claim("Email", email),
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddMinutes(10);
-
-            var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
-                audience: _config["Jwt:Audience"],
-                claims: claims,
-                expires: expiration,
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
         private string GenerateJwtToken(int id, string email, string role)
         {
             var claims = new[]
