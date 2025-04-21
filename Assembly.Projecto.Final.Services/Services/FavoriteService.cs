@@ -104,9 +104,9 @@ namespace Assembly.Projecto.Final.Services.Services
             return _mapper.Map<FavoriteDto>(favorite);
         }
 
-        public FavoriteDto Update(FavoriteDto favoriteDto)
+        public FavoriteDto Update(FavoriteDto obj)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

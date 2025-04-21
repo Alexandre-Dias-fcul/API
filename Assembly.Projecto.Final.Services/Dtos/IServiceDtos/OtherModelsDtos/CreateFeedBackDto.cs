@@ -11,5 +11,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
         public int? Rate { get; set; }
         public string Comment { get; set; }
         public DateTime? CommentDate { get; set; }
+        public int UserId { get; set; }
+        public int ListingId { get; set; }
     }
 }
