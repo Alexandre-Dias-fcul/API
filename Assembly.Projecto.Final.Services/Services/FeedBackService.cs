@@ -28,9 +28,20 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
+                var listing = _unitOfWork.ListingRepository.GetById(createFeedBackDto.ListingId);
+
+                NotFoundException.When(listing is null,$"{nameof(listing)} não foi encontrada.");
+
+                var user = _unitOfWork.UserRepository.GetById(createFeedBackDto.UserId);
+
+                NotFoundException.When(user is null,$"{nameof(user)} não foi encontrado.");
 
                 var feedBack = FeedBack.Create(createFeedBackDto.Rate,createFeedBackDto.Comment,
                     createFeedBackDto.CommentDate);
+
+                feedBack.SetListing(listing);
+
+                feedBack.SetUser(user);
 
                 addedFeedBack = _unitOfWork.FeedBackRepository.Add(feedBack);
 
