@@ -15,15 +15,15 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             _authenticationService = authenticationService;
         }
 
-        [HttpPost("AuthenticationEmployee")]
         [AllowAnonymous]
+        [HttpPost("AuthenticationEmployee")]       
         public ActionResult<string> AutenticationEmployee([FromBody] LoginDto loginDto ) 
         {
             return Ok(_authenticationService.AuthenticationEmployee(loginDto.Email,loginDto.Passoword));
         }
 
-        [HttpPost("AuthenticationUser")]
         [AllowAnonymous]
+        [HttpPost("AuthenticationUser")]   
         public ActionResult<string> AutenticationUser([FromBody] LoginDto loginDto)
         {
             return Ok(_authenticationService.AuthenticationUser(loginDto.Email, loginDto.Passoword));

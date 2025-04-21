@@ -1,6 +1,7 @@
 ﻿using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.WebAPI.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -14,18 +15,21 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             _listingService = listingService;
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpGet]
         public IEnumerable<ListingDto> GetAll() 
         {
             return _listingService.GetAll();
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpGet("{id:int}")] 
         public ActionResult<ListingDto> GetById(int id) 
         {
             return Ok(_listingService.GetById(id));
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPost]
         public ActionResult<ListingDto> Add([FromBody] CreateListingDto createListingDto) 
         {
@@ -58,6 +62,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_listingService.Add(createListingServiceDto));
         }
 
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpPost("SelfReassign/{listingId:int}")] 
         public ActionResult<ReassignDto> SelfReassign(int listingId) 
         {
@@ -73,18 +78,21 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_listingService.SelfReassign(listingId, agentId));
         }
 
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpPost("SelfReassignTo/{listingId:int}/{agentId:int}")]
         public ActionResult<ReassignDto> SelfReassignTo(int listingId,int agentId)
         {
             return Ok(_listingService.SelfReassignTo(listingId, agentId));
         }
 
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpPost("BetweenReassign/{listingId:int}/{agentId:int}")]
         public ActionResult<ReassignDto> BetweenReassign(int listingId,int agentId)
         {
             return Ok(_listingService.BetweenReassign(listingId, agentId));
         }
 
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpPut("{id:int}")]
         public ActionResult<ListingDto> Update([FromRoute] int id,[FromBody] ListingDto listingDto) 
         {

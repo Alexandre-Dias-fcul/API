@@ -3,6 +3,7 @@ using Assembly.Projecto.Final.Services.Dtos.GetDtos;
 using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.WebAPI.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -15,24 +16,28 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             _appointmentService = appointmentService;
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet]
         public IEnumerable<AppointmentDto> GetAll()
         {
             return _appointmentService.GetAll();
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("{id:int}")]
         public ActionResult<AppointmentDto> GetById(int id)
         {
             return Ok(_appointmentService.GetById(id));
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithParticipants/{id:int}")]
         public ActionResult<AppointmentAllDto> GetByIdWithParticipants(int id)
         {
             return Ok(_appointmentService.GetByIdWithParticipants(id));
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpPost]
         public ActionResult<AppointmentDto> Add(CreateAppointmentDto createAppointmentDto)
         {
@@ -75,12 +80,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_appointmentService.Add(createAppointmentServiceDto));
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpPost("AddParticipant/{appointmentId:int}/{employeeId:int}")]
         public ActionResult<ParticipantDto> AddParticipant([FromRoute] int appointmentId, [FromRoute] int employeeId)
         {
             return Ok(_appointmentService.AddParticipant(appointmentId, employeeId));
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpPut("{id:int}")]
         public ActionResult<ParticipantDto> Update([FromRoute] int id, [FromBody] AppointmentDto appointmentDto) 
         {
@@ -92,12 +99,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_appointmentService.Update(appointmentDto));
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpDelete("DeleteParticipant/{appointmentId:int}/{participantId:int}")]
         public ActionResult<ParticipantDto> DeleteParticipant([FromRoute] int appointmentId,[FromRoute] int participantId) 
         {
             return Ok(_appointmentService.DeleteParticipant(appointmentId, participantId));
         }
 
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpDelete("{id:int}")]
         public ActionResult<ParticipantDto> Delete(int id) 
         {
