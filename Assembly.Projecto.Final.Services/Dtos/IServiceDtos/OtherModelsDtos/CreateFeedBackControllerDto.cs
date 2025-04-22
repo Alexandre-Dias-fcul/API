@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
 {
-    public class CreateFeedBackServiceDto
+    public class CreateFeedBackControllerDto
     {
         public int? Rate { get; set; }
         public string Comment { get; set; }

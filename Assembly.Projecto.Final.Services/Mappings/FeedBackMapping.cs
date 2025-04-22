@@ -16,7 +16,7 @@ namespace Assembly.Projecto.Final.Services.Mappings
             CreateMap<FeedBack, FeedBackDto>().ReverseMap();
             CreateMap<FeedBack, CreateFeedBackDto>().ReverseMap();
 
-            CreateMap<FeedBack, CreateFeedBackServiceDto>().ReverseMap();
+            CreateMap<FeedBack, CreateFeedBackControllerDto>().ReverseMap();
         }
     }
 }

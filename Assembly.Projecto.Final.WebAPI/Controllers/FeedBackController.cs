@@ -31,7 +31,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
         [Authorize(Roles = "User,Admin")]
         [HttpPost]
-        public ActionResult<FeedBackDto> Add([FromBody] CreateFeedBackServiceDto createFeedBackServiceDto)
+        public ActionResult<FeedBackDto> Add([FromBody] CreateFeedBackControllerDto createFeedBackControllerDto)
         {
             var userIdString = User.GetId();
 
@@ -44,10 +44,10 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
             CreateFeedBackDto createFeedBackDto = new()
             {
-                Rate = createFeedBackServiceDto.Rate,
-                Comment = createFeedBackServiceDto.Comment,
-                CommentDate = createFeedBackServiceDto.CommentDate,
-                ListingId = createFeedBackServiceDto.ListingId,
+                Rate = createFeedBackControllerDto.Rate,
+                Comment = createFeedBackControllerDto.Comment,
+                CommentDate = createFeedBackControllerDto.CommentDate,
+                ListingId = createFeedBackControllerDto.ListingId,
                 UserId = userId
             };
 
@@ -56,9 +56,9 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
         [Authorize(Roles = "User,Admin")]
         [HttpPut("{id:int}")]
-        public ActionResult<FeedBackDto> Update([FromRoute] int id, [FromBody] FeedBackServiceDto feedBackServiceDto)
+        public ActionResult<FeedBackDto> Update([FromRoute] int id, [FromBody] FeedBackControllerDto feedBackControllerDto)
         {
-            if (id != feedBackServiceDto.Id)
+            if (id != feedBackControllerDto.Id)
             {
                 return BadRequest("Os ids não coincidem.");
             }
@@ -74,10 +74,10 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
             FeedBackDto feedBackDto = new()
             {
-                Rate = feedBackServiceDto.Rate,
-                Comment = feedBackServiceDto.Comment,
-                CommentDate = feedBackServiceDto.CommentDate,
-                ListingId = feedBackServiceDto.ListingId,
+                Rate = feedBackControllerDto.Rate,
+                Comment = feedBackControllerDto.Comment,
+                CommentDate = feedBackControllerDto.CommentDate,
+                ListingId = feedBackControllerDto.ListingId,
                 UserId = userId
             };
 
