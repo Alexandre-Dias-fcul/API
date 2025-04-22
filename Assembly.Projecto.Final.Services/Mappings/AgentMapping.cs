@@ -37,6 +37,10 @@ namespace Assembly.Projecto.Final.Services.Mappings
                 .IncludeBase<Employee, EmployeeWithParticipantsDto>()
                 .ReverseMap();
 
+            CreateMap<Agent, AgentWithAgentsDto>()
+                .IncludeBase<Employee, EmployeeDto>()
+                .ForMember(dest => dest.Agents, opt => opt.MapFrom(src => src.Agents))
+                .ReverseMap();
         }
     }
 }

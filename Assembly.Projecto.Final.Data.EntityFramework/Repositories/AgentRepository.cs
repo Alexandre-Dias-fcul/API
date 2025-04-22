@@ -65,5 +65,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
                   .ThenInclude(p => p.Appointment)
                   .FirstOrDefault(a => a.Id == id);
         }
+
+        public Agent? GetByIdWithAgents(int id)
+        {
+            return DbSet.Include(a => a.Agents).FirstOrDefault(a => a.Id == id);
+        }
     }
 }
