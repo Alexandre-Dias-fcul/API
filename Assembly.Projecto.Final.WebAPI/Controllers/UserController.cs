@@ -76,20 +76,6 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [Authorize(Roles = "User,Admin")]
-        [HttpPut("{id:int}")]
-        public ActionResult<UserDto> Update([FromRoute] int id, [FromBody] UserDto userDto) 
-        {
-            if(id != userDto.Id) 
-            {
-                return BadRequest("Os Ids do user não coincidem");
-            }
-
-            var updatedUserDto = _userService.Update(userDto);
-
-            return Ok(updatedUserDto);
-        }
-
-        [Authorize(Roles = "User,Admin")]
         [HttpPut("UpdateAddress/{userId:int}/{addressId:int}")]
         public ActionResult<AddressDto> UpdateAddress([FromRoute] int userId, [FromRoute] int addressId,
            [FromBody] AddressDto addressDto)
@@ -126,6 +112,27 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             var updatedAccount = _userService.AccountUpdate(userId, updateAccountDto);
 
             return updatedAccount;
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpPut("{id:int}")]
+        public ActionResult<UserDto> Update([FromRoute] int id, [FromBody] UserDto userDto)
+        {
+            if (id != userDto.Id)
+            {
+                return BadRequest("Os Ids do user não coincidem");
+            }
+
+            var updatedUserDto = _userService.Update(userDto);
+
+            return Ok(updatedUserDto);
+        }
+
+        [Authorize(Roles ="Admin")]
+        [HttpDelete("{id:int}")]
+        public ActionResult<UserDto> Delete([FromRoute] int id)
+        {
+           return Ok(_userService.Delete(id));
         }
     }
 }

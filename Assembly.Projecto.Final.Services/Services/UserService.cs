@@ -305,9 +305,43 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                var foundedUser = _unitOfWork.UserRepository.GetById(userDto.Id);
+                _unitOfWork.BeginTransaction();
+
+                var foundedUser = _unitOfWork.UserRepository.GetByIdWithEverything(userDto.Id);
 
                 NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
+
+                if (foundedUser.EntityLink != null)
+                {
+                    foreach (var address in foundedUser.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    foreach (var contact in foundedUser.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    if (foundedUser.EntityLink.Account != null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedUser.EntityLink.Account);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedUser.EntityLink);
+                }
+
+                foreach (var favorite in foundedUser.Favorites.ToList()) 
+                {
+                    _unitOfWork.FavoriteRepository.Delete(favorite);   
+                }
+
+                foreach (var feedBack in foundedUser.FeedBacks.ToList())
+                {
+                    _unitOfWork.FeedBackRepository.Delete(feedBack);
+                }
+
+                _unitOfWork.EntityLinkRepository.Delete(userDto.Id);
 
                 deletedUser = _unitOfWork.UserRepository.Delete(foundedUser);
 
@@ -323,9 +357,42 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
+                _unitOfWork.BeginTransaction();
+
                 var foundedUser = _unitOfWork.UserRepository.GetById(id);
 
                 NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
+
+                if (foundedUser.EntityLink != null) 
+                {
+                    foreach (var address in foundedUser.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    foreach (var contact in foundedUser.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    if (foundedUser.EntityLink.Account != null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedUser.EntityLink.Account);
+
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedUser.EntityLink);
+                }
+
+                foreach (var favorite in foundedUser.Favorites.ToList())
+                {
+                    _unitOfWork.FavoriteRepository.Delete(favorite);
+                }
+
+                foreach (var feedBack in foundedUser.FeedBacks.ToList())
+                {
+                    _unitOfWork.FeedBackRepository.Delete(feedBack);
+                }
 
                 deletedUser = _unitOfWork.UserRepository.Delete(id);
 
