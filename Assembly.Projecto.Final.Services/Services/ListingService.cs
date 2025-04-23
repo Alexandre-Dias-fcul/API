@@ -194,6 +194,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
+                _unitOfWork.BeginTransaction();
+
                 var foundedListing = _unitOfWork.ListingRepository.GetByIdWithAll(listingDto.Id);
 
                 NotFoundException.When(foundedListing is null,$" { nameof(foundedListing) } não foi encontrado.");
@@ -227,6 +229,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
+                _unitOfWork.BeginTransaction();
+
                 var foundedListing = _unitOfWork.ListingRepository.GetByIdWithAll(id);
 
                 NotFoundException.When(foundedListing is null, $" {nameof(foundedListing)} não foi encontrado.");

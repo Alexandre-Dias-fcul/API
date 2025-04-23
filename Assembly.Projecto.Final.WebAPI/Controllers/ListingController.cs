@@ -1,4 +1,5 @@
-﻿using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
+﻿using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos;
+using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -106,7 +107,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
         [Authorize(Roles = "Agent,Manager,Broker,Admin")]
         [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
+        public ActionResult<ListingDto> Delete(int id)
         {
             return Ok(_listingService.Delete(id));
         }

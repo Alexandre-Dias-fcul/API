@@ -48,5 +48,19 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
                  .ThenInclude(el => el.Contacts)
                  .FirstOrDefault(u => u.Id == id);
         }
+
+        public User? GetByIdWithEverything(int id) 
+        {
+            return DbSet
+                  .Include(u => u.Favorites)
+                  .Include(u => u.FeedBacks)
+                  .Include(u => u.EntityLink)
+                  .ThenInclude(el => el.Account)
+                  .Include(u => u.EntityLink)
+                  .ThenInclude(el => el.Contacts)
+                  .Include(u => u.EntityLink)
+                  .ThenInclude(el => el.Addresses)
+                  .FirstOrDefault(u => u.Id == id);
+        }
     }
 }
