@@ -431,5 +431,12 @@ namespace Assembly.Projecto.Final.Services.Services
 
             return _mapper.Map<AgentWithAgentsDto>(agent);
         }
+
+        public AgentWithListingsDto GetByIdWithListings(int id)
+        {
+            var agent = _unitOfWork.AgentRepository.GetByIdWithListings(id);
+
+            return _mapper.Map<AgentWithListingsDto>(agent);
+        }
     }
 }

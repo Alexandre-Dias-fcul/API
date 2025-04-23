@@ -9,5 +9,7 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IListingRepository:IRepository<Listing,int>
     {
+       public Listing? GetByIdWithAll(int id);
+       
     }
 }

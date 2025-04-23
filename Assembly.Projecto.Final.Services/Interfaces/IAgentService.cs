@@ -22,6 +22,8 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public AgentAllDto GetByIdWithAll(int id);
         public AgentWithPersonalContactsDto GetByIdWithPersonalContacts(int id);
         public AgentWithParticipantsDto GetByIdWithParticipants(int id);
+
+        public AgentWithListingsDto GetByIdWithListings(int id);
         public AgentWithAgentsDto? GetByIdWithAgents(int id);
     }
 }

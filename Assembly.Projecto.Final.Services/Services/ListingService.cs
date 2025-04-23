@@ -194,9 +194,24 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                var foundedListing = _unitOfWork.ListingRepository.GetById(listingDto.Id);
+                var foundedListing = _unitOfWork.ListingRepository.GetByIdWithAll(listingDto.Id);
 
                 NotFoundException.When(foundedListing is null,$" { nameof(foundedListing) } não foi encontrado.");
+
+                foreach (var favorite in foundedListing.Favorites)
+                {
+                    _unitOfWork.FavoriteRepository.Delete(favorite);
+                }
+
+                foreach (var feedback in foundedListing.FeedBacks)
+                {
+                    _unitOfWork.FeedBackRepository.Delete(feedback);
+                }
+
+                foreach (var reassign in foundedListing.Reassigns)
+                {
+                    _unitOfWork.ReassignRepository.Delete(reassign);
+                }
 
                 deletedListing = _unitOfWork.ListingRepository.Delete(foundedListing);
 
@@ -212,9 +227,24 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedListing = _unitOfWork.ListingRepository.GetById(id);
+                var foundedListing = _unitOfWork.ListingRepository.GetByIdWithAll(id);
 
                 NotFoundException.When(foundedListing is null, $" {nameof(foundedListing)} não foi encontrado.");
+
+                foreach (var favorite in foundedListing.Favorites)
+                {
+                    _unitOfWork.FavoriteRepository.Delete(favorite);
+                }
+
+                foreach (var feedback in foundedListing.FeedBacks)
+                {
+                    _unitOfWork.FeedBackRepository.Delete(feedback);
+                }
+
+                foreach (var reassign in foundedListing.Reassigns)
+                {
+                    _unitOfWork.ReassignRepository.Delete(reassign);
+                }
 
                 deletedListing = _unitOfWork.ListingRepository.Delete(id);
 

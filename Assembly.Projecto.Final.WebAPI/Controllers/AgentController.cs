@@ -51,6 +51,12 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         {
             return Ok(_agentService.GetByIdWithParticipants(id));
         }
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [HttpGet("GetByIdWithListings/{id:int}")]
+        public ActionResult<AgentWithListingsDto> GetByIdWithListings(int id)
+        {
+            return Ok(_agentService.GetByIdWithListings(id));
+        }
 
         [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpGet("GetByIdWithAgents/{id:int}")]
