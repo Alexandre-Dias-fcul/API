@@ -22,6 +22,8 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 
         public Agent? GetByIdWithParticipants(int id);
 
+        public Agent? GetByIdWithListings(int id);
+
         public Agent? GetByIdWithAgents(int id);
     }
 }

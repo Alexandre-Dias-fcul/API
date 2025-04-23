@@ -11,5 +11,6 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.EmployeeUserDtos
     {
         public RoleType Role { get; set; }
         public int? SupervisorId { get; set; }
+
     }
 }

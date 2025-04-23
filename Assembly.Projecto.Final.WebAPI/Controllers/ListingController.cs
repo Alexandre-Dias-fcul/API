@@ -103,5 +103,12 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
             return Ok(_listingService.Update(listingDto));
         }
+
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [HttpDelete("{id:int}")]
+        public ActionResult Delete(int id)
+        {
+            return Ok(_listingService.Delete(id));
+        }
     }
 }
