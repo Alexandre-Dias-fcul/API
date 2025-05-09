@@ -32,7 +32,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-
                 var personalContact = PersonalContact.Create(createPersonalContactServiceDto.Name,
                     createPersonalContactServiceDto.IsPrimary,createPersonalContactServiceDto.Notes);
 

@@ -18,6 +18,14 @@ builder.Services.AddServices(config);
 
 builder.Services.AddAuthenticationJwtBearer(config);
 
+builder.Services.AddCors(options =>
+
+   options.AddPolicy("appProjectoFinal", builder =>
+   {
+       builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+   })
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("appProjectoFinal");
 
 app.UseMiddleware<ExceptionMiddleware>();
 
