@@ -19,14 +19,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         [HttpPost("AuthenticationEmployee")]       
         public ActionResult<string> AutenticationEmployee([FromBody] LoginDto loginDto ) 
         {
-            return Ok(_authenticationService.AuthenticationEmployee(loginDto.Email,loginDto.Passoword));
+            return Ok(_authenticationService.AuthenticationEmployee(loginDto.Email,loginDto.Password));
         }
 
         [AllowAnonymous]
         [HttpPost("AuthenticationUser")]   
         public ActionResult<string> AutenticationUser([FromBody] LoginDto loginDto)
         {
-            return Ok(_authenticationService.AuthenticationUser(loginDto.Email, loginDto.Passoword));
+            return Ok(_authenticationService.AuthenticationUser(loginDto.Email, loginDto.Password));
         }
     }
 }

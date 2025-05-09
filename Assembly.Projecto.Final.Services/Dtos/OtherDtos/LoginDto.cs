@@ -9,6 +9,6 @@ namespace Assembly.Projecto.Final.Services.Dtos.OtherDtos
     public class LoginDto
     {
         public string Email { get; set; }
-        public string Passoword { get; set; }
+        public string Password { get; set; }
     }
 }

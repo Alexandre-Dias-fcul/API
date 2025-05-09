@@ -65,7 +65,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_agentService.GetByIdWithAgents(id));
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpPost]
         public ActionResult<AgentDto> Add([FromBody] CreateAgentDto createAgentDto)
         {
@@ -93,7 +93,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(contactDto);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpPost("AddAccount/{agentId:int}")]
         public ActionResult<AccountDto> AddAccount(int agentId, [FromBody] CreateAccountDto createAccountDto)
         {
