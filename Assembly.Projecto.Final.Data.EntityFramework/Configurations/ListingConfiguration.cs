@@ -30,7 +30,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                     .HasForeignKey(l => l.ListingId);
 
             builder.Property(e => e.Type).HasMaxLength(250).IsRequired();
-            builder.Property(e => e.Status).HasMaxLength(50).IsRequired();
+            builder.Property(e => e.Status).IsRequired();
             builder.Property(e => e.NumberOfRooms).IsRequired(false);
             builder.Property(e => e.NumberOfBathrooms).IsRequired(false);
             builder.Property(e => e.NumberOfKitchens).IsRequired(false);

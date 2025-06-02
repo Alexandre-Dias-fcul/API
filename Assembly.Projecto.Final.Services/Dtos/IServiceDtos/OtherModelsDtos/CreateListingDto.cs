@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assembly.Projecto.Final.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos
     public class CreateListingDto
     {
         public string Type { get; set; }
-        public string Status { get; set; }
+        public ListingStatus Status { get; set; }
         public int? NumberOfRooms { get; set; }
         public int? NumberOfBathrooms { get; set; }
         public int? NumberOfKitchens { get; set; }

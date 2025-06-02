@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Domain.Common;
+using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Validations;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Assembly.Projecto.Final.Domain.Models
     public class Listing : AuditableEntity<int>
     {
         public string Type { get; private set; }
-        public string Status { get; private set; }
+        public ListingStatus Status { get; private set; }
         public int? NumberOfRooms { get; private set; }
         public int? NumberOfBathrooms { get; private set; }
         public int? NumberOfKitchens { get; private set; }
@@ -38,7 +39,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         private Listing()
         {
             Type = string.Empty;
-            Status = string.Empty;
+            Status = 0;
             NumberOfRooms = 0;
             NumberOfBathrooms = 0;
             NumberOfKitchens = 0;
@@ -57,7 +58,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         }
 
 
-        private Listing(string type, string status, int? numberOfRooms, int? numberOfBathrooms, int? numberOfKitchens, 
+        private Listing(string type, ListingStatus status, int? numberOfRooms, int? numberOfBathrooms, int? numberOfKitchens, 
             decimal price, string location, double area, int? parking, string description, string mainImageFileName, 
             string otherImagesFileNames):this()
         {
@@ -65,17 +66,17 @@ namespace Assembly.Projecto.Final.Domain.Models
                description, mainImageFileName, otherImagesFileNames);
         }
 
-        private Listing(int id,string type, string status, int? numberOfRooms, int? numberOfBathrooms, int? numberOfKitchens,
-           decimal price, string location, double area, int? parking, string description, string mainImageFileName,
-           string otherImagesFileNames) : this(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,
-           price,location,area,parking,description,mainImageFileName, otherImagesFileNames)
+        private Listing(int id,string type, ListingStatus status, int? numberOfRooms, int? numberOfBathrooms, 
+           int? numberOfKitchens,decimal price, string location, double area, int? parking, string description, 
+           string mainImageFileName, string otherImagesFileNames) : this(type,status,numberOfRooms,numberOfBathrooms,
+               numberOfKitchens,price,location,area,parking,description,mainImageFileName, otherImagesFileNames)
         {
             Id = id;
         }
 
-        public static Listing Create(string type, string status, int? numberOfRooms, int? numberOfBathrooms, int? numberOfKitchens,
-            decimal price, string location, double area, int? parking, string description, string mainImageFileName,
-            string otherImagesFileNames) 
+        public static Listing Create(string type, ListingStatus status, int? numberOfRooms, int? numberOfBathrooms, 
+            int? numberOfKitchens, decimal price, string location, double area, int? parking, string description, 
+            string mainImageFileName, string otherImagesFileNames) 
         {
             var listing = new Listing(type,status,numberOfRooms,numberOfBathrooms, numberOfKitchens,
              price, location, area, parking,description,mainImageFileName,otherImagesFileNames);
@@ -83,9 +84,9 @@ namespace Assembly.Projecto.Final.Domain.Models
             return listing;
         }
 
-        public static Listing Create(int id,string type, string status, int? numberOfRooms, int? numberOfBathrooms,
-            int? numberOfKitchens,decimal price, string location, double area, int? parking, string description, 
-            string mainImageFileName,string otherImagesFileNames) 
+        public static Listing Create(int id,string type, ListingStatus status, int? numberOfRooms,
+            int? numberOfBathrooms,int? numberOfKitchens,decimal price, string location, double area, 
+            int? parking, string description, string mainImageFileName,string otherImagesFileNames) 
         {
             var listing = new Listing(id,type, status, numberOfRooms, numberOfBathrooms, numberOfKitchens,
              price, location, area, parking, description, mainImageFileName, otherImagesFileNames);
@@ -93,25 +94,23 @@ namespace Assembly.Projecto.Final.Domain.Models
             return listing;
         }
 
-        public void Update(string type, string status, int? numberOfRooms, int? numberOfBathrooms, int? numberOfKitchens,
-            decimal price, string location, double area, int? parking, string description, string mainImageFileName,
-            string otherImagesFileNames)
+        public void Update(string type, ListingStatus status, int? numberOfRooms, int? numberOfBathrooms, 
+            int? numberOfKitchens,decimal price, string location, double area, int? parking, string description, 
+            string mainImageFileName,string otherImagesFileNames)
         {
 
             DomainValidation(type,status,numberOfRooms,numberOfBathrooms,numberOfKitchens,price,location,area,parking,
                description, mainImageFileName,otherImagesFileNames);
         }
 
-        public void DomainValidation(string type, string status, int? numberOfRooms, int? numberOfBathrooms, 
+        public void DomainValidation(string type, ListingStatus status, int? numberOfRooms, int? numberOfBathrooms, 
             int? numberOfKitchens,decimal price, string location, double area, int? parking, string description, 
             string mainImageFileName,string otherImagesFileNames) 
         {
             DomainExceptionValidation.When(type == null,"Erro: o tipo de propriedade é obrigatório.");
             DomainExceptionValidation.When(type != null && type.Length > 250, " Erro: o tipo de propriedade não pode" +
                 " ter mais de 250 caracteres.");
-            DomainExceptionValidation.When(status == null, "Erro: o estado da propriedade é obrigatório.");
-            DomainExceptionValidation.When(status != null && status.Length > 50, " Erro: o estado da propriedade não" +
-                " pode ter mais de 50 caracteres.");
+            
             DomainExceptionValidation.When(location == null, "Erro: a localização da propriedade é obrigatória.");
             DomainExceptionValidation.When(location != null && location.Length>250 ,"Erro: a localização da propriedade " +
                 "não pode ter mais de 250 caracteres.");
