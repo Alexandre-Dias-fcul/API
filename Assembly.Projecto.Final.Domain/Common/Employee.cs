@@ -86,7 +86,9 @@ namespace Assembly.Projecto.Final.Domain.Common
 
         public void DomainValidation(DateTime? hiredDate, DateTime? dateOfTermination) 
         {
-            DomainExceptionValidation.When(hiredDate>dateOfTermination,"Erro: a data de contratação não pode ser" +
+            DomainExceptionValidation.When(hiredDate != null && dateOfTermination != null &&
+                hiredDate>dateOfTermination,
+                "Erro: a data de contratação não pode ser" +
                 " posterior á data de termino.");
 
             HiredDate = hiredDate;
