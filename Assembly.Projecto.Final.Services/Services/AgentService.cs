@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -437,6 +438,21 @@ namespace Assembly.Projecto.Final.Services.Services
             var agent = _unitOfWork.AgentRepository.GetByIdWithListings(id);
 
             return _mapper.Map<AgentWithListingsDto>(agent);
+        }
+
+        public AgentDto GetByEmail(string email)
+        {
+            var account = _unitOfWork.AccountRepository.GetByEmailWithEmployee(email);
+
+            NotFoundException.When(account is null, $"{nameof(account)} não foi encontrada.");
+
+            CustomApplicationException.When(account.EntityLink.EntityType is not EntityType.Employee, " Não é empregado.");
+
+            var employeeId = account.EntityLink.Employee.Id;
+
+            var agent = _unitOfWork.AgentRepository.GetById(employeeId);
+
+            return _mapper.Map<AgentDto>(agent);
         }
     }
 }
