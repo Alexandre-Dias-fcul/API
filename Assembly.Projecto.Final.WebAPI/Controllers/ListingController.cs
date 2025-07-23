@@ -16,14 +16,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             _listingService = listingService;
         }
 
-        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<ListingDto> GetAll() 
         {
             return _listingService.GetAll();
         }
 
-        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [AllowAnonymous]
         [HttpGet("{id:int}")] 
         public ActionResult<ListingDto> GetById(int id) 
         {
