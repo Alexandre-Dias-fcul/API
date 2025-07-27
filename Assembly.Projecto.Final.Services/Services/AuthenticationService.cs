@@ -105,7 +105,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddMinutes(10);
+            var expiration = DateTime.UtcNow.AddMinutes(50);
 
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],

@@ -8,6 +8,7 @@ using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -299,6 +300,86 @@ namespace Assembly.Projecto.Final.Services.Services
                 return updatedAddressDto;
             }
         }
+        public AccountDto AccountDelete(int userId)
+        {
+            using (_unitOfWork)
+            {
+                var user = _unitOfWork.UserRepository.GetByIdWithAccount(userId);
+
+                NotFoundException.When(user is null, $"{nameof(user)} não foi encontrado.");
+
+                NotFoundException.When(user.EntityLink is null, "A account não existe.");
+
+                NotFoundException.When(user.EntityLink.Account is null, "A account não existe.");
+
+                var account = user.EntityLink.Account;
+
+                user.EntityLink.RemoveAccount();
+
+                _unitOfWork.UserRepository.Update(user);
+
+                _unitOfWork.Commit();
+
+                var deletedAccountDto = _mapper.Map<AccountDto>(account);
+
+                return deletedAccountDto;
+            }
+        }
+
+        public ContactDto ContactDelete(int userId, int contactId)
+        {
+            var user = _unitOfWork.UserRepository.GetByIdWithContacts(userId);
+
+            NotFoundException.When(user is null, $"{nameof(user)} não foi encontado.");
+
+            NotFoundException.When(user.EntityLink is null, "O contacto não existe.");
+
+            NotFoundException.When(user.EntityLink.Contacts is null, "O contacto não existe.");
+
+            var contacto = user.EntityLink.Contacts.FirstOrDefault(c => c.Id == contactId);
+
+            NotFoundException.When(contacto is null, "O contacto não existe.");
+
+            user.EntityLink.RemoveContact(contacto);
+
+            _unitOfWork.ContactRepository.Delete(contacto);
+
+            _unitOfWork.UserRepository.Update(user);
+
+            _unitOfWork.Commit();
+
+            var deletedContactDto = _mapper.Map<ContactDto>(contacto);
+
+            return deletedContactDto;
+        }
+
+        public AddressDto AddressDelete(int userId, int addressId)
+        {
+            var user = _unitOfWork.UserRepository.GetByIdWithAddresses(userId);
+
+            NotFoundException.When(user is null, $"{nameof(user)} não foi encontado.");
+
+            NotFoundException.When(user.EntityLink is null, "O address não existe.");
+
+            NotFoundException.When(user.EntityLink.Addresses is null, "O address não existe.");
+
+            var address = user.EntityLink.Addresses.FirstOrDefault(a => a.Id == addressId);
+
+            NotFoundException.When(address is null, "O address não existe.");
+
+            user.EntityLink.RemoveAddress(address);
+
+            _unitOfWork.AddressRepository.Delete(address);
+
+            _unitOfWork.UserRepository.Update(user);
+
+            _unitOfWork.Commit();
+
+            var deletedAddressDto = _mapper.Map<AddressDto>(address);
+
+            return deletedAddressDto;
+        }
+
         public UserDto Delete(UserDto userDto)
         {
             User deletedUser;
@@ -452,6 +533,21 @@ namespace Assembly.Projecto.Final.Services.Services
             }
 
             return _mapper.Map<UserDto>(updatedUser);
+        }
+
+        public AccountDto AccountDelete(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ContactDto ContactDelete(int userId, int contactId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AddressDto AddressDelete(int userId, int addressId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
