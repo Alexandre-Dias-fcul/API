@@ -8,6 +8,7 @@ using Assembly.Projecto.Final.Services.Dtos.IServiceDtos.OtherModelsDtos;
 using Assembly.Projecto.Final.Services.Exceptions;
 using Assembly.Projecto.Final.Services.Interfaces;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -297,6 +298,91 @@ namespace Assembly.Projecto.Final.Services.Services
                 return updatedAddressDto;
             }
         }
+
+        public AccountDto AccountDelete(int staffId)
+        {
+            using (_unitOfWork)
+            {
+                var staff = _unitOfWork.StaffRepository.GetByIdWithAccount(staffId);
+
+                NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontrado.");
+
+                NotFoundException.When(staff.EntityLink is null, "A account não existe.");
+
+                NotFoundException.When(staff.EntityLink.Account is null, "A account não existe.");
+
+                var account = staff.EntityLink.Account;
+
+                staff.EntityLink.RemoveAccount();
+
+                _unitOfWork.StaffRepository.Update(staff);
+
+                _unitOfWork.Commit();
+
+                var deletedAccountDto = _mapper.Map<AccountDto>(account);
+
+                return deletedAccountDto;
+            }
+        }
+
+        public ContactDto ContactDelete(int staffId, int contactId)
+        {
+            using (_unitOfWork)
+            {
+
+                var staff = _unitOfWork.StaffRepository.GetByIdWithContacts(staffId);
+
+                NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontado.");
+
+                NotFoundException.When(staff.EntityLink is null, "O contacto não existe.");
+
+                NotFoundException.When(staff.EntityLink.Contacts is null, "O contacto não existe.");
+
+                var contacto = staff.EntityLink.Contacts.FirstOrDefault(c => c.Id == contactId);
+
+                NotFoundException.When(contacto is null, "O contacto não existe.");
+
+                staff.EntityLink.RemoveContact(contacto);
+
+                _unitOfWork.ContactRepository.Delete(contacto);
+
+                _unitOfWork.StaffRepository.Update(staff);
+
+                _unitOfWork.Commit();
+
+                var deletedContactDto = _mapper.Map<ContactDto>(contacto);
+
+                return deletedContactDto;
+            }
+        }
+
+        public AddressDto AddressDelete(int staffId, int addressId)
+        {
+            var staff = _unitOfWork.StaffRepository.GetByIdWithAddresses(staffId);
+
+            NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontado.");
+
+            NotFoundException.When(staff.EntityLink is null, "O address não existe.");
+
+            NotFoundException.When(staff.EntityLink.Addresses is null, "O address não existe.");
+
+            var address = staff.EntityLink.Addresses.FirstOrDefault(a => a.Id == addressId);
+
+            NotFoundException.When(address is null, "O address não existe.");
+
+            staff.EntityLink.RemoveAddress(address);
+
+            _unitOfWork.AddressRepository.Delete(address);
+
+            _unitOfWork.StaffRepository.Update(staff);
+
+            _unitOfWork.Commit();
+
+            var deletedAddressDto = _mapper.Map<AddressDto>(address);
+
+            return deletedAddressDto;
+        }
+
         public StaffDto Delete(StaffDto staffDto)
         {
             Staff deletedStaff;

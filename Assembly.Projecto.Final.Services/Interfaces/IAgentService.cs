@@ -19,6 +19,9 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public AccountDto AccountUpdate(int agentId, UpdateAccountDto updateAccountDto);
         public ContactDto ContactUpdate(int agentId, ContactDto contactDto);
         public AddressDto AddressUpdate(int agentId, AddressDto addressDto);
+        public AccountDto AccountDelete(int agentId);
+        public ContactDto ContactDelete(int agentId, int contactId);
+        public AddressDto AddressDelete(int agentId, int addressId);
         public AgentAllDto GetByIdWithAll(int id);
         public AgentWithPersonalContactsDto GetByIdWithPersonalContacts(int id);
         public AgentWithParticipantsDto GetByIdWithParticipants(int id);

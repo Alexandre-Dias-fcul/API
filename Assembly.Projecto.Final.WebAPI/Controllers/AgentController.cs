@@ -159,7 +159,34 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         {
             var updatedAccount = _agentService.AccountUpdate(agentId, updateAccountDto);
 
-            return updatedAccount;
+            return Ok(updatedAccount);
+        }
+
+        [Authorize(Roles = "Manager,Broker,Admin")]
+        [HttpDelete("DeleteAccount/{agentId:int}")]
+        public ActionResult<AccountDto> DeleteAccount([FromRoute] int agentId)
+        {
+            var deletedAccount = _agentService.AccountDelete(agentId);
+
+            return Ok(deletedAccount);
+        }
+
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [HttpDelete("DeleteContact/{agentId:int}/{contactId:int}")]
+        public ActionResult<ContactDto> DeleteContact([FromRoute] int agentId, [FromRoute] int contactId)
+        {
+            var deletedContact = _agentService.ContactDelete(agentId, contactId);
+
+            return Ok(deletedContact);
+        }
+
+        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [HttpDelete("DeleteAddress/{agentId:int}/{addressId:int}")]
+        public ActionResult<AddressDto> DeleteAddress([FromRoute] int agentId, [FromRoute] int addressId)
+        {
+            var deletedAddress = _agentService.AddressDelete(agentId, addressId);
+
+            return Ok(deletedAddress);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Assembly.Projecto.Final.WebAPI.Extensions
 
             using (var hmac = new HMACSHA512())
             {
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Admin123"));
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("admin123"));
                 passwordSalt = hmac.Key;
             }
 
