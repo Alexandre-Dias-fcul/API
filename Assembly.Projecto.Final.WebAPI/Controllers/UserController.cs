@@ -26,7 +26,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
         [HttpGet("{id:int}")]
         [Authorize(Roles = "User,Admin")]
-        public ActionResult<UserDto> GetById(int id) 
+        public ActionResult<UserDto> GetById(int id)
         {
             return Ok(_userService.GetById(id));
         }
@@ -40,7 +40,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult<UserDto> Add(CreateUserDto createUserDto) 
+        public ActionResult<UserDto> Add(CreateUserDto createUserDto)
         {
             var userDto = _userService.Add(createUserDto);
 
@@ -128,11 +128,38 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(updatedUserDto);
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public ActionResult<UserDto> Delete([FromRoute] int id)
         {
-           return Ok(_userService.Delete(id));
+            return Ok(_userService.Delete(id));
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpDelete("DeleteAccount/{userId:int}")]
+        public ActionResult<AccountDto> DeleteAccount([FromRoute] int userId)
+        {
+            var deletedAccountDto = _userService.AccountDelete(userId);
+
+            return Ok(deletedAccountDto);
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpDelete("DeleteContact/{userId:int}/{contactId:int}")]
+        public ActionResult<ContactDto> DeleteContact([FromRoute] int userId, [FromRoute] int contactId)
+        {
+            var deletedContactDto = _userService.ContactDelete(userId, contactId);
+
+            return Ok(deletedContactDto);
+        }
+
+        [Authorize(Roles = "User,Admin")]
+        [HttpDelete("DeleteAddress/{userId:int}/{addressId:int}")]
+        public ActionResult<AddressDto> DeleteAddress([FromRoute] int userId, [FromRoute] int addressId)
+        {
+            var deletedAddressDto = _userService.AddressDelete(userId, addressId);
+
+            return Ok(deletedAddressDto);
         }
     }
 }

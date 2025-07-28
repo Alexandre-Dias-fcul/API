@@ -109,7 +109,7 @@ namespace Assembly.Projecto.Final.Domain.Models
         {
             DomainExceptionValidation.When(Account == null, $"Erro: Não foi encontrada a entidade {nameof(Account)}.");
 
-            Account.Delete();
+            Account = null;
         }
 
         public void RemoveAddress(Address address)

@@ -140,5 +140,33 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
             return updatedAccount;
         }
+
+        [Authorize(Roles = "Staff,Admin")]
+        [HttpDelete("DeleteAccount/{staffId:int}")]
+        public ActionResult DeleteAccount([FromRoute] int staffId)
+        {
+            var deletedAccount = _staffService.AccountDelete(staffId);
+
+            return Ok(deletedAccount);
+        }
+
+        [Authorize(Roles = "Staff,Admin")]
+        [HttpDelete("DeleteContact/{staffId:int}/{contactId:int}")]
+        public ActionResult DeleteContact([FromRoute] int staffId, [FromRoute] int contactId)
+        {
+            var deletedContact = _staffService.ContactDelete(staffId, contactId);
+
+            return Ok(deletedContact);
+        }
+
+        [Authorize(Roles = "Staff,Admin")]
+        [HttpDelete("DeleteAddress/{staffId:int}/{addressId:int}")]
+        public ActionResult DeleteAddress([FromRoute] int staffId, [FromRoute] int addressId)
+        {
+            var deletedAddress = _staffService.AddressDelete(staffId, addressId);
+
+            return Ok(deletedAddress);
+        }
+
     }
 }

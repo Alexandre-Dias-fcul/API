@@ -534,20 +534,5 @@ namespace Assembly.Projecto.Final.Services.Services
 
             return _mapper.Map<UserDto>(updatedUser);
         }
-
-        public AccountDto AccountDelete(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ContactDto ContactDelete(int userId, int contactId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AddressDto AddressDelete(int userId, int addressId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
