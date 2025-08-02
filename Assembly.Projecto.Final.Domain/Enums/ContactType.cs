@@ -8,8 +8,7 @@ namespace Assembly.Projecto.Final.Domain.Enums
 {
     public enum ContactType
     {
-        Phone,
-        Email,
-        Fax
+        Phone=0,
+        Email=1
     }
 }

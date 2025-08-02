@@ -77,7 +77,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
-        [HttpPost("{personalContactId:int}")]
+        [HttpPost("AddDetail/{personalContactId:int}")]
         public ActionResult<PersonalContactDetailDto> AddDetail([FromRoute]int personalContactId,
             [FromBody] CreatePersonalContactDetailDto createPersonalContactDetailDto) 
         {
@@ -85,7 +85,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
-        [HttpPut("AddDetail/{personalContactId:int}/{personalContactDetailId:int}")]
+        [HttpPut("UpdateDetail/{personalContactId:int}/{personalContactDetailId:int}")]
         public ActionResult<PersonalContactDetailDto> UpdateDetail([FromRoute] int personalContactId,
             [FromRoute] int personalContactDetailId, [FromBody] PersonalContactDetailDto personalContactDetailDto)
          
