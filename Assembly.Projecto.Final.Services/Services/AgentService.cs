@@ -195,10 +195,6 @@ namespace Assembly.Projecto.Final.Services.Services
         {
             using (_unitOfWork)
             {
-                var emailExists = _unitOfWork.AccountRepository.EmailExistsEmployee(updateAccountDto.Email);
-
-                CustomApplicationException.When(emailExists is true, "O email já existe.");
-
                 var agent = _unitOfWork.AgentRepository.GetByIdWithAccount(agentId);
 
                 NotFoundException.When(agent is null, $"{nameof(agent)} não foi encontrado.");
@@ -208,34 +204,37 @@ namespace Assembly.Projecto.Final.Services.Services
                 NotFoundException.When(agent.EntityLink.Account is null, "A account não existe.");
 
                 bool isSamePassword;
-                byte[] passowrdHash;
-                byte[] passwordSalt;
+                byte[] passwordHash = agent.EntityLink.Account.PasswordHash;
+                byte[] passwordSalt = agent.EntityLink.Account.PasswordSalt;
 
-                using (var hmac = new HMACSHA512(agent.EntityLink.Account.PasswordSalt))
+                using (var hmac = new HMACSHA512(passwordSalt))
                 {
                     var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
                    
-                    isSamePassword = computedHash.SequenceEqual(agent.EntityLink.Account.PasswordHash);
+                    isSamePassword = computedHash.SequenceEqual(passwordHash);
                 }
 
-                if (isSamePassword)
-                {
-                    passowrdHash = agent.EntityLink.Account.PasswordHash;
-                    passwordSalt = agent.EntityLink.Account.PasswordSalt;
-                }
-                else
+                if(!isSamePassword)
                 {
                     using (var hmac = new HMACSHA512())
                     {
-                        passowrdHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
+                        passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(updateAccountDto.Password));
 
                         passwordSalt = hmac.Key;
                     }
                 }
 
+                if(updateAccountDto.Email != agent.EntityLink.Account.Email) 
+                {
+                    var emailExists = _unitOfWork.AccountRepository.EmailExistsEmployee(updateAccountDto.Email);
+
+                    CustomApplicationException.When(emailExists is true, "O email já existe.");
+                }
+
                 if (!isSamePassword || updateAccountDto.Email != agent.EntityLink.Account.Email)
-                { 
-                    agent.EntityLink.Account.Update(passowrdHash,passwordSalt,updateAccountDto.Email);
+                {
+
+                    agent.EntityLink.Account.Update(passwordHash,passwordSalt,updateAccountDto.Email);
 
                     _unitOfWork.AgentRepository.Update(agent);
 
