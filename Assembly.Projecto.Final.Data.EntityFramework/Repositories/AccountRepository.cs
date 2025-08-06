@@ -1,4 +1,5 @@
 ﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
+using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
 using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
@@ -21,14 +22,12 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
 
         public bool EmailExistsEmployee(string email)
         {
-            var accounts = DbSet.Include(e => e.EntityLink).Where(a => a.Email == email).ToList();
+            var accounts = DbSet.Include(e => e.EntityLink)
+                .Where(e => e.Email == email && e.EntityLink.EntityType == EntityType.Employee).ToList();
 
-            foreach(var account in accounts) 
+            if (accounts.Count > 0)
             {
-                if(account.EntityLink.EntityType == EntityType.Employee) 
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
@@ -36,14 +35,12 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
 
         public bool EmailExistsUser(string email)
         {
-            var accounts = DbSet.Include(e => e.EntityLink).Where(a => a.Email == email).ToList();
+            var accounts = DbSet.Include(e => e.EntityLink)
+                .Where(e => e.Email == email && e.EntityLink.EntityType == EntityType.User).ToList();
 
-            foreach (var account in accounts)
+            if (accounts.Count > 0)
             {
-                if (account.EntityLink.EntityType == EntityType.User)
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
@@ -51,14 +48,14 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
 
         public Account? GetByEmailWithEmployee(string email)
         {
-            return DbSet.Include(e => e.EntityLink).ThenInclude(em => em.Employee).FirstOrDefault(a => a.Email == email);
+            return DbSet.Include(e => e.EntityLink).ThenInclude(e => e.Employee)
+                  .FirstOrDefault(e => e.Email == email && e.EntityLink.EntityType == EntityType.Employee);
         }
 
         public Account? GetByEmailWithUser(string email) 
         {
-            return DbSet.Include(e => e.EntityLink).ThenInclude(u => u.User).FirstOrDefault(u => u.Email == email);
-        }
-
-        
+            return DbSet.Include(e => e.EntityLink).ThenInclude(e => e.User)
+                   .FirstOrDefault(e => e.Email == email && e.EntityLink.EntityType == EntityType.User);   
+        }   
     }
 }
