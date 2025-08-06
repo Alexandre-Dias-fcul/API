@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Assembly.Projecto.Final.Domain.Models
@@ -62,6 +63,8 @@ namespace Assembly.Projecto.Final.Domain.Models
             DomainExceptionValidation.When(email == null, "Erro: o email é obrigatório.");
             DomainExceptionValidation.When(email != null && email.Length > 300, "Erro: o email não pode ter " +
                 "mais de 300 caracteres.");
+            DomainExceptionValidation.When(email != null && !EmailValido(email),
+                " Erro: o email não é um email válido. ");
 
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
@@ -73,6 +76,42 @@ namespace Assembly.Projecto.Final.Domain.Models
 
             EntityLink = entityLink;
             EntityLinkId = entityLink.Id;
+        }
+
+        private static bool EmailValido(string email)
+        {
+            if ((email == null) || (email.Length < 4))
+                return false;
+
+            var partes = email.Split('@');
+            if (partes.Length < 2) return false;
+
+            var pre = partes[0];
+
+            if (pre.Length == 0) return false;
+
+            var validadorPre = new Regex("^[a-zA-Z0-9_.-/+]+$");
+
+            if (!validadorPre.IsMatch(pre))
+                return false;
+
+            // gmail.com, outlook.com, terra.com.br, etc.
+            var partesDoDominio = partes[1].Split('.');
+            if (partesDoDominio.Length < 2) return false;
+
+            var validadorDominio = new Regex("^[a-zA-Z0-9-]+$");
+            for (int indice = 0; indice < partesDoDominio.Length; indice++)
+            {
+                var parteDoDominio = partesDoDominio[indice];
+
+                // Evitando @gmail...com
+                if (parteDoDominio.Length == 0) return false;
+
+                if (!validadorDominio.IsMatch(parteDoDominio))
+                    return false;
+            }
+
+            return true;
         }
     }
 }
