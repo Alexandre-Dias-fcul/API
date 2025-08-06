@@ -54,6 +54,10 @@ namespace Assembly.Projecto.Final.Services.Services
 
                     agent.SetSupervisor(supervisor);
                 }
+                else 
+                {
+                    agent.SetSupervisor(null);
+                }
 
                 addedAgent = _unitOfWork.AgentRepository.Add(agent);
 
@@ -471,7 +475,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 foundedAgent.Update(agentDto.Name.FirstName,string.Join(" ",agentDto.Name.MiddleNames),agentDto.Name.LastName,
                     agentDto.DateOfBirth,agentDto.Gender,agentDto.PhotoFileName,agentDto.IsActive,
-                    agentDto.DateOfTermination,agentDto.HiredDate,agentDto.Role);
+                    agentDto.HiredDate,agentDto.DateOfTermination,agentDto.Role);
 
                 if (agentDto.SupervisorId is not null)
                 {
@@ -483,6 +487,10 @@ namespace Assembly.Projecto.Final.Services.Services
                                             "O supervisor não tem hierarquia superior.");
 
                     foundedAgent.SetSupervisor(supervisor);
+                }
+                else 
+                {
+                    foundedAgent.SetSupervisor(null);
                 }
 
                 updatedAgent = _unitOfWork.AgentRepository.Update(foundedAgent);

@@ -123,10 +123,16 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void SetSupervisor(Agent supervisor) 
         {
-            DomainExceptionValidation.When(supervisor == null, $"Erro: Não foi encontrado o supervisor.");
-
-            Supervisor = supervisor;
-            SupervisorId = Supervisor.Id;
+            if(supervisor is not null) 
+            {
+                Supervisor = supervisor;
+                SupervisorId = Supervisor.Id;
+            }
+            else 
+            {
+                Supervisor = null;
+                SupervisorId = null;
+            }
         }
 
         public void AddListings(Listing listing) 
