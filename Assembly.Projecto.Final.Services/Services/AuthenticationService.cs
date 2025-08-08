@@ -52,21 +52,23 @@ namespace Assembly.Projecto.Final.Services.Services
 
             var agent = _unitOfWork.AgentRepository.GetById(employeeId);
 
+            var staff = _unitOfWork.StaffRepository.GetById(employeeId);
+
+            NotFoundException.When(agent is null && staff is null, $" O employee não foi encontrado.");
+
+            NotFoundException.When(agent is not null && staff is not null, "Erro: Na base de dados.");
+
             if (agent is not null)
             {
                 id = agent.Id;
                 role = agent.Role.ToString();
             }
-            else
+            else 
             {
-                var staff = _unitOfWork.StaffRepository.GetById(employeeId);
-
-                NotFoundException.When(staff is null, $"{nameof(staff)} não foi encontrado.");
-
                 id = staff.Id;
                 role = "Staff";
             }
-
+           
             return GenerateJwtToken(id, email, role);
         }
 
