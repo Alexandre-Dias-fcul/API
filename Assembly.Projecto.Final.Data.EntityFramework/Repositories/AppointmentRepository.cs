@@ -20,5 +20,10 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         {
             return DbSet.Include(a => a.Participants).FirstOrDefault(a => a.Id == id);
         }
+
+        public List<Appointment> GetAllWithParticipants()
+        {
+             return DbSet.Include(a => a.Participants).ToList();
+        }
     }
 }

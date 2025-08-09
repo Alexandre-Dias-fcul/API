@@ -16,5 +16,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public ParticipantDto AddParticipant(int appointmentId, int employeeId);
         public ParticipantDto DeleteParticipant(int appointmentId, int participantId);
         public AppointmentAllDto GetByIdWithParticipants(int id);
+        public List<AppointmentAllDto> GetAllWithParticipants();
     }
 }

@@ -24,6 +24,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         }
 
         [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
+        [HttpGet("GetAllWithParticipants")]
+
+        public IEnumerable<AppointmentAllDto> GetAllWithParticipants()
+        {
+            return _appointmentService.GetAllWithParticipants();
+        }
+
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("{id:int}")]
         public ActionResult<AppointmentDto> GetById(int id)
         {
