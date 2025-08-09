@@ -207,6 +207,12 @@ namespace Assembly.Projecto.Final.Services.Services
 
             return _mapper.Map<AppointmentDto>(updatedAppointment);
         }
+        public List<AppointmentAllDto> GetAllWithParticipants()
+        {
+            var appointments = _unitOfWork.AppointmentRepository.GetAllWithParticipants();
+
+            return _mapper.Map<List<AppointmentAllDto>>(appointments);
+        }
 
         public AppointmentAllDto GetByIdWithParticipants(int id)
         {

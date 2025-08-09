@@ -8,7 +8,7 @@ namespace Assembly.Projecto.Final.Domain.Enums
 {
     public enum ParticipantType
     {
-        Organizer,
-        Participant
+        Organizer=0,
+        Participant=1
     }
 }

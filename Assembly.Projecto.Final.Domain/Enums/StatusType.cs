@@ -8,8 +8,8 @@ namespace Assembly.Projecto.Final.Domain.Enums
 {
     public enum StatusType
     {
-        Confirmada,
-        Cancelada,
-        Concluida
+        Confirmada=0,
+        Cancelada=1,
+        Concluida=2
     }
 }
