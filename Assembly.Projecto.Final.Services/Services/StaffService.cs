@@ -485,5 +485,20 @@ namespace Assembly.Projecto.Final.Services.Services
 
             return _mapper.Map<StaffWithParticipantsDto>(staff);
         }
+
+        public StaffDto GetByEmail(string email)
+        {
+            var account = _unitOfWork.AccountRepository.GetByEmailWithEmployee(email);
+
+            NotFoundException.When(account is null, $"{nameof(account)} não foi encontrada.");
+
+            CustomApplicationException.When(account.EntityLink.EntityType is not EntityType.Employee, " Não é empregado.");
+
+            var employeeId = account.EntityLink.Employee.Id;
+
+            var staff = _unitOfWork.StaffRepository.GetById(employeeId);
+
+            return _mapper.Map<StaffDto>(staff);
+        }
     }
 }

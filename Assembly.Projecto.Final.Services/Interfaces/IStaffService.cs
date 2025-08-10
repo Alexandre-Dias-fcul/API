@@ -24,5 +24,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public StaffAllDto GetByIdWithAll(int id);
         public StaffWithPersonalContactsDto GetByIdWithPersonalContacts(int id);
         public StaffWithParticipantsDto GetByIdWithParticipants(int id);
+        public StaffDto GetByEmail(string email);
     }
 }

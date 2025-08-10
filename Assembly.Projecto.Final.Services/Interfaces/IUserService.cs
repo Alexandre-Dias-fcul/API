@@ -22,5 +22,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
         public ContactDto ContactDelete(int userId, int contactId);
         public AddressDto AddressDelete(int userId, int addressId);
         public UserAllDto GetByIdWithAll(int id);
+        public UserDto GetByEmail(string email);
     }
 }

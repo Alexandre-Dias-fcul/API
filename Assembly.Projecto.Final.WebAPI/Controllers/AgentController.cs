@@ -31,7 +31,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_agentService.GetById(id));
         }
 
-        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("GetByEmail")]
         public ActionResult<AgentDto> GetByEmail(string email) 
         {
