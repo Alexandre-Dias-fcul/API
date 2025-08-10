@@ -532,5 +532,20 @@ namespace Assembly.Projecto.Final.Services.Services
 
             return _mapper.Map<UserDto>(updatedUser);
         }
+
+        public UserDto GetByEmail(string email)
+        {
+            var account = _unitOfWork.AccountRepository.GetByEmailWithUser(email);
+
+            NotFoundException.When(account is null, $"{nameof(account)} não foi encontrada.");
+
+            CustomApplicationException.When(account.EntityLink.EntityType is not EntityType.User, "Não é usuário.");
+
+            var userId = account.EntityLink.User.Id;
+
+            var user = _unitOfWork.UserRepository.GetById(userId);
+
+            return _mapper.Map<UserDto>(user);
+        }
     }
 }

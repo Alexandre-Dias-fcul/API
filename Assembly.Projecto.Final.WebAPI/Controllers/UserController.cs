@@ -38,6 +38,13 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_userService.GetByIdWithAll(id));
         }
 
+        [Authorize(Roles = "User,Admin")]
+        [HttpGet("GetByEmail")]
+        public ActionResult<AgentDto> GetByEmail(string email)
+        {
+            return Ok(_userService.GetByEmail(email));
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public ActionResult<UserDto> Add(CreateUserDto createUserDto)
