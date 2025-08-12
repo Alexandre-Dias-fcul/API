@@ -68,7 +68,7 @@ namespace Assembly.Projecto.Final.Services.Services
         {
             using (_unitOfWork) 
             {
-                var appointment = _unitOfWork.AppointmentRepository.GetById(appointmentId);
+                var appointment = _unitOfWork.AppointmentRepository.GetByIdWithParticipants(appointmentId);
 
                 NotFoundException.When(appointment is null,$"{nameof(appointment)} não foi encontrado.");
 
@@ -80,6 +80,9 @@ namespace Assembly.Projecto.Final.Services.Services
                 }
 
                 NotFoundException.When(employee is null, $"{nameof(employee)} não foi encontrado.");
+
+                NotFoundException.When(appointment.Participants.Any(a => a.EmployeeId == employeeId),
+                    $"O {nameof(employee)} já é participante deste appointment.");
 
                 var participant = Participant.Create(ParticipantType.Participant, appointment, employee);
 

@@ -18,7 +18,7 @@ namespace Assembly.Projecto.Final.Services.Mappings
             CreateMap<Appointment, CreateAppointmentDto>().ReverseMap();
 
             CreateMap<Appointment, AppointmentAllDto>()
-             .ForMember(dest => dest.Participans, opt => opt.MapFrom(src => src.Participants))
+             .ForMember(dest => dest.Participants, opt => opt.MapFrom(src => src.Participants))
              .ReverseMap();
         }
     }
