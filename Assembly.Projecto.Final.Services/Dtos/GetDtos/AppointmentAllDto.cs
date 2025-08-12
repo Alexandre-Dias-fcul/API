@@ -17,6 +17,6 @@ namespace Assembly.Projecto.Final.Services.Dtos.GetDtos
         public TimeOnly HourStart { get; set; }
         public TimeOnly HourEnd { get; set; }
         public StatusType Status { get; set; }
-        public List<ParticipantDto> Participans { get; set; }
+        public List<ParticipantDto> Participants { get; set; }
     }
 }
