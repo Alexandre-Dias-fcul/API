@@ -52,7 +52,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_agentService.GetByIdWithPersonalContacts(id));
         }
 
-        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithParticipants/{id:int}")]
         public ActionResult<AgentWithParticipantsDto> GetByIdWithParticipants(int id) 
         {
