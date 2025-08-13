@@ -18,14 +18,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             _staffService = staffService;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpGet]
         public IEnumerable<StaffDto> GetAll()
         {
             return _staffService.GetAll();
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpGet("{id:int}")]
         public ActionResult<StaffDto> GetById(int id)
         {
@@ -39,7 +39,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_staffService.GetByEmail(email));
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithAll/{id:int}")]
         public ActionResult<AgentAllDto> GetByIdWithAll(int id)
         {
@@ -51,15 +51,15 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         {
             return Ok(_staffService.GetByIdWithPersonalContacts(id));
         }
-
-        [Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithParticipants/{id:int}")]
         public ActionResult<StaffWithParticipantsDto> GetByIdWithParticipants(int id)
         {
             return Ok(_staffService.GetByIdWithParticipants(id));
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpPost("AddAddress/{staffId:int}")]
         public ActionResult<AddressDto> AddAdress(int staffId, [FromBody] CreateAddressDto createAddressDto)
         {
@@ -68,7 +68,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(addressDto);
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpPost("AddContact/{staffId:int}")]
         public ActionResult<ContactDto> AddContact(int staffId, [FromBody] CreateContactDto createContactDto)
         {
@@ -77,7 +78,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(contactDto);
         }
 
-        [AllowAnonymous]
+
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpPost("AddAccount/{staffId:int}")]
         public ActionResult<AccountDto> AddAccount(int staffId, [FromBody] CreateAccountDto createAccountDto)
         {
@@ -86,7 +88,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(accountDto);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpPost]
         public ActionResult<StaffDto> Add([FromBody] CreateStaffDto createStaffDto)
         {
@@ -95,7 +97,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(staffDto);
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpPut("{id:int}")]
         public ActionResult<StaffDto> Update([FromRoute] int id, [FromBody] StaffDto staffDto)
         {
@@ -109,7 +111,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(updatedStaffDto);
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpPut("UpdateAddress/{staffId:int}/{addressId:int}")]
         public ActionResult<AddressDto> UpdateAddress([FromRoute] int staffId, [FromRoute] int addressId,
            [FromBody] AddressDto addressDto)
@@ -124,7 +126,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(updatedAddressDto);
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpPut("UpdateContact/{staffId:int}/{contactId:int}")]
         public ActionResult<ContactDto> UpdateContact([FromRoute] int staffId, [FromRoute] int contactId,
             [FromBody] ContactDto contactDto)
@@ -139,7 +142,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(updatedContactDto);
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpPut("UpdateAccount/{staffId:int}")]
         public ActionResult<AccountDto> UpdateAccount([FromRoute] int staffId, [FromBody] UpdateAccountDto updateAccountDto)
         {
@@ -148,7 +151,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return updatedAccount;
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+
+        [Authorize(Roles = "Manager,Broker,Admin")]
         [HttpDelete("DeleteAccount/{staffId:int}")]
         public ActionResult DeleteAccount([FromRoute] int staffId)
         {
@@ -157,7 +161,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(deletedAccount);
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpDelete("DeleteContact/{staffId:int}/{contactId:int}")]
         public ActionResult DeleteContact([FromRoute] int staffId, [FromRoute] int contactId)
         {
@@ -166,7 +170,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(deletedContact);
         }
 
-        [Authorize(Roles = "Staff,Admin")]
+
+        [Authorize(Roles = "Staff,Manager,Broker,Admin")]
         [HttpDelete("DeleteAddress/{staffId:int}/{addressId:int}")]
         public ActionResult DeleteAddress([FromRoute] int staffId, [FromRoute] int addressId)
         {
