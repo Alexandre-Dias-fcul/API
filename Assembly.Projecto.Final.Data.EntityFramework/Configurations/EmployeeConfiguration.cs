@@ -2,7 +2,10 @@
 using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,22 +41,37 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                    .WithOne(e => e.Employee)
                    .HasForeignKey(p => p.EmployeeId);
 
-            builder.OwnsOne(e => e.Name, name =>
+            builder.OwnsOne(e => e.Name, nameBuilder =>
             {
-                name.Property(n => n.FirstName)
+                nameBuilder.Property(n => n.FirstName)
                     .HasColumnName("FirstName")
                     .HasMaxLength(100)
                     .IsRequired();
 
-                name.Property(n => n.MiddleNames)
+                var stringArrayComparer = new ValueComparer<string[]>(
+                    (a, b) => a == null && b == null || a != null && b != null && a.SequenceEqual(b),
+                    a => a == null ? 0 : a.Aggregate(0, (hash, s) => HashCode.Combine(hash, s != null ? s.GetHashCode() : 0)),
+                    a => a == null ? null : a.ToArray()
+                );
+
+
+                nameBuilder.Property(n => n.MiddleNames)
                     .HasColumnName("MiddleNames")
                     .HasMaxLength(500)
+                    .HasConversion(
+                        v => string.Join(' ', v ?? Array.Empty<string>()),
+                        v => string.IsNullOrWhiteSpace(v) ? Array.Empty<string>() : v.Split(' ', StringSplitOptions.RemoveEmptyEntries),
+                        stringArrayComparer
+                    )
                     .IsRequired(false);
 
-                name.Property(n => n.LastName)
+
+
+                nameBuilder.Property(n => n.LastName)
                     .HasColumnName("LastName")
                     .HasMaxLength(100)
-                .IsRequired();
+                    .IsRequired();
+
             });
 
             builder.Property(e => e.DateOfBirth).IsRequired(false);
@@ -62,6 +80,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.Property(e => e.PhotoFileName).HasMaxLength(300).IsRequired(false);
             builder.Property(e => e.HiredDate).IsRequired(false);
             builder.Property(e => e.DateOfTermination).IsRequired(false);
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }

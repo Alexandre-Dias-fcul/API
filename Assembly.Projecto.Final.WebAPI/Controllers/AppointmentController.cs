@@ -116,7 +116,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
 
         [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpDelete("{id:int}")]
-        public ActionResult<ParticipantDto> Delete(int id) 
+        public ActionResult<AppointmentDto> Delete(int id) 
         {
             return Ok(_appointmentService.Delete(id));
         }

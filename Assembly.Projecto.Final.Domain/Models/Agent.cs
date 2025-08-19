@@ -23,11 +23,10 @@ namespace Assembly.Projecto.Final.Domain.Models
         public List<Listing> _listings;
         public IReadOnlyCollection<Listing> Listings => _listings.AsReadOnly();
 
-        private Agent() : base()
+        private Agent()
         {
-            Role = 0;
-            _agents = new ();
-            _listings = new ();
+            _agents = new();
+            _listings = new();
         }
 
         private Agent(string firstName, string middleNames, string lastName, DateTime? dateOfBirth, string gender,

@@ -23,6 +23,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.Property(e => e.ContactType).IsRequired();
             builder.Property(e => e.Value).HasMaxLength(300).IsRequired();
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }

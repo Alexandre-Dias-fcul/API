@@ -28,6 +28,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.Property(e => e.Name).HasMaxLength(500).IsRequired();
             builder.Property(e => e.IsPrimary).IsRequired();
             builder.Property(e => e.Notes).HasMaxLength(2000).IsRequired(false);
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }

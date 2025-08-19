@@ -41,6 +41,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.Property(e => e.Description).HasMaxLength(5000).IsRequired();
             builder.Property(e => e.MainImageFileName).HasMaxLength(300).IsRequired(false);
             builder.Property(e => e.OtherImagesFileNames).HasMaxLength(1000).IsRequired(false);
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
 
         }
     }

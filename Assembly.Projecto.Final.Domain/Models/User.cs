@@ -17,9 +17,10 @@ namespace Assembly.Projecto.Final.Domain.Models
         private List<FeedBack> _feedBacks;
         public IReadOnlyCollection<FeedBack> FeedBacks => _feedBacks.AsReadOnly();
 
-        private User() : base()
+        private User()
         {
-            EntityLinkId = 0;
+            _favorites = new();
+            _feedBacks = new();
         }
 
         private User(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive):

@@ -1,4 +1,5 @@
-﻿using Assembly.Projecto.Final.Domain.Common;
+﻿using Assembly.Projecto.Final.Data.EntityFramework.Configurations;
+using Assembly.Projecto.Final.Domain.Common;
 using Assembly.Projecto.Final.Domain.Interfaces;
 using Assembly.Projecto.Final.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
 
             // Filter Soft Deleted entities on calling DbSet

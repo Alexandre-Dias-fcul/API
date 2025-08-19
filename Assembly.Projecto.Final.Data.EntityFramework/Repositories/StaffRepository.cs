@@ -64,5 +64,21 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
                   .ThenInclude(p => p.Appointment)
                   .FirstOrDefault(a => a.Id == id);
         }
+
+        public Staff? GetByIdWithEverything(int id)
+        {
+            return DbSet
+                   .Include(s => s.PersonalContacts)
+                   .ThenInclude(c => c.PersonalContactDetails)
+                   .Include(s => s.Participants)
+                   .ThenInclude(p => p.Appointment)
+                   .Include(s => s.EntityLink)
+                   .ThenInclude(el => el.Account)
+                   .Include(s => s.EntityLink)
+                   .ThenInclude(el => el.Contacts)
+                   .Include(s => s.EntityLink)
+                   .ThenInclude(el => el.Addresses)
+                   .FirstOrDefault(s => s.Id == id);
+        }
     }
 }

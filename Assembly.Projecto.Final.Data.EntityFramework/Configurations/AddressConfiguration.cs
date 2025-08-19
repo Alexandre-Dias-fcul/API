@@ -25,6 +25,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.Property(e => e.City).HasMaxLength(200).IsRequired();
             builder.Property(e => e.Country).HasMaxLength(200).IsRequired();
             builder.Property(e => e.PostalCode).HasMaxLength(10).IsRequired();
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }

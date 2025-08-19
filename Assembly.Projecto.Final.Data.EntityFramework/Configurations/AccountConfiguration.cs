@@ -24,6 +24,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.Property(e => e.PasswordHash).HasMaxLength(500).IsRequired();
             builder.Property(e => e.PasswordSalt).HasMaxLength(500).IsRequired();
             builder.Property(e => e.Email).HasMaxLength(300).IsRequired();
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }
