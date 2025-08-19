@@ -16,12 +16,10 @@ namespace Assembly.Projecto.Final.Domain.Common
 
         private Name()
         {
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            MiddleNames = [];
+            
         }
-
-        private Name(string firstName, string lastName) : this()
+       
+        private Name(string firstName, string lastName) 
         {
             DomainValidation(firstName, lastName);
         }
@@ -79,12 +77,12 @@ namespace Assembly.Projecto.Final.Domain.Common
             LastName = lastName;
         }
 
-        public void DomainValidation(string middlenames) 
+        public void DomainValidation(string middleNames) 
         {
-            DomainExceptionValidation.When(middlenames != null && middlenames.Length > 500, "Erro: os nomes do meio não podem" +
+            DomainExceptionValidation.When(middleNames != null && middleNames.Length > 500, "Erro: os nomes do meio não podem" +
                 " ter mais de 500 caracters.");
 
-            MiddleNames = middlenames.Split(" ");
+            MiddleNames = string.IsNullOrWhiteSpace(middleNames) ? [] : middleNames.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
         }
     }

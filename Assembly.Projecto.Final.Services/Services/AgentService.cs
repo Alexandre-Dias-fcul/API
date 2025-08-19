@@ -409,12 +409,101 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using(_unitOfWork) 
             {
+                _unitOfWork.BeginTransaction();
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(agentDto.Id);
 
                 NotFoundException.When(foundedAgent is null, $"{nameof(foundedAgent)} não foi encontrado.");
 
-                deletedAgent =_unitOfWork.AgentRepository.Delete(foundedAgent);
+                if (foundedAgent.EntityLink != null)
+                {
+                    foreach (var address in foundedAgent.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    foreach (var contact in foundedAgent.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    if (foundedAgent.EntityLink.Account != null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedAgent.EntityLink.Account);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedAgent.EntityLink);
+                }
+
+                foreach (var participant in foundedAgent.Participants)
+                {
+                    if (participant.Role == ParticipantType.Organizer)
+                    {
+                        var appointment = _unitOfWork.AppointmentRepository
+                                         .GetByIdWithParticipants(participant.AppointmentId);
+
+                        if (appointment != null)
+                        {
+                            foreach (var part in appointment.Participants)
+                            {
+                                _unitOfWork.ParticipantRepository.Delete(part);
+                            }
+
+                            _unitOfWork.AppointmentRepository.Delete(appointment);
+                        }
+
+                    }
+                    else if (participant.Role == ParticipantType.Participant)
+                    {
+                        _unitOfWork.ParticipantRepository.Delete(participant);
+                    }
+                }
+
+                foreach (var personal in foundedAgent.PersonalContacts)
+                {
+                    foreach (var detail in personal.PersonalContactDetails)
+                    {
+                        _unitOfWork.PersonalContactDetailRepository.Delete(detail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personal);
+                }
+
+                if(foundedAgent.Role != RoleType.Admin) 
+                {
+                    NotFoundException.When(foundedAgent.Supervisor == null && foundedAgent.Listings.Count > 0, 
+                        $"Não existe supervisor para transferir as listings.");
+
+                    foreach(var listing in foundedAgent.Listings) 
+                    {
+                        listing.SetAgent(foundedAgent.Supervisor);
+
+                        _unitOfWork.ListingRepository.Update(listing);
+
+                        var reassign = Reassign.Create(foundedAgent.Id,(int)foundedAgent.SupervisorId, 
+                            foundedAgent.Id, DateTime.UtcNow);
+
+                        reassign.SetListing(listing);
+
+                        var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+                    }
+                }
+                else 
+                {
+                    var admins = _unitOfWork.AgentRepository.GetAllAdmins();
+
+                    CustomApplicationException.When(admins.Count == 1, $"Não pode apagar o último Admin.");
+
+                    CustomApplicationException.When(foundedAgent.Listings.Count > 0, "Para apagar Admin tem de" +
+                        "tranferir as Listings");
+                }
+
+                foreach (var agent in foundedAgent.Agents)
+                {
+                    agent.SetSupervisor(null);
+                }
+
+                deletedAgent = _unitOfWork.AgentRepository.Delete(foundedAgent);
 
                 _unitOfWork.Commit();
             }
@@ -428,10 +517,99 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
+                _unitOfWork.BeginTransaction();
 
                 var foundedAgent = _unitOfWork.AgentRepository.GetById(id);
 
                 NotFoundException.When(foundedAgent is null, $"{nameof(foundedAgent)} não foi encontrado.");
+
+                if (foundedAgent.EntityLink != null)
+                {
+                    foreach (var address in foundedAgent.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    foreach (var contact in foundedAgent.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    if (foundedAgent.EntityLink.Account != null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedAgent.EntityLink.Account);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedAgent.EntityLink);
+                }
+
+                foreach (var participant in foundedAgent.Participants)
+                {
+                    if (participant.Role == ParticipantType.Organizer)
+                    {
+                        var appointment = _unitOfWork.AppointmentRepository
+                                         .GetByIdWithParticipants(participant.AppointmentId);
+
+                        if (appointment != null)
+                        {
+                            foreach (var part in appointment.Participants)
+                            {
+                                _unitOfWork.ParticipantRepository.Delete(part);
+                            }
+
+                            _unitOfWork.AppointmentRepository.Delete(appointment);
+                        }
+
+                    }
+                    else if (participant.Role == ParticipantType.Participant)
+                    {
+                        _unitOfWork.ParticipantRepository.Delete(participant);
+                    }
+                }
+
+                foreach (var personal in foundedAgent.PersonalContacts)
+                {
+                    foreach (var detail in personal.PersonalContactDetails)
+                    {
+                        _unitOfWork.PersonalContactDetailRepository.Delete(detail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personal);
+                }
+
+                if (foundedAgent.Role != RoleType.Admin)
+                {
+                    NotFoundException.When(foundedAgent.Supervisor == null && foundedAgent.Listings.Count > 0,
+                        $"Não existe supervisor para transferir as listings.");
+
+                    foreach (var listing in foundedAgent.Listings)
+                    {
+                        listing.SetAgent(foundedAgent.Supervisor);
+
+                        _unitOfWork.ListingRepository.Update(listing);
+
+                        var reassign = Reassign.Create(foundedAgent.Id, (int)foundedAgent.SupervisorId,
+                            foundedAgent.Id, DateTime.UtcNow);
+
+                        reassign.SetListing(listing);
+
+                        var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+                    }
+                }
+                else
+                {
+                    var admins = _unitOfWork.AgentRepository.GetAllAdmins();
+
+                    CustomApplicationException.When(admins.Count == 1, $"Não pode apagar o último Admin.");
+
+                    CustomApplicationException.When(foundedAgent.Listings.Count > 0, "Para apagar Admin tem de" +
+                        "tranferir as Listings");
+                }
+
+                foreach (var agent in foundedAgent.Agents)
+                {
+                    agent.SetSupervisor(null);
+                }
 
                 deletedAgent = _unitOfWork.AgentRepository.Delete(id);
 

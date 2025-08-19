@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250412101228_PasswordUpdate")]
-    partial class PasswordUpdate
+    [Migration("20250819141222_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -468,10 +468,8 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -678,7 +676,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfBirth")
-                        .HasMaxLength(50)
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EntityLinkId")

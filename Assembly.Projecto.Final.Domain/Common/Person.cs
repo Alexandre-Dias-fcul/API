@@ -10,30 +10,26 @@ namespace Assembly.Projecto.Final.Domain.Common
 {
     public abstract class Person:AuditableEntity<int>
     {
-        public Name Name { get; private set; }
-        public DateTime? DateOfBirth { get; private set; }
-        public string Gender { get; private set; }
-        public string PhotoFileName { get; private set; }
-        public bool IsActive { get; private set; }
+        public Name Name { get; protected set; }
+        public DateTime? DateOfBirth { get; protected set; }
+        public string Gender { get; protected set; }
+        public string PhotoFileName { get; protected set; }
+        public bool IsActive { get; protected set; }
        
         protected Person() 
         {
-            Id = 0;
-            Name = Name.Create(string.Empty,string.Empty,string.Empty);
-            DateOfBirth = DateTime.MinValue;
-            Gender = string.Empty;
-            PhotoFileName = string.Empty;
-            IsActive = false;
+           
+
         }
 
-        protected Person(Name name,DateTime? dateOfBirth,string gender,string photoFileName,bool isActive):this()
+        protected Person(Name name,DateTime? dateOfBirth,string gender,string photoFileName,bool isActive)
         { 
             Name = name;
             DomainValidation(dateOfBirth, gender, photoFileName, isActive);
         }
 
         protected Person(int id, Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive)
-            :this() 
+           
         { 
             Id = id;
             Name = name;

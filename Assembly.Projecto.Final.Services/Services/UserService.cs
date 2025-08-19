@@ -420,8 +420,6 @@ namespace Assembly.Projecto.Final.Services.Services
                     _unitOfWork.FeedBackRepository.Delete(feedBack);
                 }
 
-                _unitOfWork.EntityLinkRepository.Delete(userDto.Id);
-
                 deletedUser = _unitOfWork.UserRepository.Delete(foundedUser);
 
                 _unitOfWork.Commit();
@@ -438,9 +436,10 @@ namespace Assembly.Projecto.Final.Services.Services
             {
                 _unitOfWork.BeginTransaction();
 
-                var foundedUser = _unitOfWork.UserRepository.GetById(id);
+                var foundedUser = _unitOfWork.UserRepository.GetByIdWithEverything(id);
 
                 NotFoundException.When(foundedUser is null, $"{nameof(foundedUser)} não foi encontrado.");
+                
 
                 if (foundedUser.EntityLink != null) 
                 {

@@ -1,5 +1,6 @@
 ﻿using Assembly.Projecto.Final.Data.EntityFramework.Context;
 using Assembly.Projecto.Final.Domain.Core.Repositories;
+using Assembly.Projecto.Final.Domain.Enums;
 using Assembly.Projecto.Final.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -74,6 +75,29 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         public Agent? GetByIdWithListings(int id)
         {
             return DbSet.Include(a => a.Listings).FirstOrDefault(a => a.Id == id);
+        }
+
+        public Agent? GetByIdWithEverything(int id)
+        {
+             return DbSet
+                   .Include(a => a.Listings)
+                   .Include(a => a.Agents)
+                   .Include(a => a.PersonalContacts)
+                   .ThenInclude(c => c.PersonalContactDetails)
+                   .Include(a => a.Participants)
+                   .ThenInclude(p => p.Appointment)
+                   .Include(a => a.EntityLink)
+                   .ThenInclude(el => el.Account)
+                   .Include(a => a.EntityLink)
+                   .ThenInclude(el => el.Contacts)
+                   .Include(a => a.EntityLink)
+                   .ThenInclude(el => el.Addresses)
+                   .FirstOrDefault(a => a.Id == id);
+        }
+
+        public List<Agent> GetAllAdmins()
+        {
+            return DbSet.Where(a => a.Role == RoleType.Admin).ToList();
         }
     }
 }

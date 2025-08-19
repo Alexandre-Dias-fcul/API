@@ -24,6 +24,12 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
             builder.HasOne(l => l.Listing)
                    .WithMany(f => f.Favorites)
                    .HasForeignKey(f => f.ListingId);
+
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }

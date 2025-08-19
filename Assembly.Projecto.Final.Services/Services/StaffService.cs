@@ -388,9 +388,64 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork) 
             {
-                var foundedStaff = _unitOfWork.StaffRepository.GetById(staffDto.Id);
+                _unitOfWork.BeginTransaction();
+
+                var foundedStaff = _unitOfWork.StaffRepository.GetByIdWithEverything(staffDto.Id);
 
                 NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
+
+                if(foundedStaff.EntityLink != null) 
+                {
+                    foreach(var address in foundedStaff.EntityLink.Addresses) 
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    foreach(var contact in foundedStaff.EntityLink.Contacts) 
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    if(foundedStaff.EntityLink.Account != null) 
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedStaff.EntityLink.Account);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedStaff.EntityLink);
+                }
+
+                foreach(var participant in foundedStaff.Participants) 
+                {
+                    if(participant.Role == ParticipantType.Organizer) 
+                    {
+                        var appointment =_unitOfWork.AppointmentRepository
+                                         .GetByIdWithParticipants(participant.AppointmentId);
+
+                        if(appointment != null) 
+                        {
+                            foreach (var part in appointment.Participants)
+                            {
+                                _unitOfWork.ParticipantRepository.Delete(part);
+                            }
+
+                            _unitOfWork.AppointmentRepository.Delete(appointment);
+                        }
+
+                    }else if(participant.Role == ParticipantType.Participant) 
+                    {
+                        _unitOfWork.ParticipantRepository.Delete(participant);
+                    }
+                }
+
+                foreach(var personal in foundedStaff.PersonalContacts) 
+                {
+                    foreach(var detail in personal.PersonalContactDetails) 
+                    {
+                        _unitOfWork.PersonalContactDetailRepository.Delete(detail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personal);
+                }
 
                 deletedStaff = _unitOfWork.StaffRepository.Delete(foundedStaff);
 
@@ -406,9 +461,66 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedStaff = _unitOfWork.StaffRepository.GetById(id);
+                _unitOfWork.BeginTransaction();
+
+                var foundedStaff = _unitOfWork.StaffRepository.GetByIdWithEverything(id);
 
                 NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
+
+                if (foundedStaff.EntityLink != null)
+                {
+                    foreach (var address in foundedStaff.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    foreach (var contact in foundedStaff.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    if (foundedStaff.EntityLink.Account != null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedStaff.EntityLink.Account);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedStaff.EntityLink);
+                }
+
+                foreach (var participant in foundedStaff.Participants)
+                {
+                    if (participant.Role == ParticipantType.Organizer)
+                    {
+                        var appointment = _unitOfWork.AppointmentRepository
+                                         .GetByIdWithParticipants(participant.AppointmentId);
+
+                        if (appointment != null)
+                        {
+                            foreach (var part in appointment.Participants)
+                            {
+                                _unitOfWork.ParticipantRepository.Delete(part);
+                            }
+
+                            _unitOfWork.AppointmentRepository.Delete(appointment);
+                        }
+
+                    }
+                    else if (participant.Role == ParticipantType.Participant)
+                    {
+                        _unitOfWork.ParticipantRepository.Delete(participant);
+                    }
+                }
+
+                foreach (var personal in foundedStaff.PersonalContacts)
+                {
+                    foreach (var detail in personal.PersonalContactDetails)
+                    {
+                        _unitOfWork.PersonalContactDetailRepository.Delete(detail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personal);
+                }
+
 
                 deletedStaff = _unitOfWork.StaffRepository.Delete(id);
 

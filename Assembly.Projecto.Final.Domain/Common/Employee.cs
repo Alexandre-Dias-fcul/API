@@ -13,10 +13,10 @@ namespace Assembly.Projecto.Final.Domain.Common
 {
     public abstract class Employee:Person
     {
-        public DateTime? HiredDate { get; private set; }
-        public DateTime? DateOfTermination { get; private set; }
-        public int? EntityLinkId { get; private set; }
-        public EntityLink? EntityLink { get; private set; }
+        public DateTime? HiredDate { get; protected set; }
+        public DateTime? DateOfTermination { get; protected set; }
+        public int? EntityLinkId { get; protected set; }
+        public EntityLink? EntityLink { get; protected set; }
 
         private List<PersonalContact> _personalContacts;
         public IReadOnlyCollection<PersonalContact> PersonalContacts => _personalContacts.AsReadOnly();
@@ -24,13 +24,10 @@ namespace Assembly.Projecto.Final.Domain.Common
         private List<Participant> _participants;
         public IReadOnlyCollection<Participant> Participants => _participants.AsReadOnly();
 
-        protected Employee():base()
+        protected Employee()
         {
-            HiredDate = DateTime.MinValue;
-            DateOfTermination = DateTime.MinValue;
-            EntityLinkId = 0;
-            _personalContacts = new();
-            _participants = new();
+          _personalContacts = new ();
+          _participants = new ();
         }
 
         protected Employee(Name name, DateTime? dateOfBirth, string gender, string photoFileName, bool isActive,

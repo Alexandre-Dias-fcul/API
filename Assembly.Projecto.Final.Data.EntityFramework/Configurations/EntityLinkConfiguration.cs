@@ -40,6 +40,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
 
             builder.Property(e => e.EntityType).IsRequired();
             builder.Property(e => e.EntityId).IsRequired();
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }

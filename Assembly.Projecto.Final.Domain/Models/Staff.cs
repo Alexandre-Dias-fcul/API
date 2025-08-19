@@ -12,7 +12,7 @@ namespace Assembly.Projecto.Final.Domain.Models
 {
     public class Staff:Employee
     {
-        private Staff() : base()
+        private Staff()
         {
         }
         private Staff(Name name, DateTime? dateOfBirth, string gender,

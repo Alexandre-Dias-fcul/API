@@ -24,7 +24,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return _agentService.GetAll();
         }
 
-        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("{id:int}")]
         public ActionResult<AgentDto> GetById(int id)
         {
@@ -38,7 +38,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_agentService.GetByEmail(email));
         }
 
-        [Authorize(Roles = "Agent,Manager,Broker,Admin")]
+        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
         [HttpGet("GetByIdWithAll/{id:int}")]
         public ActionResult<AgentAllDto> GetByIdWithAll(int id)
         {
@@ -121,6 +121,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             var updatedAgentDto = _agentService.Update(agentDto);
 
             return Ok(updatedAgentDto);
+        }
+
+        [Authorize(Roles = "Manager,Broker,Admin")]
+        [HttpDelete("{id:int}")]
+
+        public ActionResult<AgentDto> Delete([FromRoute] int id)
+        {
+            return Ok(_agentService.Delete(id));
         }
 
         [Authorize(Roles = "Agent,Manager,Broker,Admin")]

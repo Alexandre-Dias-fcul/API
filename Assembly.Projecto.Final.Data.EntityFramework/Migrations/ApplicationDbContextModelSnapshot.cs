@@ -673,7 +673,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfBirth")
-                        .HasMaxLength(50)
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EntityLinkId")

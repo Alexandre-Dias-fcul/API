@@ -25,5 +25,9 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
         public Agent? GetByIdWithListings(int id);
 
         public Agent? GetByIdWithAgents(int id);
+
+        public Agent? GetByIdWithEverything(int id);
+
+        public List<Agent> GetAllAdmins();
     }
 }

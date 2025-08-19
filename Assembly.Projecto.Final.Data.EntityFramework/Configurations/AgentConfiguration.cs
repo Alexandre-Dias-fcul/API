@@ -23,6 +23,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Configurations
                    .HasForeignKey(e => e.AgentId);
 
             builder.Property(a => a.Role).IsRequired();
+            builder.Property(e => e.Created).IsRequired();
+            builder.Property(e => e.CreatedBy).IsRequired();
+            builder.Property(e => e.Updated).IsRequired();
+            builder.Property(e => e.UpdatedBy).IsRequired();
+            builder.Property(e => e.IsDeleted).IsRequired();
         }
     }
 }

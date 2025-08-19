@@ -28,7 +28,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         }
 
         public TEntity? GetById(TId id)
-        {
+        { 
             return DbSet.Find(id);
         }
 
@@ -52,16 +52,11 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
 
         public TEntity? Delete(TId id)
         {
-            var obj = GetById(id);
+            var entity = GetById(id);
 
-            if (obj != null)
-            {
-                Delete(obj);
+            if (entity == null) return null;
 
-                return obj;
-            }
-
-            return null;
+            return Delete(entity);
         }
     }
 }
