@@ -121,7 +121,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 int? supervisorId = null;
 
-                if (newAgent.Supervisor is not null && (newAgent.SupervisorId == previousAgent.Id))
+                if (newAgent.SupervisorId is not null && (newAgent.SupervisorId == previousAgent.Id))
                 {
                     supervisorId = (int)newAgent.SupervisorId;
                 }

@@ -417,21 +417,28 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 if(foundedAgent.Role != RoleType.Admin) 
                 {
-                    NotFoundException.When(foundedAgent.Supervisor == null && foundedAgent.Listings.Count > 0, 
+                    NotFoundException.When(foundedAgent.SupervisorId is null && foundedAgent.Listings.Count > 0, 
                         $"Não existe supervisor para transferir as listings.");
 
-                    foreach(var listing in foundedAgent.Listings) 
+                    if (foundedAgent.SupervisorId is not null)
                     {
-                        listing.SetAgent(foundedAgent.Supervisor);
+                        var foundedSupervisor = _unitOfWork.AgentRepository.GetById((int)foundedAgent.SupervisorId);
 
-                        _unitOfWork.ListingRepository.Update(listing);
+                        NotFoundException.When(foundedSupervisor is null,$"{nameof(foundedSupervisor)} não foi encontrado.");
 
-                        var reassign = Reassign.Create(foundedAgent.Id,(int)foundedAgent.SupervisorId, 
-                            foundedAgent.Id, DateTime.UtcNow);
+                        foreach (var listing in foundedAgent.Listings)
+                        {
+                            listing.SetAgent(foundedSupervisor);
 
-                        reassign.SetListing(listing);
+                            _unitOfWork.ListingRepository.Update(listing);
 
-                        var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+                            var reassign = Reassign.Create(foundedAgent.Id, foundedSupervisor.Id,
+                                foundedAgent.Id, DateTime.UtcNow);
+
+                            reassign.SetListing(listing);
+
+                            var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+                        }
                     }
                 }
                 else 
@@ -447,7 +454,13 @@ namespace Assembly.Projecto.Final.Services.Services
                 foreach (var agent in foundedAgent.Agents)
                 {
                     agent.SetSupervisor(null);
+
+                    _unitOfWork.AgentRepository.Update(agent);
                 }
+
+                _unitOfWork.Commit();
+
+                _unitOfWork.BeginTransaction();
 
                 deletedAgent = _unitOfWork.AgentRepository.Delete(foundedAgent);
 
@@ -471,22 +484,28 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 if (foundedAgent.Role != RoleType.Admin)
                 {
-                    NotFoundException.When(foundedAgent.Supervisor == null && foundedAgent.Listings.Count > 0,
+                    NotFoundException.When(foundedAgent.SupervisorId is null && foundedAgent.Listings.Count > 0,
                         $"Não existe supervisor para transferir as listings.");
 
-                    foreach (var listing in foundedAgent.Listings)
+                    if(foundedAgent.SupervisorId is not null) 
                     {
-                        listing.SetAgent(foundedAgent.Supervisor);
+                        var foundedSupervisor = _unitOfWork.AgentRepository.GetById((int)foundedAgent.SupervisorId);
 
-                        _unitOfWork.ListingRepository.Update(listing);
+                        foreach (var listing in foundedAgent.Listings)
+                        {
+                            listing.SetAgent(foundedSupervisor);
 
-                        var reassign = Reassign.Create(foundedAgent.Id, (int)foundedAgent.SupervisorId,
-                            foundedAgent.Id, DateTime.UtcNow);
+                            _unitOfWork.ListingRepository.Update(listing);
 
-                        reassign.SetListing(listing);
+                            var reassign = Reassign.Create(foundedAgent.Id, foundedSupervisor.Id,
+                                foundedAgent.Id, DateTime.UtcNow);
 
-                        var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+                            reassign.SetListing(listing);
+
+                            var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
+                        }
                     }
+                    
                 }
                 else
                 {
@@ -501,14 +520,24 @@ namespace Assembly.Projecto.Final.Services.Services
                 foreach (var agent in foundedAgent.Agents)
                 {
                     agent.SetSupervisor(null);
+
+                    _unitOfWork.AgentRepository.Update(agent);
                 }
+
+                foundedAgent.SetSupervisor(null);
+
+                _unitOfWork.AgentRepository.Update(foundedAgent);
+
+                _unitOfWork.Commit();
+
+                _unitOfWork.BeginTransaction();
 
                 deletedAgent = _unitOfWork.AgentRepository.Delete(foundedAgent);
 
                 _unitOfWork.Commit();
             }
 
-            return _mapper.Map<AgentDto>(deletedAgent);
+            return _mapper.Map<AgentDto>(null);
         }
 
         public List<AgentDto> GetAll()
