@@ -28,7 +28,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         }
 
         public TEntity? GetById(TId id)
-        { 
+        {
             return DbSet.Find(id);
         }
 

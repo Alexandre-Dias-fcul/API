@@ -57,7 +57,7 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
         }
         public void BeginTransaction()
         {
-            if(_dbContextTransaction == null) 
+            if (_dbContextTransaction == null)
             {
                 _dbContextTransaction = _context.Database.BeginTransaction();
             }
@@ -65,7 +65,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
 
         public bool Commit()
         {
-
             try
             {
                 var affectedRows = _context.SaveChanges();
@@ -83,13 +82,6 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.UOW
             {
                 Rollback();
                 throw;
-            }
-            finally
-            {
-                if(_dbContextTransaction == null) 
-                {
-                    _context.Dispose();
-                }
             }
         }
 
