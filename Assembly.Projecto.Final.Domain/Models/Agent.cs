@@ -122,14 +122,14 @@ namespace Assembly.Projecto.Final.Domain.Models
 
         public void SetSupervisor(Agent supervisor) 
         {
-            if(supervisor is not null) 
+            Supervisor = supervisor;
+
+            if (supervisor is not null) 
             {
-                Supervisor = supervisor;
-                SupervisorId = Supervisor.Id;
+                SupervisorId = supervisor.Id;
             }
             else 
             {
-                Supervisor = null;
                 SupervisorId = null;
             }
         }
