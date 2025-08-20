@@ -142,12 +142,6 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_userService.Delete(id));
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpDelete]
-        public ActionResult<UserDto> Delete([FromBody] UserDto userDto) 
-        {
-            return Ok(_userService.Delete(userDto));
-        }
         [Authorize(Roles = "User,Admin")]
         [HttpDelete("DeleteAccount/{userId:int}")]
         public ActionResult<AccountDto> DeleteAccount([FromRoute] int userId)
