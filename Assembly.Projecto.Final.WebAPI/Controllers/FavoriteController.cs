@@ -30,7 +30,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_favoriteService.GetById(id));
         }
 
-        [Authorize(Roles = "User,Admin")]
+        [Authorize(Roles = "User")]
         [HttpPost("{listingId:int}")]
         public ActionResult<FavoriteDto> Add(int listingId) 
         {

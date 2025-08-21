@@ -394,6 +394,50 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
 
+                if (foundedStaff.EntityLink is not null)
+                {
+                    if (foundedStaff.EntityLink.Account is not null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedStaff.EntityLink.Account);
+                    }
+
+                    foreach (var contact in foundedStaff.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    foreach (var address in foundedStaff.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedStaff.EntityLink);
+                }
+
+                foreach (var participant in foundedStaff.Participants)
+                {
+                    if (participant.Role == ParticipantType.Organizer)
+                    {
+                        var appointment = _unitOfWork.AppointmentRepository
+                            .GetByIdWithParticipants(participant.AppointmentId);
+
+                        foreach (var par in appointment.Participants)
+                        {
+                            _unitOfWork.ParticipantRepository.Delete(par);
+                        }
+                    }
+                }
+
+                foreach (var personalContact in foundedStaff.PersonalContacts)
+                {
+                    foreach (var parsonalDetail in personalContact.PersonalContactDetails)
+                    {
+                        _unitOfWork.PersonalContactDetailRepository.Delete(parsonalDetail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personalContact);
+                }
+
                 deletedStaff = _unitOfWork.StaffRepository.Delete(foundedStaff);
 
                 _unitOfWork.Commit();
@@ -413,6 +457,50 @@ namespace Assembly.Projecto.Final.Services.Services
                 var foundedStaff = _unitOfWork.StaffRepository.GetByIdWithEverything(id);
 
                 NotFoundException.When(foundedStaff is null, $"{nameof(foundedStaff)} não foi encontrado.");
+
+                if (foundedStaff.EntityLink is not null)
+                {
+                    if (foundedStaff.EntityLink.Account is not null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedStaff.EntityLink.Account);
+                    }
+
+                    foreach (var contact in foundedStaff.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    foreach (var address in foundedStaff.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedStaff.EntityLink);
+                }
+
+                foreach (var participant in foundedStaff.Participants)
+                {
+                    if (participant.Role == ParticipantType.Organizer)
+                    {
+                        var appointment = _unitOfWork.AppointmentRepository
+                            .GetByIdWithParticipants(participant.AppointmentId);
+
+                        foreach (var par in appointment.Participants)
+                        {
+                            _unitOfWork.ParticipantRepository.Delete(par);
+                        }
+                    }
+                }
+
+                foreach(var personalContact in foundedStaff.PersonalContacts) 
+                {
+                    foreach (var parsonalDetail in personalContact.PersonalContactDetails) 
+                    { 
+                        _unitOfWork.PersonalContactDetailRepository.Delete(parsonalDetail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personalContact);
+                }
 
                 deletedStaff = _unitOfWork.StaffRepository.Delete(foundedStaff);
 

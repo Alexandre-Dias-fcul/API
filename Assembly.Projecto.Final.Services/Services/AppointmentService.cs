@@ -130,11 +130,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedAppointment is null, $"{nameof(foundedAppointment)} não foi encontrado.");
 
-                foreach(var participant in foundedAppointment.Participants) 
-                {
-                    _unitOfWork.ParticipantRepository.Delete(participant);
-                }
-
                 deletedAppointment =_unitOfWork.AppointmentRepository.Delete(foundedAppointment);
 
                 _unitOfWork.Commit();
@@ -155,12 +150,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedAppointment is null, $"{nameof(foundedAppointment)} não foi encontrado.");
 
-                foreach (var participant in foundedAppointment.Participants)
-                {
-                    _unitOfWork.ParticipantRepository.Delete(participant);
-                }
 
-                deletedAppointment = _unitOfWork.AppointmentRepository.Delete(id);
+                deletedAppointment = _unitOfWork.AppointmentRepository.Delete(foundedAppointment);
 
                 _unitOfWork.Commit();
             }

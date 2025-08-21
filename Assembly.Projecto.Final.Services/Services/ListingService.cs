@@ -200,21 +200,6 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedListing is null,$" { nameof(foundedListing) } não foi encontrado.");
 
-                foreach (var favorite in foundedListing.Favorites)
-                {
-                    _unitOfWork.FavoriteRepository.Delete(favorite);
-                }
-
-                foreach (var feedback in foundedListing.FeedBacks)
-                {
-                    _unitOfWork.FeedBackRepository.Delete(feedback);
-                }
-
-                foreach (var reassign in foundedListing.Reassigns)
-                {
-                    _unitOfWork.ReassignRepository.Delete(reassign);
-                }
-
                 deletedListing = _unitOfWork.ListingRepository.Delete(foundedListing);
 
                 _unitOfWork.Commit();
@@ -235,22 +220,8 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedListing is null, $" {nameof(foundedListing)} não foi encontrado.");
 
-                foreach (var favorite in foundedListing.Favorites)
-                {
-                    _unitOfWork.FavoriteRepository.Delete(favorite);
-                }
 
-                foreach (var feedback in foundedListing.FeedBacks)
-                {
-                    _unitOfWork.FeedBackRepository.Delete(feedback);
-                }
-
-                foreach (var reassign in foundedListing.Reassigns)
-                {
-                    _unitOfWork.ReassignRepository.Delete(reassign);
-                }
-
-                deletedListing = _unitOfWork.ListingRepository.Delete(id);
+                deletedListing = _unitOfWork.ListingRepository.Delete(foundedListing);
 
                 _unitOfWork.Commit();
             }

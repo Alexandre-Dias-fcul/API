@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assembly.Projecto.Final.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250819141222_InitialMigration")]
+    [Migration("20250821101826_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
