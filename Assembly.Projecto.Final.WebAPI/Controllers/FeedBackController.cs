@@ -29,7 +29,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_feedBackService.GetById(id));
         }
 
-        [Authorize(Roles = "User,Admin")]
+        [Authorize(Roles = "User")]
         [HttpPost]
         public ActionResult<FeedBackDto> Add([FromBody] CreateFeedBackControllerDto createFeedBackControllerDto)
         {
@@ -54,7 +54,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return Ok(_feedBackService.Add(createFeedBackDto));
         }
 
-        [Authorize(Roles = "User,Admin")]
+        [Authorize(Roles = "User")]
         [HttpPut("{id:int}")]
         public ActionResult<FeedBackDto> Update([FromRoute] int id, [FromBody] FeedBackControllerDto feedBackControllerDto)
         {

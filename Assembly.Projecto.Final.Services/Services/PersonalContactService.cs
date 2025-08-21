@@ -160,15 +160,10 @@ namespace Assembly.Projecto.Final.Services.Services
             using (_unitOfWork) 
             {
 
-                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.GetById(personalContactDto.Id);
+                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.GetByIdWithDetail(personalContactDto.Id);
 
                 NotFoundException.When(foundedPersonalContact is null, 
                     $"{nameof(foundedPersonalContact)} não foi encontrado.");
-
-                foreach(var detail in foundedPersonalContact.PersonalContactDetails) 
-                {
-                    _unitOfWork.PersonalContactDetailRepository.Delete(detail);
-                }
 
                 deletedPersonalContact =_unitOfWork.PersonalContactRepository.Delete(foundedPersonalContact);
 
@@ -184,17 +179,12 @@ namespace Assembly.Projecto.Final.Services.Services
 
             using (_unitOfWork)
             {
-                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.GetById(id);
+                var foundedPersonalContact = _unitOfWork.PersonalContactRepository.GetByIdWithDetail(id);
 
                 NotFoundException.When(foundedPersonalContact is null,
                     $"{nameof(foundedPersonalContact)} não foi encontrado.");
 
-                foreach (var detail in foundedPersonalContact.PersonalContactDetails)
-                {
-                    _unitOfWork.PersonalContactDetailRepository.Delete(detail);
-                }
-
-                deletedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(id);
+                deletedPersonalContact = _unitOfWork.PersonalContactRepository.Delete(foundedPersonalContact);
 
                 _unitOfWork.Commit();
             }

@@ -458,9 +458,54 @@ namespace Assembly.Projecto.Final.Services.Services
                     _unitOfWork.AgentRepository.Update(agent);
                 }
 
-                _unitOfWork.Commit();
+                foundedAgent.SetSupervisor(null);
 
-                _unitOfWork.BeginTransaction();
+                _unitOfWork.AgentRepository.Update(foundedAgent);
+
+
+                if (foundedAgent.EntityLink is not null)
+                {
+                    if (foundedAgent.EntityLink.Account is not null) 
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedAgent.EntityLink.Account);
+                    }
+
+                    foreach(var contact in foundedAgent.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    foreach (var address in foundedAgent.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedAgent.EntityLink);
+                }
+
+                foreach(var participant in foundedAgent.Participants) 
+                {
+                    if(participant.Role == ParticipantType.Organizer) 
+                    {
+                        var appointment = _unitOfWork.AppointmentRepository
+                            .GetByIdWithParticipants(participant.AppointmentId);
+
+                        foreach(var par in appointment.Participants) 
+                        { 
+                            _unitOfWork.ParticipantRepository.Delete(par);
+                        }
+                    }
+                }
+
+                foreach (var personalContact in foundedAgent.PersonalContacts)
+                {
+                    foreach (var parsonalDetail in personalContact.PersonalContactDetails)
+                    {
+                        _unitOfWork.PersonalContactDetailRepository.Delete(parsonalDetail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personalContact);
+                }
 
                 deletedAgent = _unitOfWork.AgentRepository.Delete(foundedAgent);
 
@@ -487,9 +532,11 @@ namespace Assembly.Projecto.Final.Services.Services
                     NotFoundException.When(foundedAgent.SupervisorId is null && foundedAgent.Listings.Count > 0,
                         $"Não existe supervisor para transferir as listings.");
 
-                    if(foundedAgent.SupervisorId is not null) 
+                    if (foundedAgent.SupervisorId is not null)
                     {
                         var foundedSupervisor = _unitOfWork.AgentRepository.GetById((int)foundedAgent.SupervisorId);
+
+                        NotFoundException.When(foundedSupervisor is null, $"{nameof(foundedSupervisor)} não foi encontrado.");
 
                         foreach (var listing in foundedAgent.Listings)
                         {
@@ -505,7 +552,6 @@ namespace Assembly.Projecto.Final.Services.Services
                             var addedReassign = _unitOfWork.ReassignRepository.Add(reassign);
                         }
                     }
-                    
                 }
                 else
                 {
@@ -528,18 +574,60 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 _unitOfWork.AgentRepository.Update(foundedAgent);
 
-                _unitOfWork.Commit();
 
-                _unitOfWork.BeginTransaction();
+                if (foundedAgent.EntityLink is not null)
+                {
+                    if (foundedAgent.EntityLink.Account is not null)
+                    {
+                        _unitOfWork.AccountRepository.Delete(foundedAgent.EntityLink.Account);
+                    }
+
+                    foreach (var contact in foundedAgent.EntityLink.Contacts)
+                    {
+                        _unitOfWork.ContactRepository.Delete(contact);
+                    }
+
+                    foreach (var address in foundedAgent.EntityLink.Addresses)
+                    {
+                        _unitOfWork.AddressRepository.Delete(address);
+                    }
+
+                    _unitOfWork.EntityLinkRepository.Delete(foundedAgent.EntityLink);
+                }
+
+                foreach (var participant in foundedAgent.Participants)
+                {
+                    if (participant.Role == ParticipantType.Organizer)
+                    {
+                        var appointment = _unitOfWork.AppointmentRepository
+                            .GetByIdWithParticipants(participant.AppointmentId);
+
+                        foreach (var par in appointment.Participants)
+                        {
+                            _unitOfWork.ParticipantRepository.Delete(par);
+                        }
+                    }
+                }
+
+                foreach (var personalContact in foundedAgent.PersonalContacts)
+                {
+                    foreach (var parsonalDetail in personalContact.PersonalContactDetails)
+                    {
+                        _unitOfWork.PersonalContactDetailRepository.Delete(parsonalDetail);
+                    }
+
+                    _unitOfWork.PersonalContactRepository.Delete(personalContact);
+                }
 
                 deletedAgent = _unitOfWork.AgentRepository.Delete(foundedAgent);
 
                 _unitOfWork.Commit();
             }
 
-            return _mapper.Map<AgentDto>(null);
+            return _mapper.Map<AgentDto>(deletedAgent);
         }
 
+           
         public List<AgentDto> GetAll()
         {
             var list = new List<AgentDto>();
