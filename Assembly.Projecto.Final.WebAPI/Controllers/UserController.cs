@@ -24,8 +24,8 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return _userService.GetAll();
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
-        [Authorize(Roles = "User,Admin")]
         public ActionResult<UserDto> GetById(int id)
         {
             return Ok(_userService.GetById(id));

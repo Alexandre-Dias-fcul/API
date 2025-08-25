@@ -36,16 +36,23 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(user is null,$"{nameof(user)} não foi encontrado.");
 
-                var feedBack = FeedBack.Create(createFeedBackDto.Rate,createFeedBackDto.Comment,
-                    createFeedBackDto.CommentDate);
+                if (_unitOfWork.FeedBackRepository.Existe(user,listing) is null) 
+                {
+                    var feedBack = FeedBack.Create(createFeedBackDto.Rate, createFeedBackDto.Comment,
+                   createFeedBackDto.CommentDate);
 
-                feedBack.SetListing(listing);
+                    feedBack.SetListing(listing);
 
-                feedBack.SetUser(user);
+                    feedBack.SetUser(user);
 
-                addedFeedBack = _unitOfWork.FeedBackRepository.Add(feedBack);
+                    addedFeedBack = _unitOfWork.FeedBackRepository.Add(feedBack);
 
-                _unitOfWork.Commit();
+                    _unitOfWork.Commit();
+                }
+                else 
+                {
+                    addedFeedBack = _unitOfWork.FeedBackRepository.Existe(user, listing);
+                }
             }
 
             return _mapper.Map<FeedBackDto>(addedFeedBack);
@@ -108,6 +115,13 @@ namespace Assembly.Projecto.Final.Services.Services
             var feedBack = _unitOfWork.FeedBackRepository.GetById(id);
 
             return _mapper.Map<FeedBackDto>(feedBack);
+        }
+
+        public List<FeedBackDto> GetByListingId(int idListing)
+        {
+            var feedBack = _unitOfWork.FeedBackRepository.GetByListingId(idListing);
+
+            return _mapper.Map<List<FeedBackDto>>(feedBack);
         }
 
         public FeedBackDto Update(FeedBackDto feedBackDto)

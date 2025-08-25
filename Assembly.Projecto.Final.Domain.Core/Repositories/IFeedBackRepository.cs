@@ -9,5 +9,7 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
 {
     public interface IFeedBackRepository:IRepository<FeedBack,int>
     {
+        public FeedBack? Existe(User user, Listing listing);
+        public List<FeedBack> GetByListingId(int idListing);
     }
 }

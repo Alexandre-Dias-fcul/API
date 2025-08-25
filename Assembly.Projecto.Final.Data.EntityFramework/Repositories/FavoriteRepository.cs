@@ -13,6 +13,13 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
     {
         public FavoriteRepository(ApplicationDbContext context) : base(context)
         {
+           
+        }
+
+        public Favorite? Existe(User user, Listing listing)
+        {
+            return DbSet.Where(f => f.UserId == user.Id && f.ListingId == listing.Id).FirstOrDefault();
+
         }
     }
 }

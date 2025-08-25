@@ -24,7 +24,7 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
             return _agentService.GetAll();
         }
 
-        [Authorize(Roles = "Staff,Agent,Manager,Broker,Admin")]
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         public ActionResult<AgentDto> GetById(int id)
         {

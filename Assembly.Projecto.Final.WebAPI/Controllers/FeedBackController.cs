@@ -2,6 +2,7 @@
 using Assembly.Projecto.Final.Services.Interfaces;
 using Assembly.Projecto.Final.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Assembly.Projecto.Final.WebAPI.Controllers
@@ -27,6 +28,14 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         public ActionResult<FeedBackDto> GetById(int id)
         {
             return Ok(_feedBackService.GetById(id));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetByListingId/{idListing:int}")]
+
+        public IEnumerable<FeedBackDto> GetByListingId(int idListing)
+        {
+            return _feedBackService.GetByListingId(idListing);
         }
 
         [Authorize(Roles = "User")]

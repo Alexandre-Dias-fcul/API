@@ -14,5 +14,15 @@ namespace Assembly.Projecto.Final.Data.EntityFramework.Repositories
         public FeedBackRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public FeedBack? Existe(User user, Listing listing)
+        {
+            return DbSet.Where(f => f.UserId == user.Id && f.ListingId == listing.Id).FirstOrDefault();
+        }
+
+        public List<FeedBack> GetByListingId(int idListing)
+        {
+            return DbSet.Where(f => f.ListingId == idListing).ToList();
+        }
     }
 }
