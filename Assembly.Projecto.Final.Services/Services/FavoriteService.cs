@@ -37,11 +37,18 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(foundedListing is null, $"{nameof(foundedListing)} não foi encontrado.");
 
-                var favorite = Favorite.Create(foundedUser, foundedListing);
+                if (_unitOfWork.FavoriteRepository.Existe(foundedUser, foundedListing) is null) 
+                {
+                    var favorite = Favorite.Create(foundedUser, foundedListing);
 
-                addedFavorite = _unitOfWork.FavoriteRepository.Add(favorite);
+                    addedFavorite = _unitOfWork.FavoriteRepository.Add(favorite);
 
-                _unitOfWork.Commit();
+                    _unitOfWork.Commit();
+                }
+                else 
+                {
+                    addedFavorite = _unitOfWork.FavoriteRepository.Existe(foundedUser, foundedListing);
+                }
             }
 
             return _mapper.Map<FavoriteDto>(addedFavorite);

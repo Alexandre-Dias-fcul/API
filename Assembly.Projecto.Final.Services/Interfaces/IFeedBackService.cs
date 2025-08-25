@@ -10,5 +10,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IFeedBackService:IService<CreateFeedBackDto,FeedBackDto,int>
     {
+        public List<FeedBackDto> GetByListingId(int idListing);
     }
 }
