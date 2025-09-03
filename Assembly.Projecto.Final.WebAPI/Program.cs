@@ -19,12 +19,15 @@ builder.Services.AddServices(config);
 builder.Services.AddAuthenticationJwtBearer(config);
 
 builder.Services.AddCors(options =>
-
-   options.AddPolicy("appProjectoFinal", builder =>
-   {
-       builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-   })
-);
+{
+    options.AddPolicy("appProjectoFinal", policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
