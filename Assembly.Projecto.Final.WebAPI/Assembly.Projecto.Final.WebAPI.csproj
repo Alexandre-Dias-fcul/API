@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Assembly.Projecto.Final.IoC\Assembly.Projecto.Final.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
