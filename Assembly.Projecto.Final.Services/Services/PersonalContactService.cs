@@ -110,7 +110,7 @@ namespace Assembly.Projecto.Final.Services.Services
 
                 NotFoundException.When(personalContactDetail is null,"O contacto não existe.");
 
-                if (personalContactDetail.ContactType != personalContactDetailDto.ContactType &&
+                if (personalContactDetail.ContactType != personalContactDetailDto.ContactType ||
                     personalContactDetail.Value != personalContactDetailDto.Value) 
                 {
                     personalContact.PersonalContactDetails.FirstOrDefault(p => p.Id == personalContactDetailDto.Id)
