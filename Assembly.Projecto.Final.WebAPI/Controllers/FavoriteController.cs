@@ -22,6 +22,12 @@ namespace Assembly.Projecto.Final.WebAPI.Controllers
         {
             return _favoriteService.GetAll();
         }
+        [Authorize(Roles = "User")]
+        [HttpGet("GetAllByUserId/{userId:int}")]
+        public IEnumerable<FavoriteDto> GetAllByUserId(int userId)
+        { 
+            return _favoriteService.GetAllByUserId(userId);
+        }
 
         [Authorize(Roles = "User,Admin")]
         [HttpGet("{id:int}")]

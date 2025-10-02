@@ -10,5 +10,7 @@ namespace Assembly.Projecto.Final.Domain.Core.Repositories
     public interface IFavoriteRepository:IRepository<Favorite,int>
     {
         public Favorite? Existe(User user, Listing listing);
+
+        public List<Favorite> GetAllByUserId(int userId);
     }
 }
