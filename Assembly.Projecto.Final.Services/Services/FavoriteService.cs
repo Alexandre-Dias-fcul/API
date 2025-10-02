@@ -104,6 +104,13 @@ namespace Assembly.Projecto.Final.Services.Services
             return list;
         }
 
+        public List<FavoriteDto> GetAllByUserId(int userId)
+        {
+            var favorites = _unitOfWork.FavoriteRepository.GetAllByUserId(userId);
+
+            return _mapper.Map<List<FavoriteDto>>(favorites);
+        }
+
         public FavoriteDto GetById(int id)
         {
             var favorite = _unitOfWork.FavoriteRepository.GetById(id);

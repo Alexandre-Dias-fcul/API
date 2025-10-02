@@ -119,9 +119,9 @@ namespace Assembly.Projecto.Final.Services.Services
 
         public List<FeedBackDto> GetByListingId(int idListing)
         {
-            var feedBack = _unitOfWork.FeedBackRepository.GetByListingId(idListing);
+            var feedBacks = _unitOfWork.FeedBackRepository.GetByListingId(idListing);
 
-            return _mapper.Map<List<FeedBackDto>>(feedBack);
+            return _mapper.Map<List<FeedBackDto>>(feedBacks);
         }
 
         public FeedBackDto Update(FeedBackDto feedBackDto)

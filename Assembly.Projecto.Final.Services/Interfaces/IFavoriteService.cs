@@ -10,5 +10,6 @@ namespace Assembly.Projecto.Final.Services.Interfaces
 {
     public interface IFavoriteService:IService<CreateFavoriteDto,FavoriteDto,int>
     {
+        public List<FavoriteDto> GetAllByUserId(int userId);
     }
 }
